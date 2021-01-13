@@ -137,6 +137,7 @@ class _GroceryListOption extends State<GroceryListOption> {
                               profileStates.favoriteFoodStates
                                   .setTag(tag.index, tag.active);
                             },
+                                profileStates.fadsfsdfsdf
                           ),*/
                       ),
                     ],
