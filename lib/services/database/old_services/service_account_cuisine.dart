@@ -1,4 +1,4 @@
-import 'package:EasyGroceries/services/database/config.dart';
+import 'package:EasyGroceries/services/database/consts.dart';
 import 'package:EasyGroceries/services/database/database.dart';
 import 'package:EasyGroceries/services/database/models/account_cuisine_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
