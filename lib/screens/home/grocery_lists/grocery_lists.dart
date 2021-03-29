@@ -1,3 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:foodz/extensions/color.dart';
 import 'package:foodz/services/database/database.dart';
 import 'package:foodz/services/database/models/account_grocery_list_model.dart';
@@ -8,11 +13,6 @@ import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/utils/color.dart';
 import 'package:foodz/widgets/loading.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class GroceryLists extends StatefulWidget {
@@ -59,7 +59,7 @@ class _GroceryLists extends State<GroceryLists> {
     final DataSnapshot snap = await Database.accountGroceryList
         .getFromUid(FirebaseAuth.instance.currentUser.uid);
     final Map<dynamic, dynamic> groceryListUids = Map();
-    if (snap.isNull)
+    if (snap == null)
       grocerylists.add(await _createFirstGroceryList());
     else {
       groceryListUids.addAll(snap.value);

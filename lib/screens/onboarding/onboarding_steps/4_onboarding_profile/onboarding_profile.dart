@@ -1,13 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodz/screens/consts.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/style/inputs.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/utils/picture.dart';
 import 'package:foodz/widgets/profile_picture.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class OnboardingProfile extends StatefulWidget {
@@ -138,10 +138,10 @@ class _OnboardingProfile extends State<OnboardingProfile> {
   }
 
   Future<void> _onEditPicture() async {
-    final String imgPath = await getImage(
-        context, !accountStates.account.value.pictureUrl.isNullOrBlank);
+    final String imgPath =
+        await getImage(context, accountStates.account.value.pictureUrl != null);
     accountStates.account.update((account) {
-      if (!imgPath.isNull) account.pictureUrl = imgPath;
+      if (imgPath != null) account.pictureUrl = imgPath;
     });
   }
 }
