@@ -1,6 +1,6 @@
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_cuisine_model.dart';
-import 'package:EasyGroceries/services/database/models/cuisine_model.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_cuisine_model.dart';
+import 'package:foodz/services/database/models/cuisine_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -39,5 +39,5 @@ class CuisineStates extends GetxController {
     }
   }
 
-  RxList<CuisineModel> cuisines = List<CuisineModel>().obs;
+  RxList<CuisineModel> cuisines = <CuisineModel>[].obs;
 }

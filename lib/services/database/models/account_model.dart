@@ -2,8 +2,8 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:core';
 
-import 'package:EasyGroceries/screens/consts.dart';
-import 'package:EasyGroceries/screens/onboarding/onboarding.dart';
+import 'package:foodz/screens/consts.dart';
+import 'package:foodz/screens/onboarding/onboarding.dart';
 
 class AccountModel {
   String uid = "";

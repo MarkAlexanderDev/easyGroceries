@@ -1,13 +1,13 @@
-import 'package:EasyGroceries/extensions/color.dart';
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_grocery_list_model.dart';
-import 'package:EasyGroceries/services/database/models/grocery_list_ingredient_model.dart';
-import 'package:EasyGroceries/services/database/models/grocery_list_model.dart';
-import 'package:EasyGroceries/style/colors.dart';
-import 'package:EasyGroceries/style/text_style.dart';
-import 'package:EasyGroceries/urls.dart';
-import 'package:EasyGroceries/utils/color.dart';
-import 'package:EasyGroceries/widgets/loading.dart';
+import 'package:foodz/extensions/color.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_grocery_list_model.dart';
+import 'package:foodz/services/database/models/grocery_list_ingredient_model.dart';
+import 'package:foodz/services/database/models/grocery_list_model.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/style/text_style.dart';
+import 'package:foodz/urls.dart';
+import 'package:foodz/utils/color.dart';
+import 'package:foodz/widgets/loading.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -55,7 +55,7 @@ class _GroceryLists extends State<GroceryLists> {
   }
 
   Future<List<GroceryListModel>> _getGroceryLists() async {
-    final List<GroceryListModel> grocerylists = List<GroceryListModel>();
+    final List<GroceryListModel> grocerylists = <GroceryListModel>[];
     final DataSnapshot snap = await Database.accountGroceryList
         .getFromUid(FirebaseAuth.instance.currentUser.uid);
     final Map<dynamic, dynamic> groceryListUids = Map();

@@ -1,8 +1,8 @@
-import 'package:EasyGroceries/services/database/config.dart';
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_grocery_list_model.dart';
-import 'package:EasyGroceries/services/database/models/grocery_list_ingredient_model.dart';
-import 'package:EasyGroceries/services/database/models/grocery_list_model.dart';
+import 'package:foodz/services/database/config.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_grocery_list_model.dart';
+import 'package:foodz/services/database/models/grocery_list_ingredient_model.dart';
+import 'package:foodz/services/database/models/grocery_list_model.dart';
 import 'package:get/get.dart';
 
 class GroceryListStates extends GetxController {
@@ -83,7 +83,7 @@ class GroceryListStates extends GetxController {
   }
 
   Rx<GroceryListModel> groceryList = GroceryListModel().obs;
-  RxList<String> groceryListIngredientsKeys = List<String>().obs;
+  RxList<String> groceryListIngredientsKeys = <String>[].obs;
   RxList<GroceryListIngredientModel> groceryListIngredients =
-      List<GroceryListIngredientModel>().obs;
+      <GroceryListIngredientModel>[].obs;
 }

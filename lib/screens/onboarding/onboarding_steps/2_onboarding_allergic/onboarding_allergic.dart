@@ -1,10 +1,10 @@
-import 'package:EasyGroceries/screens/onboarding/onboarding.dart';
-import 'package:EasyGroceries/states/account_states.dart';
-import 'package:EasyGroceries/states/allergy_states.dart';
-import 'package:EasyGroceries/states/app_states.dart';
-import 'package:EasyGroceries/style/text_style.dart';
-import 'package:EasyGroceries/widgets/loading.dart';
-import 'package:EasyGroceries/widgets/selectable_tags.dart';
+import 'package:foodz/screens/onboarding/onboarding.dart';
+import 'package:foodz/states/account_states.dart';
+import 'package:foodz/states/allergy_states.dart';
+import 'package:foodz/states/app_states.dart';
+import 'package:foodz/style/text_style.dart';
+import 'package:foodz/widgets/loading.dart';
+import 'package:foodz/widgets/selectable_tags.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

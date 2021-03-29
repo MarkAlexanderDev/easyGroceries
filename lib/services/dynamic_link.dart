@@ -1,7 +1,7 @@
-import 'package:EasyGroceries/screens/redirections.dart';
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_grocery_list_model.dart';
-import 'package:EasyGroceries/urls.dart';
+import 'package:foodz/screens/redirections.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_grocery_list_model.dart';
+import 'package:foodz/urls.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
 

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:EasyGroceries/style/colors.dart';
+import 'package:foodz/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

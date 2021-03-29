@@ -1,25 +1,19 @@
-import 'package:EasyGroceries/config.dart';
-import 'package:EasyGroceries/screens/home/grocery_lists/grocery_list/grocery_list.dart';
-import 'package:EasyGroceries/screens/home/grocery_lists/grocery_list/grocery_list_options/grocery_list_options.dart';
-import 'package:EasyGroceries/screens/home/grocery_lists/grocery_list_creation/grocery_list_creation.dart';
-import 'package:EasyGroceries/screens/profile/profile.dart';
-import 'package:EasyGroceries/screens/redirections.dart';
-import 'package:EasyGroceries/style/colors.dart';
-import 'package:EasyGroceries/urls.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list.dart';
+import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list_options/grocery_list_options.dart';
+import 'package:foodz/screens/home/grocery_lists/grocery_list_creation/grocery_list_creation.dart';
+import 'package:foodz/screens/profile/profile.dart';
+import 'package:foodz/screens/redirections.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  if (EnvironmentConfig.ENABLE_DEVICE_PREVEW)
-    runApp(MaterialApp(
-        home: DevicePreview(builder: (context) => Scaffold(body: MyApp()))));
-  else
-    runApp(MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
