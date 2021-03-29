@@ -1,3 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:foodz/extensions/color.dart';
 import 'package:foodz/services/database/database.dart';
 import 'package:foodz/services/database/models/account_model.dart';
@@ -14,12 +20,6 @@ import 'package:foodz/widgets/button.dart';
 import 'package:foodz/widgets/loading.dart';
 import 'package:foodz/widgets/profile_picture.dart';
 import 'package:foodz/widgets/section_title.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 
@@ -152,9 +152,9 @@ class _GroceryListOption extends State<GroceryListOption> {
 
   Future<void> _onEditPicture(context) async {
     final String imgPath = await getImage(
-        context, !groceryListStates.groceryList.value.pictureUrl.isNullOrBlank);
+        context, groceryListStates.groceryList.value.pictureUrl != null);
     groceryListStates.groceryList.update((groceryList) {
-      if (!imgPath.isNull) groceryList.pictureUrl = imgPath;
+      if (imgPath != null) groceryList.pictureUrl = imgPath;
     });
   }
 }

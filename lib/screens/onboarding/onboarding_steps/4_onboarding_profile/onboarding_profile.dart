@@ -141,7 +141,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
     final String imgPath =
         await getImage(context, accountStates.account.value.pictureUrl != null);
     accountStates.account.update((account) {
-      if (!imgPath.isNull) account.pictureUrl = imgPath;
+      if (imgPath != null) account.pictureUrl = imgPath;
     });
   }
 }

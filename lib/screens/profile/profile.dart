@@ -202,7 +202,7 @@ class _Profile extends State<Profile> {
     final String imgPath =
         await getImage(context, accountStates.account.value.pictureUrl != null);
     accountStates.account.update((account) {
-      if (!imgPath.isNull) account.pictureUrl = imgPath;
+      if (imgPath != null) account.pictureUrl = imgPath;
     });
   }
 
@@ -233,7 +233,7 @@ class _ProfileButon extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border(
                 top: BorderSide(
-                    color: isFirst.isNull || !isFirst
+                    color: isFirst == null || !isFirst
                         ? Colors.transparent
                         : mainColor),
                 left: BorderSide(color: mainColor),
