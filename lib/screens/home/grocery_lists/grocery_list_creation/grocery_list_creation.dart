@@ -1,3 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:foodz/extensions/color.dart';
 import 'package:foodz/services/database/models/grocery_list_model.dart';
 import 'package:foodz/states/app_states.dart';
@@ -10,11 +15,6 @@ import 'package:foodz/utils/color.dart';
 import 'package:foodz/utils/picture.dart';
 import 'package:foodz/widgets/button.dart';
 import 'package:foodz/widgets/profile_picture.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 
 class GroceryListCreation extends StatefulWidget {
@@ -67,8 +67,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
               onTap: () async {
                 groceryListStates.groceryList.value.pictureUrl = await getImage(
                     context,
-                    !groceryListStates
-                        .groceryList.value.pictureUrl.isNullOrBlank);
+                    groceryListStates.groceryList.value.pictureUrl != null);
               },
               child: Obx(() => ProfilePicture(
                     name: groceryListStates.groceryList.value.title,
@@ -80,8 +79,8 @@ class _GroceryListCreation extends State<GroceryListCreation> {
                       groceryListStates.groceryList.value.pictureUrl =
                           await getImage(
                               context,
-                              !groceryListStates
-                                  .groceryList.value.pictureUrl.isNullOrBlank);
+                              groceryListStates.groceryList.value.pictureUrl !=
+                                  null);
                     },
                   )),
             ),

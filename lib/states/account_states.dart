@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodz/screens/consts.dart';
 import 'package:foodz/services/database/database.dart';
 import 'package:foodz/services/database/models/account_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class AccountStates extends GetxController {
@@ -12,7 +12,7 @@ class AccountStates extends GetxController {
   }
 
   Future<void> getAccount() async {
-    if (!FirebaseAuth.instance.currentUser.isNullOrBlank)
+    if (FirebaseAuth.instance.currentUser != null)
       account.value = await Database.account
           .getFromUid(FirebaseAuth.instance.currentUser.uid);
   }
