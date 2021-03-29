@@ -36,7 +36,7 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter clean
-      - run: flutter build ios --no-codesign -t lib/main_dev.dart --flavor dev
+      - run: flutter build ios --no-codesign -t lib/main.dart --flavor dev
 
   build_appbundle:
     name: Build Flutter (Android)
@@ -52,5 +52,5 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter clean
-      - run: flutter build appbundle -t lib/main_dev.dart --flavor dev --debug
+      - run: flutter build appbundle -t lib/main.dart --flavor dev --debug
 
