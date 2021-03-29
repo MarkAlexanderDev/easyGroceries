@@ -1,6 +1,6 @@
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_allergy_model.dart';
-import 'package:EasyGroceries/services/database/models/allergy_model.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_allergy_model.dart';
+import 'package:foodz/services/database/models/allergy_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -39,5 +39,5 @@ class AllergyTagsStates extends GetxController {
     }
   }
 
-  RxList<AllergyModel> allergies = List<AllergyModel>().obs;
+  RxList<AllergyModel> allergies = <AllergyModel>[].obs;
 }

@@ -1,7 +1,7 @@
-import 'package:EasyGroceries/style/colors.dart';
-import 'package:EasyGroceries/style/swiper_pagination_style.dart';
-import 'package:EasyGroceries/style/text_style.dart';
-import 'package:EasyGroceries/utils/urlLauncher.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/style/swiper_pagination_style.dart';
+import 'package:foodz/style/text_style.dart';
+import 'package:foodz/utils/urlLauncher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 class ContextualArea extends StatelessWidget {
   static List<Map<String, dynamic>> slides = [
     {
-      "title": "EASYGROCERIES MAP",
+      "title": "foodz MAP",
       "desc": "Find all the closest grocery stores from you !",
       "image":
           "https://searchengineland.com/figz/wp-content/seloads/2014/08/map-local-search-ss-1920.jpg",

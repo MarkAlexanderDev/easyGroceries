@@ -1,9 +1,9 @@
-import 'package:EasyGroceries/screens/consts.dart';
-import 'package:EasyGroceries/screens/onboarding/onboarding.dart';
-import 'package:EasyGroceries/services/auth.dart';
-import 'package:EasyGroceries/services/database/models/account_model.dart';
-import 'package:EasyGroceries/states/account_states.dart';
-import 'package:EasyGroceries/states/app_states.dart';
+import 'package:foodz/screens/consts.dart';
+import 'package:foodz/screens/onboarding/onboarding.dart';
+import 'package:foodz/services/auth.dart';
+import 'package:foodz/services/database/models/account_model.dart';
+import 'package:foodz/states/account_states.dart';
+import 'package:foodz/states/app_states.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +16,7 @@ class OnboardingAuth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: OutlineButton(
+      child: OutlinedButton(
         onPressed: () async {
           await _signIn(await authService.googleSignIn());
         },

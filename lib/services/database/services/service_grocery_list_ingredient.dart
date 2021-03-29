@@ -1,6 +1,6 @@
-import 'package:EasyGroceries/services/database/config.dart';
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/grocery_list_ingredient_model.dart';
+import 'package:foodz/services/database/config.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/grocery_list_ingredient_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class ServiceGroceryListIngredient {

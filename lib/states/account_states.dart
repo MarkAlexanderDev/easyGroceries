@@ -1,6 +1,6 @@
-import 'package:EasyGroceries/screens/consts.dart';
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_model.dart';
+import 'package:foodz/screens/consts.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 

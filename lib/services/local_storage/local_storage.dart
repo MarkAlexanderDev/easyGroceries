@@ -1,7 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
-
   SharedPreferences data;
 
   init() async {
@@ -42,7 +41,7 @@ class LocalStorage {
 
   List<String> getStringListData(key) {
     return data.getStringList(key) == null
-        ? List<String>()
+        ? <String>[]
         : data.getStringList(key);
   }
 

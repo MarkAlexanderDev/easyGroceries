@@ -1,4 +1,4 @@
-name: EasyGroceries
+name: foodz
 description: A new Flutter project.
 
 version: 1.0.0+1
@@ -11,11 +11,10 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.0
-  get:
-  device_preview: 0.4.7
+  get: 4.1.1
   auto_size_text: ^2.1.0
   lottie: ^0.7.0+1
-  localstorage: ^3.0.0
+  shared_preferences: 0.5.12+4
   flutter_spinkit: '^4.1.2'
   flutter_launcher_icons: '^0.8.0'
   flutter_swiper: ^1.1.6

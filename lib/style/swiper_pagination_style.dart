@@ -1,4 +1,4 @@
-import 'package:EasyGroceries/style/colors.dart';
+import 'package:foodz/style/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 

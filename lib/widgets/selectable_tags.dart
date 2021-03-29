@@ -1,10 +1,10 @@
-import 'package:EasyGroceries/style/colors.dart';
-import 'package:EasyGroceries/style/text_style.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 
 class SelectableTags extends StatelessWidget {
-  final List<ItemTags> _items = List<ItemTags>();
+  final List<ItemTags> _items = <ItemTags>[];
   final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
   final onClickTag;
   final List tags;

@@ -1,19 +1,19 @@
-import 'package:EasyGroceries/extensions/color.dart';
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_model.dart';
-import 'package:EasyGroceries/services/dynamic_link.dart';
-import 'package:EasyGroceries/states/app_states.dart';
-import 'package:EasyGroceries/states/grocery_list_states.dart';
-import 'package:EasyGroceries/style/colors.dart';
-import 'package:EasyGroceries/style/inputs.dart';
-import 'package:EasyGroceries/style/text_style.dart';
-import 'package:EasyGroceries/urls.dart';
-import 'package:EasyGroceries/utils/color.dart';
-import 'package:EasyGroceries/utils/picture.dart';
-import 'package:EasyGroceries/widgets/button.dart';
-import 'package:EasyGroceries/widgets/loading.dart';
-import 'package:EasyGroceries/widgets/profile_picture.dart';
-import 'package:EasyGroceries/widgets/section_title.dart';
+import 'package:foodz/extensions/color.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_model.dart';
+import 'package:foodz/services/dynamic_link.dart';
+import 'package:foodz/states/app_states.dart';
+import 'package:foodz/states/grocery_list_states.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/style/inputs.dart';
+import 'package:foodz/style/text_style.dart';
+import 'package:foodz/urls.dart';
+import 'package:foodz/utils/color.dart';
+import 'package:foodz/utils/picture.dart';
+import 'package:foodz/widgets/button.dart';
+import 'package:foodz/widgets/loading.dart';
+import 'package:foodz/widgets/profile_picture.dart';
+import 'package:foodz/widgets/section_title.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -139,7 +139,7 @@ class _GroceryListOption extends State<GroceryListOption> {
   }
 
   Future<List<AccountModel>> _getMembers() async {
-    final List<AccountModel> accounts = List<AccountModel>();
+    final List<AccountModel> accounts = <AccountModel>[];
     final DataSnapshot snap = await Database.accountGroceryList
         .getFromGroceryListUid(groceryListStates.groceryList.value.uid);
     final Map<dynamic, dynamic> accountGroceryLists = Map();

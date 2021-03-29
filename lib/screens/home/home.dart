@@ -1,5 +1,5 @@
-import 'package:EasyGroceries/screens/home/contextual_area/contextual_area.dart';
-import 'package:EasyGroceries/screens/home/grocery_lists/grocery_lists.dart';
+import 'package:foodz/screens/home/contextual_area/contextual_area.dart';
+import 'package:foodz/screens/home/grocery_lists/grocery_lists.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

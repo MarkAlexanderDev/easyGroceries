@@ -1,6 +1,6 @@
-import 'package:EasyGroceries/services/dynamic_link.dart';
-import 'package:EasyGroceries/services/local_storage/local_storage.dart';
-import 'package:EasyGroceries/widgets/bottom_navigation_bar.dart';
+import 'package:foodz/services/dynamic_link.dart';
+import 'package:foodz/services/local_storage/local_storage.dart';
+import 'package:foodz/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

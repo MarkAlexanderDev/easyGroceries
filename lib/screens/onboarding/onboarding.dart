@@ -1,12 +1,12 @@
-import 'package:EasyGroceries/screens/onboarding/onboarding_steps/1_onboarding_auth/onboarding_auth.dart';
-import 'package:EasyGroceries/screens/onboarding/onboarding_steps/2_onboarding_allergic/onboarding_allergic.dart';
-import 'package:EasyGroceries/screens/onboarding/onboarding_steps/3_onboarding_cuisine/onboarding_cuisine.dart';
-import 'package:EasyGroceries/screens/onboarding/onboarding_steps/4_onboarding_profile/onboarding_profile.dart';
-import 'package:EasyGroceries/services/auth.dart';
-import 'package:EasyGroceries/states/account_states.dart';
-import 'package:EasyGroceries/states/app_states.dart';
-import 'package:EasyGroceries/style/colors.dart';
-import 'package:EasyGroceries/widgets/button.dart';
+import 'package:foodz/screens/onboarding/onboarding_steps/1_onboarding_auth/onboarding_auth.dart';
+import 'package:foodz/screens/onboarding/onboarding_steps/2_onboarding_allergic/onboarding_allergic.dart';
+import 'package:foodz/screens/onboarding/onboarding_steps/3_onboarding_cuisine/onboarding_cuisine.dart';
+import 'package:foodz/screens/onboarding/onboarding_steps/4_onboarding_profile/onboarding_profile.dart';
+import 'package:foodz/services/auth.dart';
+import 'package:foodz/states/account_states.dart';
+import 'package:foodz/states/app_states.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/widgets/button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +32,6 @@ class Onboarding extends StatelessWidget {
         return (await _previousOnboardingStep());
       },
       child: Scaffold(
-          resizeToAvoidBottomPadding: false,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

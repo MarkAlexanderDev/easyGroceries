@@ -1,6 +1,6 @@
-import 'package:EasyGroceries/services/database/config.dart';
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_allergy_model.dart';
+import 'package:foodz/services/database/config.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_allergy_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -25,8 +25,8 @@ class ServiceAccountAllergy {
 
   Future<List<String>> getFromAccountUid(String accountUid) async {
     final DataSnapshot snap = await get().child(accountUid).once();
-    if (snap.value == null) return List<String>();
-    final List<String> accountAllergies = List<String>();
+    if (snap.value == null) return <String>[];
+    final List<String> accountAllergies = <String>[];
     snap.value.forEach((key, value) {
       accountAllergies.add(key);
     });

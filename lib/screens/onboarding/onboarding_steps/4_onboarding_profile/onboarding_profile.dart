@@ -1,9 +1,9 @@
-import 'package:EasyGroceries/screens/consts.dart';
-import 'package:EasyGroceries/states/account_states.dart';
-import 'package:EasyGroceries/style/inputs.dart';
-import 'package:EasyGroceries/style/text_style.dart';
-import 'package:EasyGroceries/utils/picture.dart';
-import 'package:EasyGroceries/widgets/profile_picture.dart';
+import 'package:foodz/screens/consts.dart';
+import 'package:foodz/states/account_states.dart';
+import 'package:foodz/style/inputs.dart';
+import 'package:foodz/style/text_style.dart';
+import 'package:foodz/utils/picture.dart';
+import 'package:foodz/widgets/profile_picture.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

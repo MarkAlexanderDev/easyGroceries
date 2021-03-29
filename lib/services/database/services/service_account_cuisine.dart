@@ -1,6 +1,6 @@
-import 'package:EasyGroceries/services/database/config.dart';
-import 'package:EasyGroceries/services/database/database.dart';
-import 'package:EasyGroceries/services/database/models/account_cuisine_model.dart';
+import 'package:foodz/services/database/config.dart';
+import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/models/account_cuisine_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -25,9 +25,9 @@ class ServiceAccountCuisine {
 
   Future<List<String>> getFromAccountUid(String accountUid) async {
     final DataSnapshot snap = await get().child(accountUid).once();
-    if (snap.value == null) return List<String>();
+    if (snap.value == null) return <String>[];
     final Map accountCuisinesSnap = snap.value;
-    final List<String> accountCuisines = List<String>();
+    final List<String> accountCuisines = <String>[];
     accountCuisinesSnap.forEach((key, value) {
       accountCuisines.add(key);
     });
