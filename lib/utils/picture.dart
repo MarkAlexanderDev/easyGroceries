@@ -57,7 +57,7 @@ Future<String> uploadPictureFromLocalStorage(
     String pictureLocalStorageUrl, String storageRef) async {
   appStates.uploadingProfilePicture.value = true;
   if (pictureLocalStorageUrl == "") return "";
-  final reference = firebaseStorage
+  final reference = FirebaseStorage.instance
       .ref()
       .child(storageRef + getImgNameFromPath(pictureLocalStorageUrl));
   final UploadTask uploadTask = reference.putFile(File(pictureLocalStorageUrl));

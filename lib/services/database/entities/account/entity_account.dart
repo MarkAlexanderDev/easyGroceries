@@ -14,6 +14,7 @@ class EntityAccount extends GetxController {
   bool isPremium;
   RxList<String> allergies = <String>[].obs;
   RxList<String> cuisines = <String>[].obs;
+  RxList<String> groceryListIds = <String>[].obs;
 
   EntityAccount();
 
@@ -34,6 +35,7 @@ class EntityAccount extends GetxController {
       "isPremium": this.isPremium,
       "allergies": this.allergies.toList(),
       "cuisines": this.cuisines.toList(),
+      "groceryListIds": this.groceryListIds.toList(),
     };
   }
 
@@ -53,6 +55,7 @@ class EntityAccount extends GetxController {
     this.isPremium = data["isPremium"];
     this.allergies.addAll(List<String>.from(data["allergies"]));
     this.cuisines.addAll(List<String>.from(data["cuisines"]));
+    this.groceryListIds.addAll(List<String>.from(data["groceryListIds"]));
     return true;
   }
 }
