@@ -12,9 +12,22 @@ import 'package:foodz/utils/color.dart';
 import 'package:foodz/widgets/loading.dart';
 import 'package:get/get.dart';
 
-class GroceryList extends StatelessWidget {
+class GroceryList extends StatefulWidget {
+  @override
+  _GroceryList createState() => _GroceryList();
+}
+
+class _GroceryList extends State<GroceryList> {
   final GroceryListStates groceryListStates = Get.put(GroceryListStates());
   final SearchBarController _searchBarController = SearchBarController();
+
+  _GroceryList();
+
+  @override
+  initState() {
+    groceryListStates.groceryList = Get.arguments();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

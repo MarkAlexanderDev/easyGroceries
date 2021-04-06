@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:foodz/extensions/color.dart';
+import 'package:foodz/services/auth.dart';
 import 'package:foodz/services/database/entities/account/entity_account.dart';
 import 'package:foodz/services/dynamic_link.dart';
 import 'package:foodz/states/app_states.dart';
@@ -177,7 +177,7 @@ class _Members extends StatelessWidget {
             itemBuilder: (BuildContext context, int i) {
               return Center(
                 child: AutoSizeText(
-                    members[i].uid == FirebaseAuth.instance.currentUser.uid
+                    members[i].uid == authService.auth.currentUser.uid
                         ? "You"
                         : members[i].name),
               );

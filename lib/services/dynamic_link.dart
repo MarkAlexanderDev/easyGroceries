@@ -1,10 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:foodz/screens/redirections.dart';
+import 'package:foodz/redirections.dart';
 import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
 import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
+
+import 'auth.dart';
 
 class DynamicLink {
   Future handleDynamicLinks() async {
@@ -24,7 +25,7 @@ class DynamicLink {
     final Uri deepLink = data?.link;
     if (deepLink != null &&
         await API.entries.groceryList.accounts.read(
-                FirebaseAuth.instance.currentUser.uid,
+                authService.auth.currentUser.uid,
                 key: deepLink.queryParameters["groceryListUid"]) ==
             null) {
       EntityGroceryListAccount groceryListAccount = EntityGroceryListAccount();

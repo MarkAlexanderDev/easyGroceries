@@ -1,11 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodz/services/local_storage/consts.dart';
 import 'package:foodz/services/local_storage/local_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   User user;
 
   Future<User> googleSignIn() async {
@@ -18,9 +18,9 @@ class AuthService {
           idToken: googleSignInAuthentication.idToken,
           accessToken: googleSignInAuthentication.accessToken);
       final UserCredential result =
-          await _auth.signInWithCredential(googleCredential);
+          await auth.signInWithCredential(googleCredential);
       final User firebaseUser = result.user;
-      final token = await _auth.currentUser.getIdToken();
+      final token = await auth.currentUser.getIdToken();
       await localStorage.setStringData(SHARED_PREF_KEY_FIREBASE_TOKEN, token);
       return firebaseUser;
     } catch (e) {
@@ -32,7 +32,7 @@ class AuthService {
   Future<void> signOut() async {
     try {
       await localStorage.eraseData();
-      await _auth.signOut();
+      await auth.signOut();
     } catch (e) {
       print(e);
     }

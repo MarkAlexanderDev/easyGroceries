@@ -21,7 +21,6 @@ class _GroceryLists extends State<GroceryLists> {
 
   @override
   void initState() {
-    groceryListStates.groceryList = Get.arguments();
     groceryListsFuture = groceryListStates.readAllGroceryListAccounts();
     super.initState();
   }

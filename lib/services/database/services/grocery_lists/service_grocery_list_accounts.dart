@@ -44,6 +44,7 @@ class ServiceGroceryListAccounts extends IService<EntityGroceryListAccount> {
   Future<List<EntityGroceryListAccount>> readAll({String key = ""}) async {
     QuerySnapshot snap =
         await _collectionReference.doc(key).collection(_collection).get();
+    print("test");
     return snap.docs
         .map((e) => EntityGroceryListAccount.fromJson(e.data(), key: e.id))
         .toList();

@@ -35,10 +35,9 @@ class OnboardingAuth extends StatelessWidget {
           accountStates.account.onboardingFlag.value =
               ONBOARDING_STEP_ID_ALLERGIC;
         }
-        print("333");
         accountStates.updateAccount();
       } else {
-        accountStates.account.uid = FirebaseAuth.instance.currentUser.uid;
+        accountStates.account.uid = authService.auth.currentUser.uid;
         accountStates.account.name.value = firebaseUser.displayName;
         accountStates.account.pictureUrl.value = firebaseUser.photoURL;
         accountStates.account.onboardingFlag.value =

@@ -33,16 +33,16 @@ class _OnboardingProfile extends State<OnboardingProfile> {
               onTap: () async {
                 await _onEditPicture();
               },
-              child: ProfilePicture(
-                name: null,
-                pictureUrl: accountStates.account.pictureUrl.value,
-                editMode: true,
-                height: 100,
-                width: 100,
-                onEdit: () async {
-                  await _onEditPicture();
-                },
-              ),
+              child: Obx(() => ProfilePicture(
+                    name: null,
+                    pictureUrl: accountStates.account.pictureUrl.value,
+                    editMode: true,
+                    height: 100,
+                    width: 100,
+                    onEdit: () async {
+                      await _onEditPicture();
+                    },
+                  )),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -103,31 +103,31 @@ class _OnboardingProfile extends State<OnboardingProfile> {
               ),
             ),
             Container(height: MediaQuery.of(context).size.height * 0.025),
-            DropdownButton<String>(
-              value: accountStates.getCookingExperienceConverted(
-                  accountStates.account.cookingExperience.value),
-              icon: Icon(Icons.keyboard_arrow_down_rounded),
-              iconSize: 24,
-              elevation: 16,
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              underline: Container(
-                height: 1,
-                color: Colors.black,
-              ),
-              onChanged: (String value) {
-                accountStates.account.cookingExperience.value =
-                    COOKING_EXPERIENCE_IDS.indexOf(value);
-              },
-              items: COOKING_EXPERIENCE_IDS
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: AutoSizeText(value, style: textStyleH2),
-                );
-              }).toList(),
-            ),
+            Obx(() => DropdownButton<String>(
+                  value: accountStates.getCookingExperienceConverted(
+                      accountStates.account.cookingExperience.value),
+                  icon: Icon(Icons.keyboard_arrow_down_rounded),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  underline: Container(
+                    height: 1,
+                    color: Colors.black,
+                  ),
+                  onChanged: (String value) {
+                    accountStates.account.cookingExperience.value =
+                        COOKING_EXPERIENCE_IDS.indexOf(value);
+                  },
+                  items: COOKING_EXPERIENCE_IDS
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: AutoSizeText(value, style: textStyleH2),
+                    );
+                  }).toList(),
+                )),
           ],
         ),
       ),

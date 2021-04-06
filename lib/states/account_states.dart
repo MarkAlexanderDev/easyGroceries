@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodz/services/auth.dart';
 import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/entities/account/entity_account.dart';
+import 'package:foodz/services/local_storage/consts.dart';
+import 'package:foodz/services/local_storage/local_storage.dart';
 import 'package:get/get.dart';
 
 class AccountStates extends GetxController {
@@ -14,6 +17,11 @@ class AccountStates extends GetxController {
     return COOKING_EXPERIENCE_IDS[value];
   }
 
+  void setOnboardingFlag(int value) {
+    account.onboardingFlag.value = value;
+    localStorage.setIntData(SHARED_PREF_KEY_ONBOARDING_FLAG, value);
+  }
+
   // CRUD
 
   Future<void> createAccount() async {
@@ -25,7 +33,7 @@ class AccountStates extends GetxController {
   }
 
   void updateAccount() async {
-    API.entries.accounts.update(FirebaseAuth.instance.currentUser.uid, account);
+    API.entries.accounts.update(authService.auth.currentUser.uid, account);
   }
 
   void deleteAccount() {

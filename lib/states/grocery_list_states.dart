@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodz/services/auth.dart';
 import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
@@ -24,7 +24,7 @@ class GroceryListStates extends GetxController {
 
   void updateGroceryList() async {
     API.entries.groceryList
-        .update(FirebaseAuth.instance.currentUser.uid, groceryList);
+        .update(authService.auth.currentUser.uid, groceryList);
   }
 
   void deleteGroceryList(String uid) {

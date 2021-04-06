@@ -90,7 +90,7 @@ class OnboardingCuisine extends StatelessWidget {
 
   _skipOnboarding() async {
     appStates.setLoading(true);
-    accountStates.account.onboardingFlag.value = ONBOARDING_STEP_ID_PROFILE;
+    accountStates.setOnboardingFlag(ONBOARDING_STEP_ID_PROFILE);
     accountStates.updateAccount();
     appStates.setLoading(false);
   }
