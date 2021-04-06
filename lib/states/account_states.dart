@@ -1,33 +1,44 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodz/screens/consts.dart';
-import 'package:foodz/services/database/database.dart';
-import 'package:foodz/services/database/models/account_model.dart';
+import 'package:foodz/services/database/api.dart';
+import 'package:foodz/services/database/entities/account/entity_account.dart';
 import 'package:get/get.dart';
 
 class AccountStates extends GetxController {
-  static AccountStates get to => Get.find();
+  EntityAccount account = EntityAccount();
 
-  Future<void> createAccount(AccountModel newAccount) async {
-    account.value = await Database.account.create(newAccount);
-  }
-
-  Future<void> getAccount() async {
-    if (FirebaseAuth.instance.currentUser != null)
-      account.value = await Database.account
-          .getFromUid(FirebaseAuth.instance.currentUser.uid);
-  }
-
-  Future<void> updateAccount() async {
-    await Database.account.update(account.value);
-  }
-
-  Future<bool> doesAccountExist() async {
-    return await Database.account.exist(FirebaseAuth.instance.currentUser.uid);
+  Future<bool> doesAccountExists(String accountId) async {
+    return await API.entries.accounts.isExist(accountId);
   }
 
   String getCookingExperienceConverted(int value) {
     return COOKING_EXPERIENCE_IDS[value];
   }
 
-  Rx<AccountModel> account = AccountModel().obs;
+  // CRUD
+
+  Future<void> createAccount() async {
+    await API.entries.accounts.create(account);
+  }
+
+  Future<void> readAccount(String accountId) async {
+    account = await API.entries.accounts.read(accountId);
+  }
+
+  void updateAccount() async {
+    API.entries.accounts.update(FirebaseAuth.instance.currentUser.uid, account);
+  }
+
+  void deleteAccount() {
+    API.entries.accounts.delete(FirebaseAuth.instance.currentUser.uid);
+  }
 }
+
+const List<String> COOKING_EXPERIENCE_IDS = [
+  "Beginner",
+  "Advanced cook",
+  "Chef"
+];
+
+const COOKING_EXPERIENCE_ID_BEGINNER = 0;
+const COOKING_EXPERIENCE_ID_ADVANCED = 1;
+const COOKING_EXPERIENCE_ID_CHEF = 2;

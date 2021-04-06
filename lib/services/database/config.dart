@@ -2,8 +2,11 @@
 
 const endpointEntries = "Entries/";
 
-const endpointAccount = endpointEntries + "Account/";
-const endpointGroceryList = endpointEntries + "GroceryList/";
+//
+const endpointAccounts = "Accounts/";
+const endpointGroceryLists = "GroceryLists/";
+//
+
 const endpointAccountTag = endpointEntries + "AccountTag/";
 const endpointAccountGroceryList = endpointEntries + "AccountGroceryList/";
 const endpointGroceryListIngredient =
@@ -12,9 +15,6 @@ const endpointAccountAllergy = endpointEntries + "AccountAllergy/";
 const endpointAccountCuisine = endpointEntries + "AccountCuisine/";
 
 // Configuration
-
-const endpointConfiguration = "Configuration/";
-
-const endpointAllergy = endpointConfiguration + "Allergy/";
-const endpointCuisine = endpointConfiguration + "Cuisine/";
-const endpointIngredient = endpointConfiguration + "Ingredient/";
+const endpointAllergies = "Allergies/";
+const endpointCuisines = "Cuisines/";
+const endpointIngredients = "Ingredients/";

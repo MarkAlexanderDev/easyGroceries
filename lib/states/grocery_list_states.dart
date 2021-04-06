@@ -1,8 +1,5 @@
 import 'package:foodz/services/database/config.dart';
 import 'package:foodz/services/database/database.dart';
-import 'package:foodz/services/database/models/account_grocery_list_model.dart';
-import 'package:foodz/services/database/models/grocery_list_ingredient_model.dart';
-import 'package:foodz/services/database/models/grocery_list_model.dart';
 import 'package:get/get.dart';
 
 class GroceryListStates extends GetxController {

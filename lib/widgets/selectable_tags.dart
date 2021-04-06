@@ -1,44 +1,37 @@
-import 'package:foodz/style/colors.dart';
-import 'package:foodz/style/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tags/flutter_tags.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/style/text_style.dart';
 
 class SelectableTags extends StatelessWidget {
-  final List<ItemTags> _items = <ItemTags>[];
-  final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
+  final List<String> activeTags;
+  final List<String> tags;
   final onClickTag;
-  final List tags;
 
-  SelectableTags({@required this.onClickTag, @required this.tags}) {
-    for (var i = 0; i < tags.length; i++)
-      _items.add(ItemTags(
-        index: i,
-        title: tags[i].name,
-        active: tags[i].active,
-      ));
-  }
+  SelectableTags(
+      {@required this.activeTags,
+      @required this.tags,
+      @required this.onClickTag});
 
   @override
   Widget build(BuildContext context) {
     return Tags(
-      key: _tagStateKey,
-      itemCount: _items.length,
+      itemCount: tags.length,
       spacing: 12.0,
       runSpacing: 16.0,
       itemBuilder: (int index) {
-        final item = _items[index];
         return ItemTags(
           key: Key(index.toString()),
           index: index,
-          title: item.title,
-          active: _items[index].active,
+          title: tags[index],
+          active: activeTags.contains(tags[index]),
           textStyle: textStyleTags,
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           textActiveColor: Colors.black,
           activeColor: mainColor,
           splashColor: mainColor,
           onPressed: (tag) {
-            onClickTag(tag);
+            onClickTag(tag.title);
           },
         );
       },

@@ -1,13 +1,11 @@
-import 'package:foodz/screens/consts.dart';
-import 'package:foodz/screens/onboarding/onboarding.dart';
-import 'package:foodz/services/auth.dart';
-import 'package:foodz/services/database/models/account_model.dart';
-import 'package:foodz/states/account_states.dart';
-import 'package:foodz/states/app_states.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodz/screens/onboarding/onboarding.dart';
+import 'package:foodz/services/auth.dart';
+import 'package:foodz/states/account_states.dart';
+import 'package:foodz/states/app_states.dart';
 import 'package:get/get.dart';
 
 class OnboardingAuth extends StatelessWidget {
@@ -30,24 +28,26 @@ class OnboardingAuth extends StatelessWidget {
       Get.snackbar("Error", "something went wrong");
     else {
       appStates.setLoading(true);
-      if (await accountStates.doesAccountExist()) {
-        await accountStates.getAccount();
-        if (accountStates.account.value.onboardingFlag ==
+      if (await accountStates.doesAccountExists(firebaseUser.uid)) {
+        await accountStates.readAccount(firebaseUser.uid);
+        if (accountStates.account.onboardingFlag.value ==
             ONBOARDING_STEP_ID_AUTH) {
-          accountStates.account.value.onboardingFlag =
+          accountStates.account.onboardingFlag.value =
               ONBOARDING_STEP_ID_ALLERGIC;
         }
-        await accountStates.updateAccount();
+        print("333");
+        accountStates.updateAccount();
       } else {
-        AccountModel account = AccountModel();
-        account.uid = FirebaseAuth.instance.currentUser.uid;
-        account.name = firebaseUser.displayName;
-        account.pictureUrl = firebaseUser.photoURL;
-        account.onboardingFlag = ONBOARDING_STEP_ID_ALLERGIC;
-        account.peopleNumber = 2;
-        account.cookingExperience = COOKING_EXPERIENCE_ID_BEGINNER;
-        account.createdAt = DateTime.now().toUtc().toString();
-        await accountStates.createAccount(account);
+        accountStates.account.uid = FirebaseAuth.instance.currentUser.uid;
+        accountStates.account.name.value = firebaseUser.displayName;
+        accountStates.account.pictureUrl.value = firebaseUser.photoURL;
+        accountStates.account.onboardingFlag.value =
+            ONBOARDING_STEP_ID_ALLERGIC;
+        accountStates.account.cookingExperience.value =
+            COOKING_EXPERIENCE_ID_BEGINNER;
+        accountStates.account.createdAt = DateTime.now().toUtc().toString();
+        accountStates.account.isPremium = false;
+        await accountStates.createAccount();
       }
       appStates.setLoading(false);
     }

@@ -1,8 +1,8 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:foodz/screens/redirections.dart';
 import 'package:foodz/services/database/database.dart';
-import 'package:foodz/services/database/models/account_grocery_list_model.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
 import 'package:foodz/urls.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:get/get.dart';
 
 class DynamicLink {
@@ -24,11 +24,11 @@ class DynamicLink {
     if (deepLink != null &&
         !await Database.accountGroceryList
             .isLinkedToAccount(deepLink.queryParameters["groceryListUid"])) {
-      AccountGroceryListModel accountGroceryList = AccountGroceryListModel();
-      accountGroceryList.groceryListUid =
+      EntityGroceryListAccount groceryListAccount = EntityGroceryListAccount();
+      groceryListAccount.groceryListUid =
           deepLink.queryParameters["groceryListUid"];
-      accountGroceryList.owner = false;
-      await Database.accountGroceryList.create(accountGroceryList);
+      groceryListAccount.owner = false;
+      await Database.accountGroceryList.create(groceryListAccount);
       Get.to(Redirections());
     }
   }

@@ -1,4 +1,9 @@
-import 'package:foodz/services/database/database.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:foodz/services/database/api.dart';
+import 'package:foodz/services/database/entities/ingredient/entity_ingredient.dart';
 import 'package:foodz/services/database/models/grocery_list_ingredient_model.dart';
 import 'package:foodz/services/database/models/grocery_list_model.dart';
 import 'package:foodz/states/grocery_list_states.dart';
@@ -6,10 +11,6 @@ import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/utils/color.dart';
 import 'package:foodz/widgets/loading.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class GroceryList extends StatefulWidget {
@@ -58,14 +59,17 @@ class _GroceryList extends State<GroceryList> {
                           Container(
                             height: 150,
                             child: SearchBar(
-                              onSearch: Database.ingredient.searchIngredient,
+                              onSearch: API.configurations.ingredients.search,
                               searchBarController: _searchBarController,
                               mainAxisSpacing: 1,
                               crossAxisSpacing: 2,
                               onError: (error) {
                                 return Container();
                               },
-                              onItemFound: (ingredient, int index) {
+                              onItemFound:
+                                  (EntityIngredient ingredient, int index) {
+                                print("YEEEEEEEEEEEEEEEEES");
+                                print(ingredient.title);
                                 return Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(
@@ -73,10 +77,10 @@ class _GroceryList extends State<GroceryList> {
                                     width: 1,
                                   )),
                                   child: ListTile(
-                                    title: Text(ingredient["title"]),
+                                    title: Text(ingredient.title),
                                     onTap: () async {
                                       groceryListStates
-                                          .addIngredient(ingredient["title"]);
+                                          .addIngredient(ingredient.title);
                                       _searchBarController.clear();
                                     },
                                   ),

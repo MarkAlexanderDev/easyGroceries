@@ -5,8 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:foodz/extensions/color.dart';
+import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/database.dart';
-import 'package:foodz/services/database/models/account_model.dart';
+import 'package:foodz/services/database/entities/account/entity_account.dart';
 import 'package:foodz/services/dynamic_link.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
@@ -138,14 +139,14 @@ class _GroceryListOption extends State<GroceryListOption> {
         });
   }
 
-  Future<List<AccountModel>> _getMembers() async {
-    final List<AccountModel> accounts = <AccountModel>[];
+  Future<List<EntityAccount>> _getMembers() async {
+    final List<EntityAccount> accounts = <EntityAccount>[];
     final DataSnapshot snap = await Database.accountGroceryList
         .getFromGroceryListUid(groceryListStates.groceryList.value.uid);
     final Map<dynamic, dynamic> accountGroceryLists = Map();
     accountGroceryLists.addAll(snap.value);
     await Future.forEach(accountGroceryLists.keys, (element) async {
-      accounts.add(await Database.account.getFromUid(element));
+      accounts.add(await API.entries.accounts.read(element));
     });
     return accounts;
   }
@@ -160,7 +161,7 @@ class _GroceryListOption extends State<GroceryListOption> {
 }
 
 class _Members extends StatelessWidget {
-  final List<AccountModel> members;
+  final List<EntityAccount> members;
   final String groceryListUid;
 
   _Members({@required this.members, @required this.groceryListUid});
