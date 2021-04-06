@@ -30,6 +30,13 @@ class ServiceGroceryListAccounts extends IService<EntityGroceryListAccount> {
 
   @override
   Future<EntityGroceryListAccount> read(String uid, {String key = ""}) async {
+    DocumentSnapshot doc = await _collectionReference
+        .doc(key)
+        .collection(_collection)
+        .doc(uid)
+        .get();
+    if (doc.exists)
+      return EntityGroceryListAccount.fromJson(doc.data(), key: key);
     return null;
   }
 

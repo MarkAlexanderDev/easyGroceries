@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:foodz/screens/redirections.dart';
-import 'package:foodz/services/database/database.dart';
+import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
 import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
@@ -22,13 +23,15 @@ class DynamicLink {
   Future _handleDeepLink(PendingDynamicLinkData data) async {
     final Uri deepLink = data?.link;
     if (deepLink != null &&
-        !await Database.accountGroceryList
-            .isLinkedToAccount(deepLink.queryParameters["groceryListUid"])) {
+        await API.entries.groceryList.accounts.read(
+                FirebaseAuth.instance.currentUser.uid,
+                key: deepLink.queryParameters["groceryListUid"]) ==
+            null) {
       EntityGroceryListAccount groceryListAccount = EntityGroceryListAccount();
-      groceryListAccount.groceryListUid =
-          deepLink.queryParameters["groceryListUid"];
+      groceryListAccount.uid = deepLink.queryParameters["groceryListUid"];
       groceryListAccount.owner = false;
-      await Database.accountGroceryList.create(groceryListAccount);
+      groceryListAccount.createdAt = DateTime.now().toString();
+      await API.entries.groceryList.accounts.create(groceryListAccount);
       Get.to(Redirections());
     }
   }

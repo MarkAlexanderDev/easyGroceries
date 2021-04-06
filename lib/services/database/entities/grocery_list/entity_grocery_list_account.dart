@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class EntityGroceryListAccount extends GetxController {
   String uid;
-  String ownerUid;
+  bool owner = false;
   String createdAt;
 
   EntityGroceryListAccount();
@@ -17,7 +17,7 @@ class EntityGroceryListAccount extends GetxController {
 
   Map<String, dynamic> toMap() {
     return {
-      "ownerUid": this.ownerUid,
+      "ownerUid": this.owner,
       "createdAt": this.createdAt,
     };
   }
@@ -29,7 +29,7 @@ class EntityGroceryListAccount extends GetxController {
   bool fromJson(Map<String, dynamic> data, {String key = ""}) {
     if (data == null) return false;
     this.uid = key;
-    this.ownerUid = data["ownerUid"];
+    this.owner = data["owner"];
     this.createdAt = data["createdAt"];
     return true;
   }

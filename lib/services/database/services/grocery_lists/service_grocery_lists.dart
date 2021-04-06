@@ -1,11 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodz/services/database/config.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list.dart';
+import 'package:foodz/services/database/services/grocery_lists/service_grocery_list_accounts.dart';
+import 'package:foodz/services/database/services/grocery_lists/service_grocery_list_ingredients.dart';
 import 'package:foodz/services/database/services/i_service.dart';
 
 class ServiceGroceryLists extends IService<EntityGroceryList> {
   final CollectionReference _collectionReference =
       FirebaseFirestore.instance.collection(endpointGroceryLists);
+
+  final ServiceGroceryListAccounts accounts = ServiceGroceryListAccounts();
+  final ServiceGroceryListIngredients ingredients =
+      ServiceGroceryListIngredients();
 
   @override
   Future<void> create(EntityGroceryList entity, {String key = ""}) async {
@@ -39,12 +45,5 @@ class ServiceGroceryLists extends IService<EntityGroceryList> {
   Future<void> update(String uid, EntityGroceryList entityGroceryList,
       {String key = ""}) async {
     await _collectionReference.doc(uid).update(entityGroceryList.toMap());
-  }
-
-  Future<bool> isExist(uid) async {
-    final DocumentSnapshot snap = await _collectionReference.doc(uid).get();
-
-    if (snap.data() == null) return false;
-    return true;
   }
 }

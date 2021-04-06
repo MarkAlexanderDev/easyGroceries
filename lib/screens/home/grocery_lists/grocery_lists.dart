@@ -1,13 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodz/extensions/color.dart';
-import 'package:foodz/services/database/database.dart';
-import 'package:foodz/services/database/models/account_grocery_list_model.dart';
-import 'package:foodz/services/database/models/grocery_list_ingredient_model.dart';
-import 'package:foodz/services/database/models/grocery_list_model.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list.dart';
+import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
@@ -21,18 +16,20 @@ class GroceryLists extends StatefulWidget {
 }
 
 class _GroceryLists extends State<GroceryLists> {
-  Future _future;
+  GroceryListStates groceryListStates = Get.put(GroceryListStates());
+  Future groceryListsFuture;
 
   @override
   void initState() {
-    _future = _getGroceryLists();
+    groceryListStates.groceryList = Get.arguments();
+    groceryListsFuture = groceryListStates.readAllGroceryListAccounts();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _future,
+        future: groceryListsFuture,
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
             return GridView.builder(
@@ -53,47 +50,10 @@ class _GroceryLists extends State<GroceryLists> {
             return Loading();
         });
   }
-
-  Future<List<GroceryListModel>> _getGroceryLists() async {
-    final List<GroceryListModel> grocerylists = <GroceryListModel>[];
-    final DataSnapshot snap = await Database.accountGroceryList
-        .getFromUid(FirebaseAuth.instance.currentUser.uid);
-    final Map<dynamic, dynamic> groceryListUids = Map();
-    if (snap == null)
-      grocerylists.add(await _createFirstGroceryList());
-    else {
-      groceryListUids.addAll(snap.value);
-      await Future.forEach(groceryListUids.keys, (groceryListUid) async {
-        grocerylists.add(await Database.groceryList.getFromUid(groceryListUid));
-      });
-    }
-    return grocerylists;
-  }
-
-  Future<GroceryListModel> _createFirstGroceryList() async {
-    GroceryListModel groceryList = GroceryListModel();
-    groceryList.title = "Monday's grocery list";
-    groceryList.description = "All my needs for the week !";
-    groceryList.color = mainColor.toHex();
-    groceryList.pictureUrl =
-        "https://firebasestorage.googleapis.com/v0/b/foodz-2aec5.appspot.com/o/assets%2Fgrocery.png?alt=media&token=d808b0ab-eccf-4bcf-a5ae-36d4dca1b53f";
-    await Database.groceryList.create(groceryList);
-    AccountGroceryListModel accountGroceryList = AccountGroceryListModel();
-    accountGroceryList.groceryListUid = groceryList.uid;
-    accountGroceryList.owner = true;
-    await Database.accountGroceryList.create(accountGroceryList);
-    GroceryListIngredientModel groceryListIngredient =
-        GroceryListIngredientModel();
-    groceryListIngredient.checked = false;
-    groceryListIngredient.createdAt = DateTime.now().toString();
-    await Database.groceryListIngredient
-        .create("baguette", groceryListIngredient, groceryList.uid);
-    return groceryList;
-  }
 }
 
 class _GroceryListsItem extends StatelessWidget {
-  final GroceryListModel groceryList;
+  final EntityGroceryList groceryList;
 
   _GroceryListsItem({@required this.groceryList});
 
@@ -105,7 +65,7 @@ class _GroceryListsItem extends StatelessWidget {
         onTap: () => Get.offNamed(URL_GROCERY_LIST, arguments: groceryList),
         child: Container(
           decoration: BoxDecoration(
-              color: hexToColor(groceryList.color),
+              color: hexToColor(groceryList.color.value),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Column(
             children: [
@@ -117,11 +77,11 @@ class _GroceryListsItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         AutoSizeText(
-                          groceryList.title,
+                          groceryList.name.value,
                           style: textStyleH3Bold,
                           textAlign: TextAlign.center,
                         ),
-                        AutoSizeText(groceryList.description,
+                        AutoSizeText(groceryList.description.value,
                             textAlign: TextAlign.center, style: textStyleH4),
                       ]),
                 ),
@@ -134,7 +94,7 @@ class _GroceryListsItem extends StatelessWidget {
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20)),
                     image: DecorationImage(
-                      image: NetworkImage(groceryList.pictureUrl),
+                      image: NetworkImage(groceryList.pictureUrl.value),
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -3,9 +3,8 @@ import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/services/database/api.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
 import 'package:foodz/services/database/entities/ingredient/entity_ingredient.dart';
-import 'package:foodz/services/database/models/grocery_list_ingredient_model.dart';
-import 'package:foodz/services/database/models/grocery_list_model.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
@@ -13,23 +12,9 @@ import 'package:foodz/utils/color.dart';
 import 'package:foodz/widgets/loading.dart';
 import 'package:get/get.dart';
 
-class GroceryList extends StatefulWidget {
-  @override
-  _GroceryList createState() => _GroceryList();
-}
-
-class _GroceryList extends State<GroceryList> {
+class GroceryList extends StatelessWidget {
   final GroceryListStates groceryListStates = Get.put(GroceryListStates());
-  final GroceryListModel groceryList = Get.arguments;
   final SearchBarController _searchBarController = SearchBarController();
-  Stream _stream;
-
-  @override
-  void initState() {
-    groceryListStates.groceryList.value = groceryList;
-    _stream = groceryListStates.streamGroceryList();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +23,7 @@ class _GroceryList extends State<GroceryList> {
         return true;
       },
       child: StreamBuilder(
-          stream: _stream,
+          stream: groceryListStates.steamAllGroceryListIngredients(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return Scaffold(
@@ -80,7 +65,8 @@ class _GroceryList extends State<GroceryList> {
                                     title: Text(ingredient.title),
                                     onTap: () async {
                                       groceryListStates
-                                          .addIngredient(ingredient.title);
+                                          .createGroceryListIngredient(
+                                              ingredient);
                                       _searchBarController.clear();
                                     },
                                   ),
@@ -97,24 +83,25 @@ class _GroceryList extends State<GroceryList> {
   }
 
   _getGroceryListItem(
-      int i, List<GroceryListIngredientModel> groceryListIngredients) {
+      int i, List<EntityGroceryListIngredient> groceryListIngredients) {
     return GestureDetector(
       child: Row(
         children: [
           GestureDetector(
-              onTap: () async {
-                await groceryListStates.deleteIngredient(i);
+              onTap: () {
+                groceryListStates.deleteGroceryListIngredient(
+                    groceryListStates.groceryListIngredients[i].name);
               },
               child: Transform.rotate(
                   angle: 27.5,
                   child: Icon(Icons.add_circle_rounded, color: Colors.red))),
           Expanded(child: Container()),
-          AutoSizeText(groceryListStates.groceryListIngredientsKeys[i]),
+          AutoSizeText(groceryListStates.groceryListIngredients[i].name),
           Expanded(child: Container()),
           Checkbox(
-            value: groceryListIngredients[i].checked,
+            value: groceryListStates.groceryListIngredients[i].checked.value,
             onChanged: (bool value) {
-              groceryListStates.setIngredientCheckValue(value, i);
+              groceryListStates.groceryListIngredients[i].checked.value = value;
             },
           ),
         ],
@@ -124,9 +111,9 @@ class _GroceryList extends State<GroceryList> {
 
   AppBar _getAppBar() {
     return AppBar(
-      backgroundColor: hexToColor(groceryListStates.groceryList.value.color),
+      backgroundColor: hexToColor(groceryListStates.groceryList.color.value),
       title: AutoSizeText(
-        groceryListStates.groceryList.value.title,
+        groceryListStates.groceryList.name.value,
         style: textStyleH3Bold,
       ),
       leading: IconButton(

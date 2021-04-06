@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class EntityGroceryListIngredient extends GetxController {
@@ -10,7 +11,10 @@ class EntityGroceryListIngredient extends GetxController {
   RxString metric = "".obs;
   String category;
 
-  EntityGroceryListIngredient();
+  EntityGroceryListIngredient(
+      {@required this.name, @required metric, @required this.category}) {
+    this.metric.value = metric;
+  }
 
   EntityGroceryListIngredient.fromJson(Map<String, dynamic> data,
       {String key = ""}) {

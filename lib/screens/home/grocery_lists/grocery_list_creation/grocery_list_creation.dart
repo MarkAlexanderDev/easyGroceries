@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:foodz/extensions/color.dart';
-import 'package:foodz/services/database/models/grocery_list_model.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
@@ -27,11 +27,11 @@ class _GroceryListCreation extends State<GroceryListCreation> {
 
   @override
   void initState() {
-    groceryListStates.groceryList.value = GroceryListModel();
-    groceryListStates.groceryList.value.title = "New grocery list";
-    groceryListStates.groceryList.value.description = "New description";
-    groceryListStates.groceryList.value.color = mainColor.toHex();
-    groceryListStates.groceryList.value.pictureUrl =
+    groceryListStates.groceryList = EntityGroceryList();
+    groceryListStates.groceryList.name.value = "New grocery list";
+    groceryListStates.groceryList.description.value = "New description";
+    groceryListStates.groceryList.color.value = mainColor.toHex();
+    groceryListStates.groceryList.pictureUrl.value =
         "https://firebasestorage.googleapis.com/v0/b/foodz-2aec5.appspot.com/o/assets%2Fgrocery.png?alt=media&token=d808b0ab-eccf-4bcf-a5ae-36d4dca1b53f";
     super.initState();
   }
@@ -43,7 +43,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
           preferredSize: Size(0, 60),
           child: Obx(() => AppBar(
                 backgroundColor:
-                    hexToColor(groceryListStates.groceryList.value.color),
+                    hexToColor(groceryListStates.groceryList.color.value),
                 title: AutoSizeText(
                   "Grocery list creation",
                   style: textStyleH3Bold,
@@ -56,7 +56,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
             appStates.setLoading(true);
             await groceryListStates.createGroceryList();
             Get.offNamed(URL_GROCERY_LIST,
-                arguments: groceryListStates.groceryList.value);
+                arguments: groceryListStates.groceryList);
             appStates.setLoading(false);
           }),
       body: SingleChildScrollView(
@@ -65,21 +65,21 @@ class _GroceryListCreation extends State<GroceryListCreation> {
           child: Column(children: [
             GestureDetector(
               onTap: () async {
-                groceryListStates.groceryList.value.pictureUrl = await getImage(
+                groceryListStates.groceryList.pictureUrl.value = await getImage(
                     context,
-                    groceryListStates.groceryList.value.pictureUrl != null);
+                    groceryListStates.groceryList.pictureUrl.value != null);
               },
               child: Obx(() => ProfilePicture(
-                    name: groceryListStates.groceryList.value.title,
-                    pictureUrl: groceryListStates.groceryList.value.pictureUrl,
+                    name: groceryListStates.groceryList.name.value,
+                    pictureUrl: groceryListStates.groceryList.pictureUrl.value,
                     editMode: true,
                     height: 100,
                     width: 100,
                     onEdit: () async {
-                      groceryListStates.groceryList.value.pictureUrl =
+                      groceryListStates.groceryList.pictureUrl.value =
                           await getImage(
                               context,
-                              groceryListStates.groceryList.value.pictureUrl !=
+                              groceryListStates.groceryList.pictureUrl.value !=
                                   null);
                     },
                   )),
@@ -101,9 +101,9 @@ class _GroceryListCreation extends State<GroceryListCreation> {
               textAlign: TextAlign.center,
               style: textStyleH2,
               decoration: getStandardInputDecoration("", ""),
-              initialValue: groceryListStates.groceryList.value.title,
+              initialValue: groceryListStates.groceryList.name.value,
               onChanged: (value) {
-                groceryListStates.groceryList.value.title = value;
+                groceryListStates.groceryList.name.value = value;
               },
             ),
             Container(
@@ -123,19 +123,17 @@ class _GroceryListCreation extends State<GroceryListCreation> {
               textAlign: TextAlign.center,
               style: textStyleH2,
               decoration: getStandardInputDecoration("", ""),
-              initialValue: groceryListStates.groceryList.value.description,
+              initialValue: groceryListStates.groceryList.description.value,
               onChanged: (value) {
-                groceryListStates.groceryList.value.description = value;
+                groceryListStates.groceryList.description.value = value;
               },
             ),
             Container(height: 20),
             BlockPicker(
               pickerColor:
-                  hexToColor(groceryListStates.groceryList.value.color),
+                  hexToColor(groceryListStates.groceryList.color.value),
               onColorChanged: (value) {
-                groceryListStates.groceryList.update((groceryList) {
-                  groceryList.color = value.toHex();
-                });
+                groceryListStates.groceryList.color.value = value.toHex();
               },
               availableColors: [mainColor, secondaryColor, accentColor],
             ),

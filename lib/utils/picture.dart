@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:foodz/services/database/database.dart';
-import 'package:foodz/states/app_states.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:foodz/states/app_states.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<String> getImage(context, bool hasUserProfilePicture) async {

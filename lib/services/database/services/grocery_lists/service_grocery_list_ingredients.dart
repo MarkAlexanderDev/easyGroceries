@@ -44,8 +44,23 @@ class ServiceGroceryListIngredients
         .toList();
   }
 
+  Stream<List<EntityGroceryListIngredient>> streamAll(
+      {String key = ""}) async* {
+    QuerySnapshot snap =
+        await _collectionReference.doc(key).collection(_collection).get();
+    yield snap.docs
+        .map((e) => EntityGroceryListIngredient.fromJson(e.data(), key: e.id))
+        .toList();
+  }
+
   @override
   Future<void> update(
       String uid, EntityGroceryListIngredient entityGroceryListIngredient,
-      {String key = ""}) async {}
+      {String key = ""}) async {
+    await _collectionReference
+        .doc(key)
+        .collection(_collection)
+        .doc(entityGroceryListIngredient.name)
+        .update(entityGroceryListIngredient.toMap());
+  }
 }
