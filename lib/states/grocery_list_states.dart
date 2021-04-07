@@ -59,11 +59,13 @@ class GroceryListStates extends GetxController {
   // CRUD GroceryListIngredients
 
   Future<void> createGroceryListIngredient(EntityIngredient ingredient) async {
-    await API.entries.groceryList.ingredients.create(
+    final EntityGroceryListIngredient groceryListIngredient =
         EntityGroceryListIngredient(
             name: ingredient.title,
             category: ingredient.category,
-            metric: ingredient.metric));
+            metric: ingredient.metric);
+    await API.entries.groceryList.ingredients
+        .create(groceryListIngredient, key: groceryList.uid);
   }
 
   void updateGroceryListIngredient(
@@ -74,9 +76,5 @@ class GroceryListStates extends GetxController {
   void deleteGroceryListIngredient(String ingredientName) {
     API.entries.groceryList.ingredients
         .delete(ingredientName, key: groceryList.uid);
-  }
-
-  Stream<List<EntityGroceryListIngredient>> steamAllGroceryListIngredients() {
-    return API.entries.groceryList.ingredients.streamAll(key: groceryList.uid);
   }
 }

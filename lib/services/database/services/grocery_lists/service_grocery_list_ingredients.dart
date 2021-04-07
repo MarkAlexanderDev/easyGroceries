@@ -48,9 +48,10 @@ class ServiceGroceryListIngredients
       {String key = ""}) async* {
     QuerySnapshot snap =
         await _collectionReference.doc(key).collection(_collection).get();
-    yield snap.docs
+    final List<EntityGroceryListIngredient> stream = snap.docs
         .map((e) => EntityGroceryListIngredient.fromJson(e.data(), key: e.id))
         .toList();
+    yield stream;
   }
 
   @override

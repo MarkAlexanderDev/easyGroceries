@@ -37,9 +37,9 @@ class EntityGroceryListIngredient extends GetxController {
   bool fromJson(Map<String, dynamic> data, {String key = ""}) {
     if (data == null) return false;
     this.name = key;
-    this.number = data["number"];
-    this.checked = data["checked"];
-    this.metric = data["metric"];
+    this.number.value = data["number"];
+    this.checked.value = data["checked"];
+    this.metric.value = data["metric"];
     this.category = data["category"];
     return true;
   }

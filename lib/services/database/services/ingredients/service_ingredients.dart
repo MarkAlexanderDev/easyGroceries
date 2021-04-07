@@ -36,11 +36,14 @@ class ServiceIngredients extends IService<String> {
 
   Future<List<EntityIngredient>> search(String text) async {
     QuerySnapshot querySnapshot = await _collectionReference.get();
-    List<EntityIngredient> ingredientsQuery =
-        querySnapshot.docs.where((e) => e.id.contains(text)).map((e) {
+    querySnapshot.docs.forEach((element) {});
+    List<EntityIngredient> ingredientsQuery = querySnapshot.docs
+        .where((e) =>
+            e.id.contains(text) ||
+            e.id.contains(text[0].toUpperCase() + text.substring(1)))
+        .map((e) {
       return EntityIngredient.fromJson(e.data(), key: e.id);
     }).toList();
-    print(ingredientsQuery.first.title);
     return ingredientsQuery;
   }
 }

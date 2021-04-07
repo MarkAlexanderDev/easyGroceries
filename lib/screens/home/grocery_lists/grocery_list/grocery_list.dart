@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
 import 'package:foodz/states/grocery_list_states.dart';
+import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/utils/color.dart';
@@ -16,6 +18,14 @@ class GroceryList extends StatefulWidget {
 
 class _GroceryList extends State<GroceryList> {
   final GroceryListStates groceryListStates = Get.find();
+  Stream _streamGroceryListIngredients;
+
+  @override
+  void initState() {
+    _streamGroceryListIngredients = API.entries.groceryList.ingredients
+        .streamAll(key: groceryListStates.groceryList.uid);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +35,7 @@ class _GroceryList extends State<GroceryList> {
         return false;
       },
       child: StreamBuilder(
-          stream: groceryListStates.steamAllGroceryListIngredients(),
+          stream: _streamGroceryListIngredients,
           builder: (BuildContext streamContext, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return Scaffold(
@@ -35,47 +45,40 @@ class _GroceryList extends State<GroceryList> {
                       child: SingleChildScrollView(
                           child: Column(
                         children: [
+                          GestureDetector(
+                            onTap: () =>
+                                Get.toNamed(URL_GROCERY_LIST_SEARCH_INGREDIENT),
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  children: [
+                                    AutoSizeText(
+                                        "Click here to add an ingredient",
+                                        style: TextStyle(color: Colors.green)),
+                                    Expanded(child: Container()),
+                                    Icon(
+                                      Icons.add,
+                                      color: Colors.green,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                           ListView.builder(
                               shrinkWrap: true,
-                              itemCount: groceryListStates
-                                  .groceryListIngredients.length,
+                              itemCount: snapshot.data.length,
                               itemBuilder: (BuildContext context, int i) {
-                                return _getGroceryListItem(i,
-                                    groceryListStates.groceryListIngredients);
+                                return _getGroceryListItem(i, snapshot.data);
                               }),
                           Container(
                             height: 150,
-/*
-                            SearchBar(
-                              onSearch: API.configurations.ingredients.search,
-                              searchBarController: _searchBarController,
-                              mainAxisSpacing: 1,
-                              crossAxisSpacing: 2,
-                              onError: (error) {
-                                return Container();
-                              },
-                              onItemFound:
-                                  (EntityIngredient ingredient, int index) {
-                                return Container(
-                                  height: 200,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                    color: Colors.black,
-                                    width: 1,
-                                  )),
-                                  child: ListTile(
-                                    title: Text(ingredient.title),
-                                    onTap: () async {
-                                      groceryListStates
-                                          .createGroceryListIngredient(
-                                              ingredient);
-                                      _searchBarController.clear();
-                                    },
-                                  ),
-                                );
-                              },
-                            ),*/
                           ),
                         ],
                       ))));
@@ -93,18 +96,18 @@ class _GroceryList extends State<GroceryList> {
           GestureDetector(
               onTap: () {
                 groceryListStates.deleteGroceryListIngredient(
-                    groceryListStates.groceryListIngredients[i].name);
+                    groceryListIngredients[i].name);
               },
               child: Transform.rotate(
                   angle: 27.5,
                   child: Icon(Icons.add_circle_rounded, color: Colors.red))),
           Expanded(child: Container()),
-          AutoSizeText(groceryListStates.groceryListIngredients[i].name),
+          AutoSizeText(groceryListIngredients[i].name),
           Expanded(child: Container()),
           Checkbox(
-            value: groceryListStates.groceryListIngredients[i].checked.value,
+            value: groceryListIngredients[i].checked.value,
             onChanged: (bool value) {
-              groceryListStates.groceryListIngredients[i].checked.value = value;
+              groceryListIngredients[i].checked.value = value;
             },
           ),
         ],

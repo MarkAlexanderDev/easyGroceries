@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:foodz/redirections.dart';
 import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list.dart';
 import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list_options/grocery_list_options.dart';
+import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list_search_ingredient.dart';
 import 'package:foodz/screens/home/grocery_lists/grocery_list_creation/grocery_list_creation.dart';
 import 'package:foodz/screens/profile/profile.dart';
 import 'package:foodz/states/states_binding.dart';
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: URL_GROCERY_LIST_OPTION, page: () => GroceryListOption()),
         GetPage(
             name: URL_GROCERY_LIST_CREATION, page: () => GroceryListCreation()),
+        GetPage(
+            name: URL_GROCERY_LIST_SEARCH_INGREDIENT,
+            page: () => GroceryListSearchIngredient()),
       ],
     );
   }
