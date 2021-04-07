@@ -1,10 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
-import 'package:foodz/services/database/entities/ingredient/entity_ingredient.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
@@ -18,45 +15,38 @@ class GroceryList extends StatefulWidget {
 }
 
 class _GroceryList extends State<GroceryList> {
-  final GroceryListStates groceryListStates = Get.put(GroceryListStates());
-  final SearchBarController _searchBarController = SearchBarController();
-
-  _GroceryList();
-
-  @override
-  initState() {
-    groceryListStates.groceryList = Get.arguments();
-    super.initState();
-  }
+  final GroceryListStates groceryListStates = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return true;
+        Get.toNamed(URL_HOME);
+        return false;
       },
       child: StreamBuilder(
           stream: groceryListStates.steamAllGroceryListIngredients(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
+          builder: (BuildContext streamContext, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return Scaffold(
-                  appBar: _getAppBar(),
+                  appBar: _getAppBar(context),
                   body: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: SingleChildScrollView(
                           child: Column(
                         children: [
-                          Obx(() => ListView.builder(
+                          ListView.builder(
                               shrinkWrap: true,
                               itemCount: groceryListStates
                                   .groceryListIngredients.length,
                               itemBuilder: (BuildContext context, int i) {
                                 return _getGroceryListItem(i,
                                     groceryListStates.groceryListIngredients);
-                              })),
+                              }),
                           Container(
                             height: 150,
-                            child: SearchBar(
+/*
+                            SearchBar(
                               onSearch: API.configurations.ingredients.search,
                               searchBarController: _searchBarController,
                               mainAxisSpacing: 1,
@@ -66,9 +56,9 @@ class _GroceryList extends State<GroceryList> {
                               },
                               onItemFound:
                                   (EntityIngredient ingredient, int index) {
-                                print("YEEEEEEEEEEEEEEEEES");
-                                print(ingredient.title);
                                 return Container(
+                                  height: 200,
+                                  width: 50,
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                     color: Colors.black,
@@ -85,7 +75,7 @@ class _GroceryList extends State<GroceryList> {
                                   ),
                                 );
                               },
-                            ),
+                            ),*/
                           ),
                         ],
                       ))));
@@ -122,7 +112,7 @@ class _GroceryList extends State<GroceryList> {
     );
   }
 
-  AppBar _getAppBar() {
+  AppBar _getAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: hexToColor(groceryListStates.groceryList.color.value),
       title: AutoSizeText(
@@ -131,7 +121,7 @@ class _GroceryList extends State<GroceryList> {
       ),
       leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => {Get.offNamed(URL_HOME)}),
+          onPressed: () => {Get.toNamed(URL_HOME)}),
       actions: [
         GestureDetector(
             onTap: () => {Get.toNamed(URL_GROCERY_LIST_OPTION)},

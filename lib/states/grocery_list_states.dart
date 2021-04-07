@@ -15,7 +15,8 @@ class GroceryListStates extends GetxController {
   // CRUD
 
   Future<void> createGroceryList() async {
-    await API.entries.groceryList.create(groceryList);
+    groceryList.uid = await API.entries.groceryList.create(groceryList);
+    groceryListOwned.add(groceryList);
   }
 
   Future<void> readGroceryList(String groceryListId) async {
@@ -35,12 +36,19 @@ class GroceryListStates extends GetxController {
 
   Future<void> createGroceryListAccount(String accountId) async {
     await API.entries.groceryList.accounts
-        .create(EntityGroceryListAccount(), key: accountId);
+        .create(EntityGroceryListAccount(uid: accountId), key: groceryList.uid);
   }
 
   Future<bool> readAllGroceryListAccounts() async {
     groceryListAcounts.assignAll(
         await API.entries.groceryList.accounts.readAll(key: groceryList.uid));
+    return true;
+  }
+
+  Future<bool> readAllAccountGroceryLists(List<String> groceryListIds) async {
+    await Future.forEach(groceryListIds, (String groceryListId) async {
+      groceryListOwned.add(await API.entries.groceryList.read(groceryListId));
+    });
     return true;
   }
 

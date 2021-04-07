@@ -14,8 +14,9 @@ class ServiceGroceryLists extends IService<EntityGroceryList> {
       ServiceGroceryListIngredients();
 
   @override
-  Future<void> create(EntityGroceryList entity, {String key = ""}) async {
-    await _collectionReference.doc(entity.uid).set(entity.toMap());
+  Future<String> create(EntityGroceryList entity, {String key = ""}) async {
+    DocumentReference docRef = await _collectionReference.add(entity.toMap());
+    return docRef.id;
   }
 
   @override

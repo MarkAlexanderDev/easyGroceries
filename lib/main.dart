@@ -6,6 +6,7 @@ import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list.dart'
 import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list_options/grocery_list_options.dart';
 import 'package:foodz/screens/home/grocery_lists/grocery_list_creation/grocery_list_creation.dart';
 import 'package:foodz/screens/profile/profile.dart';
+import 'package:foodz/states/states_binding.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
                 systemNavigationBarIconBrightness: Brightness.dark,
               ),
               child: Redirections()),
+          binding: StatesBinding(),
         ),
         GetPage(name: URL_PROFILE, page: () => Profile()),
         GetPage(name: URL_GROCERY_LIST, page: () => GroceryList()),

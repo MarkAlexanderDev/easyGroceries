@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:foodz/extensions/color.dart';
 import 'package:foodz/services/auth.dart';
-import 'package:foodz/services/database/entities/account/entity_account.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
 import 'package:foodz/services/dynamic_link.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
@@ -27,7 +27,7 @@ class GroceryListOption extends StatefulWidget {
 }
 
 class _GroceryListOption extends State<GroceryListOption> {
-  final GroceryListStates groceryListStates = Get.put(GroceryListStates());
+  final GroceryListStates groceryListStates = Get.find();
   Future futureGroceryListAccounts;
 
   @override
@@ -103,9 +103,11 @@ class _GroceryListOption extends State<GroceryListOption> {
                       ),
                       Container(height: 20),
                       _Members(
-                          members: snapshot.data,
+                          members: groceryListStates.groceryListAcounts,
                           groceryListUid: groceryListStates.groceryList.uid),
-                      Container(height: 10),
+                      Container(
+                        height: 10,
+                      ),
                       BlockPicker(
                         pickerColor: hexToColor(
                             groceryListStates.groceryList.color.value),
@@ -144,7 +146,7 @@ class _GroceryListOption extends State<GroceryListOption> {
 }
 
 class _Members extends StatelessWidget {
-  final List<EntityAccount> members;
+  final List<EntityGroceryListAccount> members;
   final String groceryListUid;
 
   _Members({@required this.members, @required this.groceryListUid});
@@ -170,7 +172,9 @@ class _Members extends StatelessWidget {
             )
           ],
         ),
-        Container(height: 10),
+        Container(
+          height: 10,
+        ),
         ListView.builder(
             shrinkWrap: true,
             itemCount: members.length,
@@ -179,7 +183,7 @@ class _Members extends StatelessWidget {
                 child: AutoSizeText(
                     members[i].uid == authService.auth.currentUser.uid
                         ? "You"
-                        : members[i].name),
+                        : members[i].uid),
               );
             })
       ],

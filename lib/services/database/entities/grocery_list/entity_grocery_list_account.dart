@@ -8,7 +8,7 @@ class EntityGroceryListAccount extends GetxController {
   bool owner = false;
   String createdAt;
 
-  EntityGroceryListAccount();
+  EntityGroceryListAccount({this.uid});
 
   EntityGroceryListAccount.fromJson(Map<String, dynamic> data,
       {String key = ""}) {

@@ -7,7 +7,6 @@ import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/utils/color.dart';
-import 'package:foodz/widgets/loading.dart';
 import 'package:get/get.dart';
 
 class GroceryLists extends StatefulWidget {
@@ -16,43 +15,32 @@ class GroceryLists extends StatefulWidget {
 }
 
 class _GroceryLists extends State<GroceryLists> {
-  GroceryListStates groceryListStates = Get.put(GroceryListStates());
-  Future groceryListsFuture;
-
-  @override
-  void initState() {
-    groceryListsFuture = groceryListStates.readAllGroceryListAccounts();
-    super.initState();
-  }
+  final GroceryListStates groceryListStates = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: groceryListsFuture,
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData) {
-            return GridView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.length + 1,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (BuildContext context, int i) {
-                  if (i < snapshot.data.length)
-                    return _GroceryListsItem(groceryList: snapshot.data[i]);
-                  return _AddGroceryListButton(
-                      onClick: () => Get.toNamed(URL_GROCERY_LIST_CREATION));
-                });
-          } else
-            return Loading();
+    return GridView.builder(
+        shrinkWrap: true,
+        itemCount: groceryListStates.groceryListOwned.length + 1,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 1,
+        ),
+        itemBuilder: (BuildContext context, int i) {
+          if (i < groceryListStates.groceryListOwned.length)
+            return _GroceryListsItem(
+                groceryList: groceryListStates.groceryListOwned[i]);
+          return _AddGroceryListButton(onClick: () {
+            Get.toNamed(URL_GROCERY_LIST_CREATION);
+          });
         });
   }
 }
 
 class _GroceryListsItem extends StatelessWidget {
   final EntityGroceryList groceryList;
+  final GroceryListStates groceryListStates = Get.find();
 
   _GroceryListsItem({@required this.groceryList});
 
@@ -61,7 +49,10 @@ class _GroceryListsItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () => Get.offNamed(URL_GROCERY_LIST, arguments: groceryList),
+        onTap: () {
+          groceryListStates.groceryList = groceryList;
+          Get.offNamed(URL_GROCERY_LIST);
+        },
         child: Container(
           decoration: BoxDecoration(
               color: hexToColor(groceryList.color.value),

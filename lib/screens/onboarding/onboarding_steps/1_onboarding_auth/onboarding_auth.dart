@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/screens/onboarding/onboarding.dart';
 import 'package:foodz/services/auth.dart';
+import 'package:foodz/services/local_storage/consts.dart';
+import 'package:foodz/services/local_storage/local_storage.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:get/get.dart';
@@ -48,6 +50,8 @@ class OnboardingAuth extends StatelessWidget {
         accountStates.account.isPremium = false;
         await accountStates.createAccount();
       }
+      localStorage.setStringData(
+          SHARED_PREF_KEY_ACCOUNT_ID, accountStates.account.uid);
       appStates.setLoading(false);
     }
   }

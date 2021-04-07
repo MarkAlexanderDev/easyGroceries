@@ -20,10 +20,7 @@ class OnboardingAllergic extends StatelessWidget {
     return FutureBuilder(
         future: allergiesStates.future,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
           if (snapshot.hasData) {
-            print("test");
-            print(allergiesStates.allergies);
             return Column(
               children: [
                 Lottie.asset('assets/lotties/vr-sickness.json'),

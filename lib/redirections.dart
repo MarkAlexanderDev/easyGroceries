@@ -20,11 +20,11 @@ class Redirections extends StatefulWidget {
 }
 
 class _Redirections extends State<Redirections> {
-  final AccountStates accountStates = Get.put(AccountStates());
+  final AccountStates accountStates = Get.find();
   Future<bool> _future;
 
   Future<bool> loader() async {
-    await appStates.initApp();
+    if (!appStates.loaded) await appStates.initApp();
     return true;
   }
 

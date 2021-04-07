@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:foodz/extensions/color.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list.dart';
+import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
@@ -23,7 +24,8 @@ class GroceryListCreation extends StatefulWidget {
 }
 
 class _GroceryListCreation extends State<GroceryListCreation> {
-  final GroceryListStates groceryListStates = Get.put(GroceryListStates());
+  final GroceryListStates groceryListStates = Get.find();
+  final AccountStates accountStates = Get.find();
 
   @override
   void initState() {
@@ -55,8 +57,12 @@ class _GroceryListCreation extends State<GroceryListCreation> {
           onClick: () async {
             appStates.setLoading(true);
             await groceryListStates.createGroceryList();
-            Get.offNamed(URL_GROCERY_LIST,
-                arguments: groceryListStates.groceryList);
+            await groceryListStates
+                .createGroceryListAccount(accountStates.account.uid);
+            accountStates.account.groceryListIds
+                .add(groceryListStates.groceryList.uid);
+            accountStates.updateAccount();
+            Get.offNamed(URL_GROCERY_LIST);
             appStates.setLoading(false);
           }),
       body: SingleChildScrollView(

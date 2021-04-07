@@ -4,7 +4,11 @@ import 'package:foodz/services/local_storage/local_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+    ],
+  );
   final FirebaseAuth auth = FirebaseAuth.instance;
   User user;
 
@@ -21,6 +25,7 @@ class AuthService {
           await auth.signInWithCredential(googleCredential);
       final User firebaseUser = result.user;
       final token = await auth.currentUser.getIdToken();
+      print(token);
       await localStorage.setStringData(SHARED_PREF_KEY_FIREBASE_TOKEN, token);
       return firebaseUser;
     } catch (e) {
