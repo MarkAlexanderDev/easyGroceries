@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodz/services/database/api.dart';
+import 'package:foodz/services/database/config.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
@@ -11,21 +12,8 @@ import 'package:foodz/utils/color.dart';
 import 'package:foodz/widgets/loading.dart';
 import 'package:get/get.dart';
 
-class GroceryList extends StatefulWidget {
-  @override
-  _GroceryList createState() => _GroceryList();
-}
-
-class _GroceryList extends State<GroceryList> {
+class GroceryList extends StatelessWidget {
   final GroceryListStates groceryListStates = Get.find();
-  Stream _streamGroceryListIngredients;
-
-  @override
-  void initState() {
-    _streamGroceryListIngredients = API.entries.groceryList.ingredients
-        .streamAll(key: groceryListStates.groceryList.uid);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,57 +22,79 @@ class _GroceryList extends State<GroceryList> {
         Get.toNamed(URL_HOME);
         return false;
       },
-      child: StreamBuilder(
-          stream: _streamGroceryListIngredients,
-          builder: (BuildContext streamContext, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return Scaffold(
-                  appBar: _getAppBar(context),
-                  body: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: SingleChildScrollView(
-                          child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () =>
-                                Get.toNamed(URL_GROCERY_LIST_SEARCH_INGREDIENT),
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  color: secondaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  children: [
-                                    AutoSizeText(
-                                        "Click here to add an ingredient",
-                                        style: TextStyle(color: Colors.green)),
-                                    Expanded(child: Container()),
-                                    Icon(
-                                      Icons.add,
-                                      color: Colors.green,
-                                    )
-                                  ],
+      child: Scaffold(
+        appBar: _getAppBar(context),
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection(endpointGroceryLists)
+                .doc(groceryListStates.groceryList.uid)
+                .collection("Ingredients/")
+                .snapshots(),
+            builder: (BuildContext streamContext, AsyncSnapshot snapshot) {
+              if (snapshot.hasError)
+                return Center(
+                    child: Text("Error: " + snapshot.error.toString()));
+              else {
+                final List<EntityGroceryListIngredient> groceryListIngredients =
+                    _streamToGroceryListIngredients(snapshot.data);
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    return Center(
+                      child: Text("No connection"),
+                    );
+                  case ConnectionState.waiting:
+                    return Center(child: Loading());
+                  case ConnectionState.active:
+                    return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: SingleChildScrollView(
+                            child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () => Get.toNamed(
+                                  URL_GROCERY_LIST_SEARCH_INGREDIENT),
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    color: secondaryColor,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Row(
+                                    children: [
+                                      AutoSizeText(
+                                          "Click here to add an ingredient",
+                                          style:
+                                              TextStyle(color: Colors.green)),
+                                      Expanded(child: Container()),
+                                      Icon(
+                                        Icons.add,
+                                        color: Colors.green,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (BuildContext context, int i) {
-                                return _getGroceryListItem(i, snapshot.data);
-                              }),
-                          Container(
-                            height: 150,
-                          ),
-                        ],
-                      ))));
-            } else
-              return Loading();
-          }),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: groceryListIngredients.length,
+                                itemBuilder: (BuildContext context, int i) {
+                                  return _getGroceryListItem(
+                                      i, groceryListIngredients);
+                                }),
+                            Container(
+                              height: 150,
+                            ),
+                          ],
+                        )));
+                  default:
+                    return Loading();
+                }
+              }
+            }),
+      ),
     );
   }
 
@@ -113,6 +123,13 @@ class _GroceryList extends State<GroceryList> {
         ],
       ),
     );
+  }
+
+  List<EntityGroceryListIngredient> _streamToGroceryListIngredients(
+      QuerySnapshot streamData) {
+    return streamData.docs
+        .map((e) => EntityGroceryListIngredient.fromJson(e.data(), key: e.id))
+        .toList();
   }
 
   AppBar _getAppBar(BuildContext context) {
