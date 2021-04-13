@@ -76,7 +76,6 @@ class _GroceryListCreation extends State<GroceryListCreation> {
                     groceryListStates.groceryList.pictureUrl.value != null);
               },
               child: Obx(() => ProfilePicture(
-                    name: groceryListStates.groceryList.name.value,
                     pictureUrl: groceryListStates.groceryList.pictureUrl.value,
                     editMode: true,
                     height: 100,

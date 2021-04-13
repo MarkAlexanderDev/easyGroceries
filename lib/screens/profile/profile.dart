@@ -44,7 +44,6 @@ class Profile extends StatelessWidget {
                           height: 100,
                           width: 100,
                           pictureUrl: accountStates.account.pictureUrl.value,
-                          name: null,
                           editMode: true,
                           onEdit: () async {
                             await _onEditPicture(context);

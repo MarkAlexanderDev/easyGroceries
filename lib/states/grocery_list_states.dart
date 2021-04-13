@@ -61,6 +61,7 @@ class GroceryListStates extends GetxController {
   Future<void> createGroceryListIngredient(EntityIngredient ingredient) async {
     final EntityGroceryListIngredient groceryListIngredient =
         EntityGroceryListIngredient(
+            pictureUrl: ingredient.pictureUrl,
             name: ingredient.title,
             category: ingredient.category,
             metric: ingredient.metric);
@@ -70,7 +71,8 @@ class GroceryListStates extends GetxController {
 
   void updateGroceryListIngredient(
       EntityGroceryListIngredient ingredient) async {
-    API.entries.groceryList.ingredients.update(groceryList.uid, ingredient);
+    API.entries.groceryList.ingredients
+        .update("", ingredient, key: groceryList.uid);
   }
 
   void deleteGroceryListIngredient(String ingredientName) {

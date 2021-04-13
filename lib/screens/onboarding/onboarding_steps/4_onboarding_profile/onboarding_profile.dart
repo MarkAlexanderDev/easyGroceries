@@ -34,7 +34,6 @@ class _OnboardingProfile extends State<OnboardingProfile> {
                 await _onEditPicture();
               },
               child: Obx(() => ProfilePicture(
-                    name: null,
                     pictureUrl: accountStates.account.pictureUrl.value,
                     editMode: true,
                     height: 100,
