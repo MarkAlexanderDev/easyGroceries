@@ -21,23 +21,20 @@ class Redirections extends StatefulWidget {
 
 class _Redirections extends State<Redirections> {
   final AccountStates accountStates = Get.find();
-  Future<bool> _future;
-
-  Future<bool> loader() async {
-    if (!appStates.loaded) await appStates.initApp();
-    return true;
-  }
+  Future<bool> futureLoader;
+  Future<bool> futureContentLoader;
 
   @override
   void initState() {
-    _future = loader();
+    futureLoader = appStates.initApp();
+    futureContentLoader = appStates.loadContent();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _future,
+        future: futureLoader,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData)
             return Obx(
@@ -55,10 +52,14 @@ class _Redirections extends State<Redirections> {
         account.onboardingFlag.value < ONBOARDING_STEP_ID_PROFILE + 1)
       return Onboarding();
     else
-      return Scaffold(
-          body: appScreens[appStates.indexBar.value],
-          appBar: _getFoodzAppBar(),
-          bottomNavigationBar: NavBar(sizeIcon: 25.0));
+      return FutureBuilder(
+          future: futureContentLoader,
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            return Scaffold(
+                body: appScreens[appStates.indexBar.value],
+                appBar: _getFoodzAppBar(),
+                bottomNavigationBar: NavBar(sizeIcon: 25.0));
+          });
   }
 
   _getFoodzAppBar() {

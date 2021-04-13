@@ -14,27 +14,34 @@ class AppStates extends GetxController {
   final AccountStates _accountStates = Get.put(AccountStates());
   final GroceryListStates _groceryListStates = Get.put(GroceryListStates());
 
-  Future<void> initApp() async {
-    await dynamicLink.handleDynamicLinks();
-    await localStorage.init();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-      systemNavigationBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    );
-    final String accountId =
-        localStorage.getStringData(SHARED_PREF_KEY_ACCOUNT_ID);
-    if (accountId.isNotEmpty) {
-      await _accountStates.readAccount(accountId);
-      await _groceryListStates
-          .readAllAccountGroceryLists(_accountStates.account.groceryListIds);
-      loaded = true;
+  Future<bool> initApp() async {
+    if (!loaded) {
+      await localStorage.init();
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        systemNavigationBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      );
+      final String accountId =
+          localStorage.getStringData(SHARED_PREF_KEY_ACCOUNT_ID);
+      if (accountId.isNotEmpty) {
+        await _accountStates.readAccount(accountId);
+        loaded = true;
+      }
     }
+    return true;
+  }
+
+  Future<bool> loadContent() async {
+    await dynamicLink.handleDynamicLinks();
+    await _groceryListStates
+        .readAllAccountGroceryLists(_accountStates.account.groceryListIds);
+    return true;
   }
 
   void setIndexBar(int value) {

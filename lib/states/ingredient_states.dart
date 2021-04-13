@@ -8,5 +8,6 @@ class IngredientStates extends GetxController {
   void search(String value) async {
     ingredientFound
         .assignAll(await API.configurations.ingredients.search(value));
+    if (value != "") ingredientFound.insert(0, EntityIngredient(title: value));
   }
 }

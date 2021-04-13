@@ -45,6 +45,8 @@ class ServiceGroceryLists extends IService<EntityGroceryList> {
   @override
   Future<void> update(String uid, EntityGroceryList entityGroceryList,
       {String key = ""}) async {
-    await _collectionReference.doc(uid).update(entityGroceryList.toMap());
+    await _collectionReference
+        .doc(entityGroceryList.uid)
+        .update(entityGroceryList.toMap());
   }
 }

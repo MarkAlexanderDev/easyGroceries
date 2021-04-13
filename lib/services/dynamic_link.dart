@@ -5,10 +5,12 @@ import 'package:foodz/services/database/entities/grocery_list/entity_grocery_lis
 import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
 
+import '../config.dart';
 import 'auth.dart';
 
 class DynamicLink {
   Future handleDynamicLinks() async {
+    print("test");
     final PendingDynamicLinkData data =
         await FirebaseDynamicLinks.instance.getInitialLink();
     await _handleDeepLink(data);
@@ -43,7 +45,7 @@ class DynamicLink {
       link: Uri.parse(
           "https://foodz-app.com/post?groceryListUid=" + groceryListUid),
       androidParameters: AndroidParameters(
-        packageName: "com.foodz.foodz",
+        packageName: "com.foodz.app." + EnvironmentConfig.FLAVOR,
       ),
     );
     final Uri dynamicUrl = await parameters.buildUrl();

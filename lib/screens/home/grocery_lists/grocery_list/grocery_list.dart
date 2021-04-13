@@ -57,116 +57,119 @@ class GroceryList extends StatelessWidget {
                             .where((EntityGroceryListIngredient element) =>
                                 !element.checked.value)
                             .toList();
-                    return Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: SingleChildScrollView(
-                            child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () => Get.toNamed(
-                                  URL_GROCERY_LIST_SEARCH_INGREDIENT),
-                              child: Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    color: secondaryColor,
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Row(
-                                    children: [
-                                      AutoSizeText(
-                                          "Click here to add an ingredient",
-                                          style:
-                                              TextStyle(color: Colors.green)),
-                                      Expanded(child: Container()),
-                                      Icon(
-                                        Icons.add,
-                                        color: Colors.green,
-                                      )
-                                    ],
-                                  ),
+                    return SingleChildScrollView(
+                        child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () =>
+                                Get.toNamed(URL_GROCERY_LIST_SEARCH_INGREDIENT),
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  children: [
+                                    AutoSizeText(
+                                        "Click here to add an ingredient",
+                                        style: TextStyle(color: Colors.green)),
+                                    Expanded(child: Container()),
+                                    Icon(
+                                      Icons.add,
+                                      color: Colors.green,
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
-                            Container(height: 20),
-                            ListView.builder(
-                                shrinkWrap: true,
-                                itemCount:
-                                    groceryListIngredientsUnchecked.length,
-                                itemBuilder: (BuildContext context, int i) {
-                                  return Column(
-                                    children: [
-                                      _GroceryListIngredientWidget(
-                                        groceryListIngredient:
-                                            groceryListIngredientsUnchecked[i],
-                                        onChecked: (bool value) {
-                                          groceryListIngredientsUnchecked[i]
-                                              .checked
-                                              .value = value;
-                                          groceryListStates
-                                              .updateGroceryListIngredient(
-                                                  groceryListIngredientsUnchecked[
-                                                      i]);
-                                        },
-                                      ),
-                                      Container(
-                                        height: 2.5,
-                                      )
-                                    ],
-                                  );
-                                }),
-                            Container(
-                              height: 25,
-                            ),
-                            Row(
-                              children: [
-                                AutoSizeText("Checked items"),
-                                Expanded(child: Container()),
-                                GestureDetector(
-                                    onTap: () {
-                                      groceryListIngredientsChecked.forEach(
-                                          (EntityGroceryListIngredient
-                                              element) {
+                          ),
+                          Container(height: 20),
+                          ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: groceryListIngredientsUnchecked.length,
+                              itemBuilder: (BuildContext context, int i) {
+                                return Column(
+                                  children: [
+                                    _GroceryListIngredientWidget(
+                                      groceryListIngredient:
+                                          groceryListIngredientsUnchecked[i],
+                                      onChecked: (bool value) {
+                                        groceryListIngredientsUnchecked[i]
+                                            .checked
+                                            .value = value;
                                         groceryListStates
-                                            .deleteGroceryListIngredient(
-                                                element.name);
-                                      });
-                                    },
-                                    child: Icon(Icons.delete))
-                              ],
-                            ),
-                            Container(
-                              height: 15,
-                            ),
-                            ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: groceryListIngredientsChecked.length,
-                                itemBuilder: (BuildContext context, int i) {
-                                  return Column(
-                                    children: [
-                                      _GroceryListIngredientWidget(
-                                        groceryListIngredient:
-                                            groceryListIngredientsChecked[i],
-                                        onChecked: (bool value) {
-                                          groceryListIngredientsChecked[i]
-                                              .checked
-                                              .value = value;
-                                          groceryListStates
-                                              .updateGroceryListIngredient(
-                                                  groceryListIngredientsChecked[
-                                                      i]);
-                                        },
-                                      ),
-                                      Container(
-                                        height: 10,
-                                      )
-                                    ],
-                                  );
-                                }),
-                          ],
-                        )));
+                                            .updateGroceryListIngredient(
+                                                groceryListIngredientsUnchecked[
+                                                    i]);
+                                      },
+                                    ),
+                                    Container(
+                                      height: 2.5,
+                                    )
+                                  ],
+                                );
+                              }),
+                          Container(
+                            height: 25,
+                          ),
+                          Row(
+                            children: [
+                              AutoSizeText("Checked items"),
+                              Expanded(child: Container()),
+                              GestureDetector(
+                                  onTap: () {
+                                    groceryListIngredientsChecked.forEach(
+                                        (EntityGroceryListIngredient element) {
+                                      groceryListStates
+                                          .deleteGroceryListIngredient(
+                                              element.name);
+                                    });
+                                  },
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ))
+                            ],
+                          ),
+                          Container(
+                            height: 15,
+                          ),
+                          ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: groceryListIngredientsChecked.length,
+                              itemBuilder: (BuildContext context, int i) {
+                                return Column(
+                                  children: [
+                                    _GroceryListIngredientWidget(
+                                      groceryListIngredient:
+                                          groceryListIngredientsChecked[i],
+                                      onChecked: (bool value) {
+                                        groceryListIngredientsChecked[i]
+                                            .checked
+                                            .value = value;
+                                        groceryListStates
+                                            .updateGroceryListIngredient(
+                                                groceryListIngredientsChecked[
+                                                    i]);
+                                      },
+                                    ),
+                                    Container(
+                                      height: 10,
+                                    )
+                                  ],
+                                );
+                              }),
+                        ],
+                      ),
+                    ));
                   default:
                     return Loading();
                 }
@@ -194,6 +197,8 @@ class GroceryList extends StatelessWidget {
           icon: Icon(Icons.arrow_back),
           onPressed: () => {Get.toNamed(URL_HOME)}),
       actions: [
+        GestureDetector(onTap: () {}, child: Icon(Icons.add_shopping_cart)),
+        Container(width: 20),
         GestureDetector(
             onTap: () => {Get.toNamed(URL_GROCERY_LIST_OPTION)},
             child: Icon(Icons.create)),

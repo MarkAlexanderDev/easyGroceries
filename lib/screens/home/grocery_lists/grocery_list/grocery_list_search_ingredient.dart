@@ -37,9 +37,9 @@ class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
         onClosed: () {
           ingredientStates.ingredientFound.clear();
         },
+        clearOnSubmit: true,
         inBar: false,
         setState: setState,
-        onSubmitted: print,
         buildDefaultAppBar: buildAppBar);
     super.initState();
   }

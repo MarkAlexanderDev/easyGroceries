@@ -30,11 +30,11 @@ class _GroceryListCreation extends State<GroceryListCreation> {
   @override
   void initState() {
     groceryListStates.groceryList = EntityGroceryList();
-    groceryListStates.groceryList.name.value = "New grocery list";
-    groceryListStates.groceryList.description.value = "New description";
+    groceryListStates.groceryList.name.value = "Monday shopping";
+    groceryListStates.groceryList.description.value = "";
     groceryListStates.groceryList.color.value = mainColor.toHex();
     groceryListStates.groceryList.pictureUrl.value =
-        "https://firebasestorage.googleapis.com/v0/b/foodz-2aec5.appspot.com/o/assets%2Fgrocery.png?alt=media&token=d808b0ab-eccf-4bcf-a5ae-36d4dca1b53f";
+        "https://images.theconversation.com/files/282104/original/file-20190701-105182-1q7a7ji.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=320&h=213&fit=crop";
     super.initState();
   }
 
