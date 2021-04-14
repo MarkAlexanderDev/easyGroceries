@@ -11,14 +11,26 @@ import 'package:foodz/widgets/selectable_tags.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-class OnboardingAllergic extends StatelessWidget {
+class OnboardingAllergic extends StatefulWidget {
+  @override
+  _OnboardingAllergic createState() => _OnboardingAllergic();
+}
+
+class _OnboardingAllergic extends State<OnboardingAllergic> {
   final AccountStates accountStates = Get.find();
   final AllergiesStates allergiesStates = Get.put(AllergiesStates());
+  Future allergiesFuture;
+
+  @override
+  void initState() {
+    allergiesFuture = allergiesStates.readAllAllergies();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: allergiesStates.future,
+        future: allergiesFuture,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             return Column(

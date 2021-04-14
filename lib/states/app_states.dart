@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodz/services/dynamic_link.dart';
 import 'package:foodz/services/local_storage/consts.dart';
 import 'package:foodz/services/local_storage/local_storage.dart';
 import 'package:foodz/states/account_states.dart';
@@ -12,7 +11,7 @@ class AppStates extends GetxController {
   static AppStates get to => Get.find();
 
   final AccountStates _accountStates = Get.put(AccountStates());
-  final GroceryListStates _groceryListStates = Get.put(GroceryListStates());
+  final GroceryListStates _groceryListStates = Get.find();
 
   Future<bool> initApp() async {
     if (!loaded) {
@@ -31,16 +30,11 @@ class AppStates extends GetxController {
           localStorage.getStringData(SHARED_PREF_KEY_ACCOUNT_ID);
       if (accountId.isNotEmpty) {
         await _accountStates.readAccount(accountId);
+        await _groceryListStates
+            .readAllAccountGroceryLists(_accountStates.account.groceryListIds);
         loaded = true;
       }
     }
-    return true;
-  }
-
-  Future<bool> loadContent() async {
-    await dynamicLink.handleDynamicLinks();
-    await _groceryListStates
-        .readAllAccountGroceryLists(_accountStates.account.groceryListIds);
     return true;
   }
 

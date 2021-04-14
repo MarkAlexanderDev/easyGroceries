@@ -6,8 +6,8 @@ import 'package:foodz/services/database/entities/ingredient/entity_ingredient.da
 import 'package:get/get.dart';
 
 class GroceryListStates extends GetxController {
-  EntityGroceryList groceryList; // TO RM
-  List<EntityGroceryList> groceryListOwned = [];
+  EntityGroceryList groceryList;
+  RxList<EntityGroceryList> groceryListOwned = <EntityGroceryList>[].obs;
   List<EntityGroceryListAccount> groceryListAcounts = [];
   List<EntityGroceryListIngredient> groceryListIngredients = [];
 
