@@ -1,13 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:foodz/screens/onboarding/onboarding.dart';
 import 'package:foodz/states/account_states.dart';
-import 'package:foodz/states/allergy_states.dart';
+import 'package:foodz/states/allergies_states.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/widgets/loading.dart';
 import 'package:foodz/widgets/selectable_tags.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -17,21 +17,21 @@ class OnboardingAllergic extends StatefulWidget {
 }
 
 class _OnboardingAllergic extends State<OnboardingAllergic> {
-  final AccountStates accountStates = Get.put(AccountStates());
-  final AllergyTagsStates allergyTagsStates = Get.put(AllergyTagsStates());
-  Future _future;
+  final AccountStates accountStates = Get.find();
+  final AllergiesStates allergiesStates = Get.put(AllergiesStates());
+  Future allergiesFuture;
 
   @override
   void initState() {
-    _future = allergyTagsStates.getAllergies();
+    allergiesFuture = allergiesStates.readAllAllergies();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _future,
-        builder: (BuildContext context, snapshot) {
+        future: allergiesFuture,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             return Column(
               children: [
@@ -47,9 +47,13 @@ class _OnboardingAllergic extends State<OnboardingAllergic> {
                 Container(
                   padding: EdgeInsets.all(24.0),
                   child: SelectableTags(
-                    tags: allergyTagsStates.allergies,
-                    onClickTag: (tag) {
-                      allergyTagsStates.setTag(tag.index, tag.active);
+                    activeTags: accountStates.account.allergies,
+                    tags: allergiesStates.allergies,
+                    onClickTag: (String tag) {
+                      if (accountStates.account.allergies.contains(tag))
+                        accountStates.account.allergies.remove(tag);
+                      else
+                        accountStates.account.allergies.add(tag);
                     },
                   ),
                 ),
@@ -97,16 +101,15 @@ class _OnboardingAllergic extends State<OnboardingAllergic> {
 
   _nextOnboardingStep() async {
     appStates.setLoading(true);
-    accountStates.account.value.onboardingFlag =
-        accountStates.account.value.onboardingFlag + 1;
-    await accountStates.updateAccount();
-    await allergyTagsStates.updateAllergies();
+    accountStates.account.onboardingFlag.value =
+        accountStates.account.onboardingFlag.value + 1;
+    accountStates.updateAccount();
     appStates.setLoading(false);
   }
 
   _skipOnboarding() async {
     appStates.setLoading(true);
-    accountStates.account.value.onboardingFlag = ONBOARDING_STEP_ID_PROFILE;
+    accountStates.setOnboardingFlag(ONBOARDING_STEP_ID_PROFILE);
     accountStates.updateAccount();
     appStates.setLoading(false);
   }

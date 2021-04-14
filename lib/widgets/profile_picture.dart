@@ -1,17 +1,15 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/widgets/loading.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfilePicture extends StatelessWidget {
   final double height;
   final double width;
   final String pictureUrl;
-  final String name;
   final bool editMode;
   final onEdit;
 
@@ -19,7 +17,6 @@ class ProfilePicture extends StatelessWidget {
       {@required this.height,
       @required this.width,
       @required this.pictureUrl,
-      @required this.name,
       @required this.editMode,
       this.onEdit});
 
@@ -44,15 +41,14 @@ class ProfilePicture extends StatelessWidget {
                           color: Colors.white),
                     )
                   : pictureUrl == "" || pictureUrl == null
-                      ? name == "" || name == null
-                          ? Icon(
-                              Icons.person,
-                              size: height * 0.70,
-                              color: Colors.white,
-                            )
-                          : Center(
-                              child:
-                                  AutoSizeText(name[0], style: textStyleLetter))
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                              child: Text(
+                            "?",
+                            style: textStyleH1White,
+                          )),
+                        )
                       : Container(
                           decoration: BoxDecoration(
                             border: Border.all(color: mainColor, width: 2),

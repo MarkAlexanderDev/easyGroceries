@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:foodz/services/database/database.dart';
-import 'package:foodz/states/app_states.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:foodz/states/app_states.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<String> getImage(context, bool hasUserProfilePicture) async {
@@ -58,7 +57,7 @@ Future<String> uploadPictureFromLocalStorage(
     String pictureLocalStorageUrl, String storageRef) async {
   appStates.uploadingProfilePicture.value = true;
   if (pictureLocalStorageUrl == "") return "";
-  final reference = firebaseStorage
+  final reference = FirebaseStorage.instance
       .ref()
       .child(storageRef + getImgNameFromPath(pictureLocalStorageUrl));
   final UploadTask uploadTask = reference.putFile(File(pictureLocalStorageUrl));

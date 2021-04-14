@@ -1,89 +1,80 @@
-import 'package:foodz/services/database/config.dart';
-import 'package:foodz/services/database/database.dart';
-import 'package:foodz/services/database/models/account_grocery_list_model.dart';
-import 'package:foodz/services/database/models/grocery_list_ingredient_model.dart';
-import 'package:foodz/services/database/models/grocery_list_model.dart';
+import 'package:foodz/services/database/api.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
+import 'package:foodz/services/database/entities/ingredient/entity_ingredient.dart';
 import 'package:get/get.dart';
 
 class GroceryListStates extends GetxController {
-  static GroceryListStates get to => Get.find();
+  EntityGroceryList groceryList;
+  RxList<EntityGroceryList> groceryListOwned = <EntityGroceryList>[].obs;
+  List<EntityGroceryListAccount> groceryListAcounts = [];
+  List<EntityGroceryListIngredient> groceryListIngredients = [];
 
-  Stream streamGroceryList() async* {
-    databaseReference
-        .child(endpointGroceryListIngredient)
-        .child(groceryList.value.uid)
-        .orderByChild("createdAt")
-        .endAt(DateTime.now().toString())
-        .onValue
-        .listen((event) async {
-      final Map snapshot = Map<String, dynamic>.from(event.snapshot.value);
-      for (int i = 0; i < snapshot.length; i++) {
-        final GroceryListIngredientModel groceryListModel =
-            GroceryListIngredientModel();
-        groceryListModel.fromJson(snapshot.entries.elementAt(i).value);
-        if (groceryListIngredients.length <= i) {
-          groceryListIngredientsKeys.add(snapshot.entries.elementAt(i).key);
-          groceryListIngredients.add(groceryListModel);
-        } else
-          groceryListIngredients[i] = groceryListModel;
-      }
-    });
-    yield true;
-  }
+  // CRUD
 
   Future<void> createGroceryList() async {
-    await Database.groceryList.create(groceryList.value);
-    AccountGroceryListModel accountGroceryList = AccountGroceryListModel();
-    accountGroceryList.groceryListUid = groceryList.value.uid;
-    accountGroceryList.owner = true;
-    await Database.accountGroceryList.create(accountGroceryList);
-    GroceryListIngredientModel groceryListIngredient =
-        GroceryListIngredientModel();
-    groceryListIngredient.checked = false;
-    groceryListIngredient.createdAt = DateTime.now().toString();
-    await Database.groceryListIngredient
-        .create("baguette", groceryListIngredient, groceryList.value.uid);
+    groceryList.uid = await API.entries.groceryList.create(groceryList);
+    groceryListOwned.add(groceryList);
   }
 
-  Future<void> updateGroceryList() async {
-    await Database.groceryList.update(groceryList.value);
+  Future<void> readGroceryList(String groceryListId) async {
+    groceryList = await API.entries.groceryList.read(groceryListId);
   }
 
-  Future<void> addIngredient(String ingredient) async {
-    if (!groceryListIngredientsKeys.contains(ingredient)) {
-      GroceryListIngredientModel groceryListIngredient =
-          GroceryListIngredientModel();
-      groceryListIngredient.checked = false;
-      groceryListIngredient.createdAt = DateTime.now().toString();
-      groceryListIngredients.add(groceryListIngredient);
-      groceryListIngredients.refresh();
-      groceryListIngredientsKeys.add(ingredient);
-      groceryListIngredientsKeys.refresh();
-      await Database.groceryListIngredient
-          .create(ingredient, groceryListIngredient, groceryList.value.uid);
-    } else
-      Get.snackbar("error", ingredient + " is already present in your list");
+  void updateGroceryList() async {
+    API.entries.groceryList.update("", groceryList);
   }
 
-  Future<void> deleteIngredient(int index) async {
-    String ingredientToRm = groceryListIngredientsKeys[index];
-    groceryListIngredients.removeAt(index);
-    groceryListIngredients.refresh();
-    groceryListIngredientsKeys.removeAt(index);
-    groceryListIngredientsKeys.refresh();
-    await Database.groceryListIngredient
-        .delete(ingredientToRm, groceryList.value.uid);
+  void deleteGroceryList(String uid) {
+    API.entries.groceryList.delete(uid);
   }
 
-  Future<void> setIngredientCheckValue(bool value, int index) async {
-    groceryListIngredients[index].checked = value;
-    groceryListIngredients.refresh();
-    await Database.groceryListIngredient.update(groceryListIngredients[index],
-        groceryListIngredientsKeys[index], groceryList.value.uid);
+  // CRUD GroceryListAccounts
+
+  Future<void> createGroceryListAccount(String accountId) async {
+    await API.entries.groceryList.accounts
+        .create(EntityGroceryListAccount(uid: accountId), key: groceryList.uid);
   }
 
-  Rx<GroceryListModel> groceryList = GroceryListModel().obs;
-  RxList<String> groceryListIngredientsKeys = <String>[].obs;
-  RxList<GroceryListIngredientModel> groceryListIngredients =
-      <GroceryListIngredientModel>[].obs;
+  Future<bool> readAllGroceryListAccounts() async {
+    groceryListAcounts.assignAll(
+        await API.entries.groceryList.accounts.readAll(key: groceryList.uid));
+    return true;
+  }
+
+  Future<bool> readAllAccountGroceryLists(List<String> groceryListIds) async {
+    await Future.forEach(groceryListIds, (String groceryListId) async {
+      groceryListOwned.add(await API.entries.groceryList.read(groceryListId));
+    });
+    return true;
+  }
+
+  void deleteGroceryListAccount(String accountId) {
+    API.entries.groceryList.accounts.delete(accountId, key: groceryList.uid);
+  }
+
+  // CRUD GroceryListIngredients
+
+  Future<void> createGroceryListIngredient(EntityIngredient ingredient) async {
+    final EntityGroceryListIngredient groceryListIngredient =
+        EntityGroceryListIngredient(
+            pictureUrl: ingredient.pictureUrl,
+            name: ingredient.title,
+            category: ingredient.category,
+            metric: ingredient.metric);
+    await API.entries.groceryList.ingredients
+        .create(groceryListIngredient, key: groceryList.uid);
+  }
+
+  void updateGroceryListIngredient(
+      EntityGroceryListIngredient ingredient) async {
+    API.entries.groceryList.ingredients
+        .update("", ingredient, key: groceryList.uid);
+  }
+
+  void deleteGroceryListIngredient(String ingredientName) {
+    API.entries.groceryList.ingredients
+        .delete(ingredientName, key: groceryList.uid);
+  }
 }

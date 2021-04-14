@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodz/redirections.dart';
 import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list.dart';
 import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list_options/grocery_list_options.dart';
+import 'package:foodz/screens/home/grocery_lists/grocery_list/grocery_list_search_ingredient.dart';
 import 'package:foodz/screens/home/grocery_lists/grocery_list_creation/grocery_list_creation.dart';
 import 'package:foodz/screens/profile/profile.dart';
-import 'package:foodz/screens/redirections.dart';
+import 'package:foodz/states/states_binding.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
@@ -38,12 +40,16 @@ class MyApp extends StatelessWidget {
                 systemNavigationBarIconBrightness: Brightness.dark,
               ),
               child: Redirections()),
+          binding: StatesBinding(),
         ),
         GetPage(name: URL_PROFILE, page: () => Profile()),
         GetPage(name: URL_GROCERY_LIST, page: () => GroceryList()),
         GetPage(name: URL_GROCERY_LIST_OPTION, page: () => GroceryListOption()),
         GetPage(
             name: URL_GROCERY_LIST_CREATION, page: () => GroceryListCreation()),
+        GetPage(
+            name: URL_GROCERY_LIST_SEARCH_INGREDIENT,
+            page: () => GroceryListSearchIngredient()),
       ],
     );
   }

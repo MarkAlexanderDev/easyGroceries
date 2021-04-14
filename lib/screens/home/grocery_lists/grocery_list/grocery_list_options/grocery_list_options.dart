@@ -1,12 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:foodz/extensions/color.dart';
-import 'package:foodz/services/database/database.dart';
-import 'package:foodz/services/database/models/account_model.dart';
+import 'package:foodz/services/auth.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
 import 'package:foodz/services/dynamic_link.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
@@ -29,19 +27,19 @@ class GroceryListOption extends StatefulWidget {
 }
 
 class _GroceryListOption extends State<GroceryListOption> {
-  final GroceryListStates groceryListStates = Get.put(GroceryListStates());
-  Future _future;
+  final GroceryListStates groceryListStates = Get.find();
+  Future futureGroceryListAccounts;
 
   @override
   void initState() {
-    _future = _getMembers();
+    futureGroceryListAccounts = groceryListStates.readAllGroceryListAccounts();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _future,
+        future: futureGroceryListAccounts,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData)
             return Scaffold(
@@ -64,9 +62,8 @@ class _GroceryListOption extends State<GroceryListOption> {
                           child: Obx(() => ProfilePicture(
                                 height: 100,
                                 width: 100,
-                                name: groceryListStates.groceryList.value.title,
                                 pictureUrl: groceryListStates
-                                    .groceryList.value.pictureUrl,
+                                    .groceryList.pictureUrl.value,
                                 editMode: true,
                                 onEdit: () async {
                                   await _onEditPicture(context);
@@ -82,9 +79,9 @@ class _GroceryListOption extends State<GroceryListOption> {
                           textAlign: TextAlign.center,
                           decoration: getStandardInputDecoration("name", ""),
                           initialValue:
-                              groceryListStates.groceryList.value.title,
+                              groceryListStates.groceryList.name.value,
                           onChanged: (value) {
-                            groceryListStates.groceryList.value.title = value;
+                            groceryListStates.groceryList.name.value = value;
                           },
                         ),
                       ),
@@ -97,23 +94,24 @@ class _GroceryListOption extends State<GroceryListOption> {
                         decoration:
                             getStandardInputDecoration("description", ""),
                         initialValue:
-                            groceryListStates.groceryList.value.description,
+                            groceryListStates.groceryList.description.value,
                         onChanged: (value) {
-                          groceryListStates.groceryList.value.description =
+                          groceryListStates.groceryList.description.value =
                               value;
                         },
                       ),
                       Container(height: 20),
                       _Members(
-                          members: snapshot.data,
-                          groceryListUid:
-                              groceryListStates.groceryList.value.uid),
-                      Container(height: 10),
+                          members: groceryListStates.groceryListAcounts,
+                          groceryListUid: groceryListStates.groceryList.uid),
+                      Container(
+                        height: 10,
+                      ),
                       BlockPicker(
                         pickerColor: hexToColor(
-                            groceryListStates.groceryList.value.color),
+                            groceryListStates.groceryList.color.value),
                         onColorChanged: (value) => groceryListStates
-                            .groceryList.value.color = value.toHex(),
+                            .groceryList.color.value = value.toHex(),
                         availableColors: [
                           mainColor,
                           secondaryColor,
@@ -127,9 +125,9 @@ class _GroceryListOption extends State<GroceryListOption> {
               floatingActionButton: ConfirmButton(
                 enabled: !appStates.uploadingProfilePicture.value,
                 onClick: () async {
-                  await groceryListStates.updateGroceryList();
+                  groceryListStates.updateGroceryList();
                   Get.toNamed(URL_GROCERY_LIST,
-                      arguments: groceryListStates.groceryList.value);
+                      arguments: groceryListStates.groceryList);
                 },
               ),
             );
@@ -138,29 +136,16 @@ class _GroceryListOption extends State<GroceryListOption> {
         });
   }
 
-  Future<List<AccountModel>> _getMembers() async {
-    final List<AccountModel> accounts = <AccountModel>[];
-    final DataSnapshot snap = await Database.accountGroceryList
-        .getFromGroceryListUid(groceryListStates.groceryList.value.uid);
-    final Map<dynamic, dynamic> accountGroceryLists = Map();
-    accountGroceryLists.addAll(snap.value);
-    await Future.forEach(accountGroceryLists.keys, (element) async {
-      accounts.add(await Database.account.getFromUid(element));
-    });
-    return accounts;
-  }
-
   Future<void> _onEditPicture(context) async {
     final String imgPath = await getImage(
-        context, groceryListStates.groceryList.value.pictureUrl != null);
-    groceryListStates.groceryList.update((groceryList) {
-      if (imgPath != null) groceryList.pictureUrl = imgPath;
-    });
+        context, groceryListStates.groceryList.pictureUrl.value != null);
+    if (imgPath != null)
+      groceryListStates.groceryList.pictureUrl.value = imgPath;
   }
 }
 
 class _Members extends StatelessWidget {
-  final List<AccountModel> members;
+  final List<EntityGroceryListAccount> members;
   final String groceryListUid;
 
   _Members({@required this.members, @required this.groceryListUid});
@@ -186,16 +171,18 @@ class _Members extends StatelessWidget {
             )
           ],
         ),
-        Container(height: 10),
+        Container(
+          height: 10,
+        ),
         ListView.builder(
             shrinkWrap: true,
             itemCount: members.length,
             itemBuilder: (BuildContext context, int i) {
               return Center(
                 child: AutoSizeText(
-                    members[i].uid == FirebaseAuth.instance.currentUser.uid
+                    members[i].uid == authService.auth.currentUser.uid
                         ? "You"
-                        : members[i].name),
+                        : members[i].uid),
               );
             })
       ],

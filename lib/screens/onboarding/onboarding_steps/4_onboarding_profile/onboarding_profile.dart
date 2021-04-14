@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodz/screens/consts.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/style/inputs.dart';
 import 'package:foodz/style/text_style.dart';
@@ -34,16 +33,15 @@ class _OnboardingProfile extends State<OnboardingProfile> {
               onTap: () async {
                 await _onEditPicture();
               },
-              child: ProfilePicture(
-                name: null,
-                pictureUrl: accountStates.account.value.pictureUrl,
-                editMode: true,
-                height: 100,
-                width: 100,
-                onEdit: () async {
-                  await _onEditPicture();
-                },
-              ),
+              child: Obx(() => ProfilePicture(
+                    pictureUrl: accountStates.account.pictureUrl.value,
+                    editMode: true,
+                    height: 100,
+                    width: 100,
+                    onEdit: () async {
+                      await _onEditPicture();
+                    },
+                  )),
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -62,9 +60,9 @@ class _OnboardingProfile extends State<OnboardingProfile> {
               textAlign: TextAlign.center,
               style: textStyleH2,
               decoration: getStandardInputDecoration("", ""),
-              initialValue: accountStates.account.value.name,
+              initialValue: accountStates.account.name.value,
               onChanged: (value) {
-                accountStates.account.value.name = value;
+                accountStates.account.name.value = value;
               },
             ),
             Container(
@@ -86,9 +84,9 @@ class _OnboardingProfile extends State<OnboardingProfile> {
               textAlign: TextAlign.center,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: getStandardInputDecoration("", ""),
-              initialValue: accountStates.account.value.peopleNumber.toString(),
+              initialValue: accountStates.account.peopleNb.value.toString(),
               onChanged: (value) {
-                accountStates.account.value.peopleNumber = int.parse(value);
+                accountStates.account.peopleNb.value = int.parse(value);
               },
             ),
             Container(
@@ -104,33 +102,31 @@ class _OnboardingProfile extends State<OnboardingProfile> {
               ),
             ),
             Container(height: MediaQuery.of(context).size.height * 0.025),
-            DropdownButton<String>(
-              value: accountStates.getCookingExperienceConverted(
-                  accountStates.account.value.cookingExperience),
-              icon: Icon(Icons.keyboard_arrow_down_rounded),
-              iconSize: 24,
-              elevation: 16,
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              underline: Container(
-                height: 1,
-                color: Colors.black,
-              ),
-              onChanged: (String value) {
-                accountStates.account.update((account) {
-                  account.cookingExperience =
-                      COOKING_EXPERIENCE_IDS.indexOf(value);
-                });
-              },
-              items: COOKING_EXPERIENCE_IDS
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: AutoSizeText(value, style: textStyleH2),
-                );
-              }).toList(),
-            ),
+            Obx(() => DropdownButton<String>(
+                  value: accountStates.getCookingExperienceConverted(
+                      accountStates.account.cookingExperience.value),
+                  icon: Icon(Icons.keyboard_arrow_down_rounded),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  underline: Container(
+                    height: 1,
+                    color: Colors.black,
+                  ),
+                  onChanged: (String value) {
+                    accountStates.account.cookingExperience.value =
+                        COOKING_EXPERIENCE_IDS.indexOf(value);
+                  },
+                  items: COOKING_EXPERIENCE_IDS
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: AutoSizeText(value, style: textStyleH2),
+                    );
+                  }).toList(),
+                )),
           ],
         ),
       ),
@@ -139,9 +135,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
 
   Future<void> _onEditPicture() async {
     final String imgPath =
-        await getImage(context, accountStates.account.value.pictureUrl != null);
-    accountStates.account.update((account) {
-      if (imgPath != null) account.pictureUrl = imgPath;
-    });
+        await getImage(context, accountStates.account.pictureUrl.value != null);
+    if (imgPath != null) accountStates.account.pictureUrl.value = imgPath;
   }
 }
