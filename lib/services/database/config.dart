@@ -5,6 +5,7 @@ const endpointEntries = "Entries/";
 //
 const endpointAccounts = "Accounts/";
 const endpointGroceryLists = "GroceryLists/";
+const endpointRecipe = "Recipe/";
 //
 
 const endpointAccountTag = endpointEntries + "AccountTag/";
