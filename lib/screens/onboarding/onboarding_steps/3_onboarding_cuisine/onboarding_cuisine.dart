@@ -7,76 +7,97 @@ import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/cuisines_states.dart';
 import 'package:foodz/style/text_style.dart';
+import 'package:foodz/widgets/loading.dart';
 import 'package:foodz/widgets/selectable_tags.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-class OnboardingCuisine extends StatelessWidget {
+class OnboardingCuisine extends StatefulWidget {
+  @override
+  _OnboardingCuisine createState() => _OnboardingCuisine();
+}
+
+class _OnboardingCuisine extends State<OnboardingCuisine> {
   final AccountStates accountStates = Get.find();
   final CuisinesStates cuisinesStates = Get.put(CuisinesStates());
+  Future cuisinesFuture;
+
+  @override
+  void initState() {
+    cuisinesFuture = cuisinesStates.readAllCuisines();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Lottie.asset('assets/lotties/food-prepared.json'),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: AutoSizeText(
-            "What are your favorite types${nbsp}of${nbsp}food?",
-            style: textStyleH1,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.all(24.0),
-          child: SelectableTags(
-            activeTags: accountStates.account.cuisines,
-            tags: cuisinesStates.cuisines,
-            onClickTag: (tag) {
-              if (accountStates.account.cuisines.contains(tag))
-                accountStates.account.cuisines.remove(tag);
-              else
-                accountStates.account.cuisines.add(tag);
-            },
-          ),
-        ),
-        Expanded(child: Container(), flex: 4),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Flexible(
-                flex: 1,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () async {
-                      await _skipOnboarding();
-                    },
-                    child: AutoSizeText(
-                      "Skip",
-                      style: textStyleSkip,
-                    ),
-                  ),
-                )),
-            Flexible(child: Container(), flex: 1),
-            Flexible(
-                flex: 1,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () async {
-                      await _nextOnboardingStep();
-                    },
-                    child: AutoSizeText(
-                      "Next",
-                      style: textStyleNext,
-                    ),
-                  ),
-                )),
-          ],
-        ),
-        Expanded(child: Container()),
-      ],
+    return FutureBuilder(
+      future: cuisinesFuture,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData)
+          return Column(
+            children: [
+              Lottie.asset('assets/lotties/food-prepared.json'),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                child: AutoSizeText(
+                  "What are your favorite types${nbsp}of${nbsp}food?",
+                  style: textStyleH1,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(24.0),
+                child: SelectableTags(
+                  activeTags: accountStates.account.cuisines,
+                  tags: cuisinesStates.cuisines,
+                  onClickTag: (tag) {
+                    if (accountStates.account.cuisines.contains(tag))
+                      accountStates.account.cuisines.remove(tag);
+                    else
+                      accountStates.account.cuisines.add(tag);
+                  },
+                ),
+              ),
+              Expanded(child: Container(), flex: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                      flex: 1,
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () async {
+                            await _skipOnboarding();
+                          },
+                          child: AutoSizeText(
+                            "Skip",
+                            style: textStyleSkip,
+                          ),
+                        ),
+                      )),
+                  Flexible(child: Container(), flex: 1),
+                  Flexible(
+                      flex: 1,
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () async {
+                            await _nextOnboardingStep();
+                          },
+                          child: AutoSizeText(
+                            "Next",
+                            style: textStyleNext,
+                          ),
+                        ),
+                      )),
+                ],
+              ),
+              Expanded(child: Container()),
+            ],
+          );
+        else
+          return Loading();
+      },
     );
   }
 

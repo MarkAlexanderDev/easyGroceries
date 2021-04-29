@@ -4,6 +4,7 @@ import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/states/ingredient_states.dart';
 import 'package:foodz/utils/color.dart';
+import 'package:foodz/widgets/profile_picture.dart';
 import 'package:get/get.dart';
 
 class GroceryListSearchIngredient extends StatefulWidget {
@@ -36,9 +37,9 @@ class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
         onClosed: () {
           ingredientStates.ingredientFound.clear();
         },
+        clearOnSubmit: true,
         inBar: false,
         setState: setState,
-        onSubmitted: print,
         buildDefaultAppBar: buildAppBar);
     super.initState();
   }
@@ -63,12 +64,11 @@ class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
                   height: 48,
                   padding: EdgeInsets.symmetric(vertical: 4.0),
                   alignment: Alignment.center,
-                  child: CircleAvatar(
-                    child: ingredientStates
-                            .ingredientFound[i].pictureUrl.isNotEmpty
-                        ? Image.network(
-                            ingredientStates.ingredientFound[i].pictureUrl)
-                        : Text("?"),
+                  child: ProfilePicture(
+                    height: 50,
+                    width: 50,
+                    editMode: false,
+                    pictureUrl: ingredientStates.ingredientFound[i].pictureUrl,
                   ),
                 ),
                 title: Text(ingredientStates.ingredientFound[i].title),

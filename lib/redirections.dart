@@ -21,23 +21,18 @@ class Redirections extends StatefulWidget {
 
 class _Redirections extends State<Redirections> {
   final AccountStates accountStates = Get.find();
-  Future<bool> _future;
-
-  Future<bool> loader() async {
-    if (!appStates.loaded) await appStates.initApp();
-    return true;
-  }
+  Future<bool> futureLoader;
 
   @override
   void initState() {
-    _future = loader();
+    futureLoader = appStates.initApp();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _future,
+        future: futureLoader,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData)
             return Obx(
@@ -80,7 +75,6 @@ class _Redirections extends State<Redirections> {
                 GestureDetector(
                   onTap: () => Get.toNamed(URL_PROFILE),
                   child: ProfilePicture(
-                    name: null,
                     height: 50,
                     width: 50,
                     pictureUrl: accountStates.account.pictureUrl.value,

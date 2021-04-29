@@ -32,8 +32,9 @@ class AccountStates extends GetxController {
     account = await API.entries.accounts.read(accountId);
   }
 
-  void updateAccount() async {
-    API.entries.accounts.update(authService.auth.currentUser.uid, account);
+  Future<void> updateAccount() async {
+    await API.entries.accounts
+        .update(authService.auth.currentUser.uid, account);
   }
 
   void deleteAccount() {

@@ -8,6 +8,8 @@ class EntityIngredient {
   String category;
   List<String> allergies = [];
 
+  EntityIngredient({this.title});
+
   EntityIngredient.fromJson(Map<String, dynamic> data, {String key = ""}) {
     fromJson(data, key: key);
   }

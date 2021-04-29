@@ -1,4 +1,3 @@
 class EnvironmentConfig {
-  static const ENABLE_DEVICE_PREVEW =
-      bool.fromEnvironment('ENABLE_DEVICE_PREVEW', defaultValue: false);
+  static const FLAVOR = String.fromEnvironment("FLAVOR", defaultValue: "dev");
 }

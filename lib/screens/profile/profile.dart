@@ -22,9 +22,9 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,7 +44,6 @@ class Profile extends StatelessWidget {
                           height: 100,
                           width: 100,
                           pictureUrl: accountStates.account.pictureUrl.value,
-                          name: null,
                           editMode: true,
                           onEdit: () async {
                             await _onEditPicture(context);
