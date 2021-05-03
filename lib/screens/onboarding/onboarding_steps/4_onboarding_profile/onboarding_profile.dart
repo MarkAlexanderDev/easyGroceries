@@ -43,6 +43,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
                     },
                   )),
             ),
+            SizedBox(height: 30),
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width * 0.1,
@@ -50,7 +51,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
                 alignment: AlignmentDirectional.bottomCenter,
                 child: AutoSizeText(
                   "How should we call you?",
-                  style: textStyleH2,
+                  style: textAssistantH1Black,
                 ),
               ),
             ),
@@ -58,7 +59,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
               autocorrect: false,
               keyboardType: TextInputType.visiblePassword,
               textAlign: TextAlign.center,
-              style: textStyleH2,
+              style: textAssistantH1Black,
               decoration: getStandardInputDecoration("", ""),
               initialValue: accountStates.account.name.value,
               onChanged: (value) {
@@ -72,7 +73,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
                 alignment: AlignmentDirectional.bottomCenter,
                 child: AutoSizeText(
                   "How many people are living with you ?",
-                  style: textStyleH2,
+                  style: textAssistantH1Black,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -80,7 +81,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
             TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.visiblePassword,
-              style: textStyleH2,
+              style: textAssistantH1Black,
               textAlign: TextAlign.center,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: getStandardInputDecoration("", ""),
@@ -96,7 +97,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
                 alignment: AlignmentDirectional.bottomCenter,
                 child: AutoSizeText(
                   "What is your cooking experience ?",
-                  style: textStyleH2,
+                  style: textAssistantH1Black,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -123,7 +124,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
                       .map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: AutoSizeText(value, style: textStyleH2),
+                      child: AutoSizeText(value, style: textAssistantH1Black),
                     );
                   }).toList(),
                 )),

@@ -32,7 +32,7 @@ class Profile extends StatelessWidget {
                 Center(
                   child: AutoSizeText(
                     "MY PROFILE",
-                    style: textStyleH1,
+                    style: textAssistantH1Black,
                   ),
                 ),
                 Container(height: 20),
@@ -55,7 +55,7 @@ class Profile extends StatelessWidget {
                   child: TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.visiblePassword,
-                    style: textStyleH1,
+                    style: textAssistantH1Black,
                     textAlign: TextAlign.center,
                     decoration: getStandardInputDecoration("name", ""),
                     initialValue: accountStates.account.name.value,
@@ -90,7 +90,8 @@ class Profile extends StatelessWidget {
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: AutoSizeText(value, style: textStyleH2),
+                          child:
+                              AutoSizeText(value, style: textAssistantH1Black),
                         );
                       }).toList(),
                     )),
@@ -209,7 +210,7 @@ class _ProfileButon extends StatelessWidget {
             children: [
               Icon(icon, color: mainColor),
               Container(width: 25),
-              AutoSizeText(text, style: textStyleH1Green),
+              AutoSizeText(text, style: textAssistantH1Black),
             ],
           ),
         ),

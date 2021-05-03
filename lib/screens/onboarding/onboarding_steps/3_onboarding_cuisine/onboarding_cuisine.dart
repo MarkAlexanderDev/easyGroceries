@@ -41,7 +41,7 @@ class _OnboardingCuisine extends State<OnboardingCuisine> {
                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                 child: AutoSizeText(
                   "What are your favorite types${nbsp}of${nbsp}food?",
-                  style: textStyleH1,
+                  style: textAssistantH1Black,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -72,7 +72,7 @@ class _OnboardingCuisine extends State<OnboardingCuisine> {
                           },
                           child: AutoSizeText(
                             "Skip",
-                            style: textStyleSkip,
+                            style: textAssistantH1GreenHalfOpacity,
                           ),
                         ),
                       )),
@@ -86,7 +86,7 @@ class _OnboardingCuisine extends State<OnboardingCuisine> {
                           },
                           child: AutoSizeText(
                             "Next",
-                            style: textStyleNext,
+                            style: textAssistantH1Green,
                           ),
                         ),
                       )),

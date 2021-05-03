@@ -40,7 +40,7 @@ class _OnboardingAllergic extends State<OnboardingAllergic> {
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: AutoSizeText(
                     "Do you have specific food that you do not eat or you are allergic of ?",
-                    style: textStyleH1,
+                    style: textAssistantH1Black,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -71,7 +71,7 @@ class _OnboardingAllergic extends State<OnboardingAllergic> {
                             },
                             child: AutoSizeText(
                               "Skip",
-                              style: textStyleSkip,
+                              style: textAssistantH1GreenHalfOpacity,
                             ),
                           ),
                         )),
@@ -85,7 +85,7 @@ class _OnboardingAllergic extends State<OnboardingAllergic> {
                             },
                             child: AutoSizeText(
                               "Next",
-                              style: textStyleNext,
+                              style: textAssistantH1Green,
                             ),
                           ),
                         )),

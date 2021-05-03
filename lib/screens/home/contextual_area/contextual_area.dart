@@ -1,11 +1,11 @@
-import 'package:foodz/style/colors.dart';
-import 'package:foodz/style/swiper_pagination_style.dart';
-import 'package:foodz/style/text_style.dart';
-import 'package:foodz/utils/urlLauncher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/style/swiper_pagination_style.dart';
+import 'package:foodz/style/text_style.dart';
+import 'package:foodz/utils/urlLauncher.dart';
 
 class ContextualArea extends StatelessWidget {
   static List<Map<String, dynamic>> slides = [
@@ -75,13 +75,13 @@ class CAcard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      slide["title"],
-                      style: textStyleH1Accent,
+                      slide["title"].toString().toUpperCase(),
+                      style: textAssistantH1Accent,
                       maxLines: 1,
                     ),
                     AutoSizeText(
                       slide["desc"],
-                      style: textStyleH2White,
+                      style: textAssistantH1WhiteBold,
                       maxLines: 1,
                     ),
                   ],
@@ -100,16 +100,17 @@ class CAcard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       AutoSizeText(
                         slide["clickHint"],
-                        style: textStyleH2Accent,
-                        maxLines: 1,
+                        style: textAssistantH2Accent,
                       ),
-                      Icon(
-                        Icons.keyboard_arrow_down,
-                        color: accentColor,
+                      Expanded(
+                        child: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: accentColor,
+                        ),
                       )
                     ],
                   ),

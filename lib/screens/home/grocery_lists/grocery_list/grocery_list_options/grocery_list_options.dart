@@ -51,7 +51,7 @@ class _GroceryListOption extends State<GroceryListOption> {
                       Center(
                         child: AutoSizeText(
                           "GROCERY LIST OPTIONS",
-                          style: textStyleH1,
+                          style: textAssistantH1Black,
                         ),
                       ),
                       Container(height: 20),
@@ -75,7 +75,7 @@ class _GroceryListOption extends State<GroceryListOption> {
                         child: TextFormField(
                           autocorrect: false,
                           keyboardType: TextInputType.visiblePassword,
-                          style: textStyleH1,
+                          style: textAssistantH1Black,
                           textAlign: TextAlign.center,
                           decoration: getStandardInputDecoration("name", ""),
                           initialValue:
@@ -90,7 +90,7 @@ class _GroceryListOption extends State<GroceryListOption> {
                         autocorrect: false,
                         keyboardType: TextInputType.visiblePassword,
                         textAlign: TextAlign.center,
-                        style: textStyleH2,
+                        style: textAssistantH1Black,
                         decoration:
                             getStandardInputDecoration("description", ""),
                         initialValue:

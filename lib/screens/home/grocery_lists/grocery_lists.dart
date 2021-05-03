@@ -7,8 +7,8 @@ import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
-import 'package:foodz/utils/color.dart';
 import 'package:foodz/widgets/loading.dart';
+import 'package:foodz/widgets/profile_picture.dart';
 import 'package:get/get.dart';
 
 class GroceryLists extends StatefulWidget {
@@ -32,22 +32,28 @@ class _GroceryLists extends State<GroceryLists> {
       future: dynamicLinkGroceryList,
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData)
-          return Obx(() => GridView.builder(
-              shrinkWrap: true,
-              itemCount: groceryListStates.groceryListOwned.length + 1,
-              physics: NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 1,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "My groceries list".toUpperCase(),
+                style: textFredokaOneH2underlined,
               ),
-              itemBuilder: (BuildContext context, int i) {
-                if (i < groceryListStates.groceryListOwned.length)
-                  return _GroceryListsItem(
-                      groceryList: groceryListStates.groceryListOwned[i]);
-                return _AddGroceryListButton(onClick: () {
-                  Get.toNamed(URL_GROCERY_LIST_CREATION);
-                });
-              }));
+              SizedBox(height: 10),
+              Obx(() => ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: groceryListStates.groceryListOwned.length + 1,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int i) {
+                    if (i < groceryListStates.groceryListOwned.length)
+                      return _GroceryListsItem(
+                          groceryList: groceryListStates.groceryListOwned[i]);
+                    return _AddGroceryListButton(onClick: () {
+                      Get.toNamed(URL_GROCERY_LIST_CREATION);
+                    });
+                  })),
+            ],
+          );
         else
           return Loading();
       },
@@ -71,39 +77,27 @@ class _GroceryListsItem extends StatelessWidget {
           Get.offNamed(URL_GROCERY_LIST);
         },
         child: Container(
+          height: 100,
           decoration: BoxDecoration(
-              color: hexToColor(groceryList.color.value),
+              color: Colors.white,
+              border: Border.all(color: Colors.black, width: 0.25),
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: Column(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              ProfilePicture(
+                  height: 75,
+                  width: 75,
+                  pictureUrl: groceryList.pictureUrl.value,
+                  editMode: false),
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: AutoSizeText(
                   groceryList.name.value,
-                  style: textStyleH2,
+                  style: textAssistantH1Black,
                   textAlign: TextAlign.center,
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    right: 8.0,
-                    left: 8.0,
-                    bottom: 8.0,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20)),
-                      image: DecorationImage(
-                        image: NetworkImage(groceryList.pictureUrl.value),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
@@ -119,15 +113,20 @@ class _AddGroceryListButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () async {
-        await onClick();
-      },
-      child: Icon(
-        Icons.add_circle_outlined,
-        color: mainColor,
-        size: 50,
-      ),
+    return Column(
+      children: [
+        SizedBox(height: 10),
+        GestureDetector(
+          onTap: () async {
+            await onClick();
+          },
+          child: Icon(
+            Icons.add_circle_outlined,
+            color: mainColor,
+            size: 50,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -31,7 +31,8 @@ class _GroceryListCreation extends State<GroceryListCreation> {
   void initState() {
     groceryListStates.groceryList = EntityGroceryList();
     groceryListStates.groceryList.name.value = "Monday shopping";
-    groceryListStates.groceryList.description.value = "";
+    groceryListStates.groceryList.description.value =
+        "All my needs for the week !";
     groceryListStates.groceryList.color.value = mainColor.toHex();
     groceryListStates.groceryList.pictureUrl.value =
         "https://images.theconversation.com/files/282104/original/file-20190701-105182-1q7a7ji.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=320&h=213&fit=crop";
@@ -48,7 +49,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
                     hexToColor(groceryListStates.groceryList.color.value),
                 title: AutoSizeText(
                   "Grocery list creation",
-                  style: textStyleH3Bold,
+                  style: textAssistantH1WhiteBold,
                 ),
                 centerTitle: true,
               ))),
@@ -89,44 +90,22 @@ class _GroceryListCreation extends State<GroceryListCreation> {
                     },
                   )),
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: AutoSizeText(
-                  "How should we name your new list?",
-                  style: textStyleH2,
-                ),
-              ),
-            ),
             TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.visiblePassword,
               textAlign: TextAlign.center,
-              style: textStyleH2,
+              style: textAssistantH1Black,
               decoration: getStandardInputDecoration("", ""),
               initialValue: groceryListStates.groceryList.name.value,
               onChanged: (value) {
                 groceryListStates.groceryList.name.value = value;
               },
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: AutoSizeText(
-                  "How would you describe it?",
-                  style: textStyleH2,
-                ),
-              ),
-            ),
             TextFormField(
               autocorrect: false,
               keyboardType: TextInputType.visiblePassword,
               textAlign: TextAlign.center,
-              style: textStyleH2,
+              style: textAssistantH1Black,
               decoration: getStandardInputDecoration("", ""),
               initialValue: groceryListStates.groceryList.description.value,
               onChanged: (value) {

@@ -1,8 +1,8 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 const HOME_SCREEN_ID = 0;
@@ -23,8 +23,8 @@ class NavBar extends StatelessWidget {
           backgroundColor: Colors.white,
           type: BottomNavigationBarType.fixed,
           currentIndex: appStates.indexBar.value,
-          selectedLabelStyle: textStyleH1Green,
-          unselectedLabelStyle: textStyleH1,
+          selectedLabelStyle: textAssistantH1Black,
+          unselectedLabelStyle: textAssistantH1Black,
           selectedItemColor: mainColor,
           onTap: (index) => {appStates.setIndexBar(index)},
           items: <BottomNavigationBarItem>[

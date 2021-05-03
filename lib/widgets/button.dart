@@ -1,8 +1,8 @@
-import 'package:foodz/style/colors.dart';
-import 'package:foodz/style/text_style.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/style/text_style.dart';
 
 class ConfirmButton extends StatelessWidget {
   final onClick;
@@ -25,7 +25,7 @@ class ConfirmButton extends StatelessWidget {
           child: Center(
             child: AutoSizeText(
               "CONFIRM",
-              style: textStyleH1White,
+              style: textAssistantH1WhiteBold,
             ),
           ),
         ),

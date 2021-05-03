@@ -67,8 +67,10 @@ class _Redirections extends State<Redirections> {
               children: [
                 Container(width: 20),
                 AutoSizeText(
-                  "Hey " + accountStates.account.name.value + "! ✌️",
-                  style: textStyleH1,
+                  "Hey " +
+                      accountStates.account.name.value.split(" ").first +
+                      " ! 👋",
+                  style: textFredokaOneH1,
                   textAlign: TextAlign.center,
                 ),
                 Expanded(child: Container()),

@@ -32,6 +32,7 @@ class Onboarding extends StatelessWidget {
         return (await _previousOnboardingStep());
       },
       child: Scaffold(
+          backgroundColor: Colors.white,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,10 +45,13 @@ class Onboarding extends StatelessWidget {
               Flexible(
                   fit: FlexFit.tight,
                   flex: 20,
-                  child: Obx(() => onboardingSteps[
-                      accountStates.account.onboardingFlag.value == null
-                          ? 0
-                          : accountStates.account.onboardingFlag.value])),
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Obx(() => onboardingSteps[
+                        accountStates.account.onboardingFlag.value == null
+                            ? 0
+                            : accountStates.account.onboardingFlag.value]),
+                  )),
             ],
           ),
           bottomNavigationBar: Visibility(

@@ -1,14 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:flutter/material.dart';
 
 InputDecoration getStandardInputDecoration(labelText, hintText) {
   return InputDecoration(
-    hintStyle: textStyleH2Grey,
+    hintStyle: textAssistantH1Black,
     hintText: hintText,
     labelText: labelText,
     alignLabelWithHint: true,
-    labelStyle: textStyleH1Green,
+    labelStyle: textAssistantH1Black,
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(
         color: Colors.black,

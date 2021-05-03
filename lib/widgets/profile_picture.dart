@@ -46,7 +46,7 @@ class ProfilePicture extends StatelessWidget {
                           child: Center(
                               child: Text(
                             "?",
-                            style: textStyleH1White,
+                            style: textAssistantH1Black,
                           )),
                         )
                       : Container(

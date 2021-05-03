@@ -191,7 +191,7 @@ class GroceryList extends StatelessWidget {
       backgroundColor: hexToColor(groceryListStates.groceryList.color.value),
       title: AutoSizeText(
         groceryListStates.groceryList.name.value,
-        style: textStyleH3Bold,
+        style: textAssistantH1WhiteBold,
       ),
       leading: IconButton(
           icon: Icon(Icons.arrow_back),
