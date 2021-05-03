@@ -12,7 +12,7 @@ import 'package:foodz/style/colors.dart';
 import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
 
-void main() async {
+void appInitialisation() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());

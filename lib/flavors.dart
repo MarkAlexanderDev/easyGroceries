@@ -4,7 +4,7 @@ enum Flavor {
 }
 
 class F {
-  static Flavor? appFlavor;
+  static Flavor appFlavor;
 
   static String get title {
     switch (appFlavor) {
@@ -16,5 +16,4 @@ class F {
         return 'title';
     }
   }
-
 }
