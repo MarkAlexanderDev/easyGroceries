@@ -77,6 +77,7 @@ class _GroceryListsItem extends StatelessWidget {
           Get.offNamed(URL_GROCERY_LIST);
         },
         child: Container(
+          clipBehavior: Clip.hardEdge,
           height: 100,
           decoration: BoxDecoration(
               color: Colors.white,
@@ -85,6 +86,7 @@ class _GroceryListsItem extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              Spacer(),
               ProfilePicture(
                   height: 75,
                   width: 75,
@@ -92,12 +94,59 @@ class _GroceryListsItem extends StatelessWidget {
                   editMode: false),
               Padding(
                 padding: const EdgeInsets.all(6.0),
-                child: AutoSizeText(
-                  groceryList.name.value,
-                  style: textAssistantH1Black,
-                  textAlign: TextAlign.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText(
+                      groceryList.name.value,
+                      style: textAssistantH2BlackBold,
+                      textAlign: TextAlign.center,
+                    ),
+                    AutoSizeText(
+                      groceryList.description.value,
+                      style: textAssistantH2Black,
+                      textAlign: TextAlign.center,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.group,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(width: 5),
+                        AutoSizeText(
+                          "2",
+                          style: textAssistantH3Black,
+                        ),
+                        SizedBox(width: 5),
+                        Icon(
+                          Icons.refresh,
+                          color: Colors.grey,
+                        ),
+                        AutoSizeText(
+                          "Every Monday",
+                          style: textAssistantH3Black,
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
+              Spacer(),
+              Container(
+                height: 75,
+                width: 35,
+                decoration: new BoxDecoration(
+                    color: mainColor,
+                    borderRadius: new BorderRadius.only(
+                        bottomLeft: const Radius.circular(200.0),
+                        topLeft: const Radius.circular(200.0))),
+                child: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
+                ),
+              )
             ],
           ),
         ),

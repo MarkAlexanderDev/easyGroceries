@@ -36,7 +36,7 @@ class _OnboardingCuisine extends State<OnboardingCuisine> {
         if (snapshot.hasData)
           return Column(
             children: [
-              Lottie.asset('assets/lotties/food-prepared.json'),
+              Lottie.asset('assets/lotties/food-prepared.json', height: 200),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                 child: AutoSizeText(
@@ -92,7 +92,6 @@ class _OnboardingCuisine extends State<OnboardingCuisine> {
                       )),
                 ],
               ),
-              Expanded(child: Container()),
             ],
           );
         else

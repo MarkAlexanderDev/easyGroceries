@@ -24,113 +24,84 @@ class _OnboardingProfile extends State<OnboardingProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(40.0),
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () async {
-                await _onEditPicture();
-              },
-              child: Obx(() => ProfilePicture(
-                    pictureUrl: accountStates.account.pictureUrl.value,
-                    editMode: true,
-                    height: 100,
-                    width: 100,
-                    onEdit: () async {
-                      await _onEditPicture();
-                    },
-                  )),
-            ),
-            SizedBox(height: 30),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width * 0.1,
-              child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: AutoSizeText(
-                  "How should we call you?",
-                  style: textAssistantH1Black,
-                ),
-              ),
-            ),
-            TextFormField(
-              autocorrect: false,
-              keyboardType: TextInputType.visiblePassword,
-              textAlign: TextAlign.center,
-              style: textAssistantH1Black,
-              decoration: getStandardInputDecoration("", ""),
-              initialValue: accountStates.account.name.value,
-              onChanged: (value) {
-                accountStates.account.name.value = value;
-              },
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: AutoSizeText(
-                  "How many people are living with you ?",
-                  style: textAssistantH1Black,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            TextFormField(
-              autocorrect: false,
-              keyboardType: TextInputType.visiblePassword,
-              style: textAssistantH1Black,
-              textAlign: TextAlign.center,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: getStandardInputDecoration("", ""),
-              initialValue: accountStates.account.peopleNb.value.toString(),
-              onChanged: (value) {
-                accountStates.account.peopleNb.value = int.parse(value);
-              },
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: AutoSizeText(
-                  "What is your cooking experience ?",
-                  style: textAssistantH1Black,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            Container(height: MediaQuery.of(context).size.height * 0.025),
-            Obx(() => DropdownButton<String>(
-                  value: accountStates.getCookingExperienceConverted(
-                      accountStates.account.cookingExperience.value),
-                  icon: Icon(Icons.keyboard_arrow_down_rounded),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                  underline: Container(
-                    height: 1,
-                    color: Colors.black,
-                  ),
-                  onChanged: (String value) {
-                    accountStates.account.cookingExperience.value =
-                        COOKING_EXPERIENCE_IDS.indexOf(value);
-                  },
-                  items: COOKING_EXPERIENCE_IDS
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: AutoSizeText(value, style: textAssistantH1Black),
-                    );
-                  }).toList(),
-                )),
-          ],
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () async {
+            await _onEditPicture();
+          },
+          child: Obx(() => ProfilePicture(
+                pictureUrl: accountStates.account.pictureUrl.value,
+                editMode: true,
+                height: 100,
+                width: 100,
+                onEdit: () async {
+                  await _onEditPicture();
+                },
+              )),
         ),
-      ),
+        SizedBox(height: 30),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.width * 0.1,
+          child: Align(
+            alignment: AlignmentDirectional.bottomCenter,
+            child: AutoSizeText(
+              "How should we call you?",
+              style: textAssistantH1Black,
+            ),
+          ),
+        ),
+        TextFormField(
+          autocorrect: false,
+          keyboardType: TextInputType.visiblePassword,
+          textAlign: TextAlign.center,
+          style: textAssistantH1Black,
+          decoration: getStandardInputDecoration("", ""),
+          initialValue: accountStates.account.name.value,
+          onChanged: (value) {
+            accountStates.account.name.value = value;
+          },
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.1,
+          child: Align(
+            alignment: AlignmentDirectional.bottomCenter,
+            child: AutoSizeText(
+              "What is your cooking experience ?",
+              style: textAssistantH1Black,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Container(height: MediaQuery.of(context).size.height * 0.025),
+        Obx(() => DropdownButton<String>(
+              value: accountStates.getCookingExperienceConverted(
+                  accountStates.account.cookingExperience.value),
+              icon: Icon(Icons.keyboard_arrow_down_rounded),
+              iconSize: 24,
+              elevation: 16,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+              underline: Container(
+                height: 1,
+                color: Colors.black,
+              ),
+              onChanged: (String value) {
+                accountStates.account.cookingExperience.value =
+                    COOKING_EXPERIENCE_IDS.indexOf(value);
+              },
+              items: COOKING_EXPERIENCE_IDS
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: AutoSizeText(value, style: textAssistantH1Black),
+                );
+              }).toList(),
+            )),
+      ],
     );
   }
 

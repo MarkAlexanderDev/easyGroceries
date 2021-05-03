@@ -16,24 +16,24 @@ class OnboardingPeople extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Lottie.asset('assets/lotties/layer.json', height: 350),
+        Lottie.asset('assets/lotties/group.json', height: 200),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: AutoSizeText(
-            "How many people are you living with ?",
+            "How many people are you living with ? (including yourself)",
             style: textAssistantH1Black,
             textAlign: TextAlign.center,
           ),
         ),
-        Container(
-            padding: EdgeInsets.all(24.0),
-            child: Obx(() => PeopleSelector(
-                  peopleNumber: accountStates.account.peopleNb.value,
-                  onTap: (int index) {
-                    accountStates.account.peopleNb.value = index + 1;
-                  },
-                ))),
-        Expanded(child: Container(), flex: 4),
+        Expanded(
+          child: Obx(() => PeopleSelector(
+                peopleNumber: accountStates.account.peopleNb.value,
+                onTap: (int index) {
+                  accountStates.account.peopleNb.value = index + 1;
+                },
+              )),
+        ),
+        Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +67,6 @@ class OnboardingPeople extends StatelessWidget {
                 )),
           ],
         ),
-        Expanded(child: Container()),
       ],
     );
   }

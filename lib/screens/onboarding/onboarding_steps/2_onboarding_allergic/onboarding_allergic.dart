@@ -35,7 +35,7 @@ class _OnboardingAllergic extends State<OnboardingAllergic> {
           if (snapshot.hasData) {
             return Column(
               children: [
-                Lottie.asset('assets/lotties/vr-sickness.json', height: 350),
+                Lottie.asset('assets/lotties/vr-sickness.json', height: 200),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: AutoSizeText(

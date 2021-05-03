@@ -10,15 +10,16 @@ import 'package:foodz/widgets/button.dart';
 import 'package:get/get.dart';
 
 import 'onboarding_steps/3_onboarding_people/onboarding_people.dart';
+import 'onboarding_steps/4_onboarding_kitchen_tools/onboarding_kitchen_tools.dart';
 import 'onboarding_steps/5_onboarding_cuisine/onboarding_cuisine.dart';
 import 'onboarding_steps/6_onboarding_profile/onboarding_profile.dart';
 
 const ONBOARDING_STEP_ID_AUTH = 0;
 const ONBOARDING_STEP_ID_ALLERGIC = 1;
 const ONBOARDING_STEP_ID_PEOPLE = 2;
-//const ONBOARDING_STEP_ID_KITCHEN_TOOLS = 3;
-const ONBOARDING_STEP_ID_FAVORITE_CUISINE = 3;
-const ONBOARDING_STEP_ID_PROFILE = 4;
+const ONBOARDING_STEP_ID_KITCHEN_TOOLS = 3;
+const ONBOARDING_STEP_ID_FAVORITE_CUISINE = 4;
+const ONBOARDING_STEP_ID_PROFILE = 5;
 
 class Onboarding extends StatelessWidget {
   final AccountStates accountStates = Get.put(AccountStates());
@@ -26,6 +27,7 @@ class Onboarding extends StatelessWidget {
     OnboardingAuth(),
     OnboardingAllergic(),
     OnboardingPeople(),
+    OnboardingKitchenTools(),
     OnboardingCuisine(),
     OnboardingProfile()
   ];
@@ -37,7 +39,10 @@ class Onboarding extends StatelessWidget {
         return (await _previousOnboardingStep());
       },
       child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: accountStates.account.onboardingFlag.value ==
+                  ONBOARDING_STEP_ID_KITCHEN_TOOLS
+              ? lightGrey
+              : Colors.white,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -82,3 +82,35 @@ final TextStyle textAssistantH2Accent = TextStyle(
   fontStyle: FontStyle.normal,
   fontSize: 15,
 );
+
+final TextStyle textAssistantH2BlackBold = TextStyle(
+  fontFamily: 'Assistant',
+  color: Colors.black,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  fontSize: 15,
+);
+
+final TextStyle textAssistantH2Black = TextStyle(
+  fontFamily: 'Assistant',
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 15,
+);
+
+final TextStyle textAssistantH3BlackBold = TextStyle(
+  fontFamily: 'Assistant',
+  color: Colors.black,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  fontSize: 12,
+);
+
+final TextStyle textAssistantH3Black = TextStyle(
+  fontFamily: 'Assistant',
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 12,
+);
