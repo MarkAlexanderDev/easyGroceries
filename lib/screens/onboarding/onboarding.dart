@@ -35,10 +35,10 @@ class Onboarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        return (await _previousOnboardingStep());
-      },
-      child: Scaffold(
+        onWillPop: () async {
+          return (await _previousOnboardingStep());
+        },
+        child: Scaffold(
           backgroundColor: accountStates.account.onboardingFlag.value ==
                   ONBOARDING_STEP_ID_KITCHEN_TOOLS
               ? lightGrey
@@ -47,48 +47,50 @@ class Onboarding extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                  fit: FlexFit.tight,
-                  flex: 1,
-                  child: Obx(() => _getStepper(
-                      accountStates.account.onboardingFlag.value, context))),
-              Flexible(
-                  fit: FlexFit.tight,
-                  flex: 20,
-                  child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Obx(() => onboardingSteps[
-                        accountStates.account.onboardingFlag.value == null
-                            ? 0
-                            : accountStates.account.onboardingFlag.value]),
-                  )),
+              Obx(() => _getStepper(
+                  accountStates.account.onboardingFlag.value, context)),
+              Expanded(
+                child: Obx(() => onboardingSteps[
+                    accountStates.account.onboardingFlag.value == null
+                        ? 0
+                        : accountStates.account.onboardingFlag.value]),
+              ),
             ],
           ),
           bottomNavigationBar: Visibility(
-              visible: accountStates.account.onboardingFlag.value ==
-                  ONBOARDING_STEP_ID_PROFILE,
+              visible: accountStates.account.onboardingFlag.value >
+                  ONBOARDING_STEP_ID_AUTH,
               child: Obx(
                 () => ConfirmButton(
+                    label: accountStates.account.onboardingFlag.value !=
+                            ONBOARDING_STEP_ID_PROFILE
+                        ? "next"
+                        : "Let's go!",
                     enabled: !appStates.uploadingProfilePicture.value,
-                    onClick: () async {
-                      appStates.setLoading(true);
-                      accountStates.account.onboardingFlag.value =
-                          accountStates.account.onboardingFlag.value + 1;
-                      accountStates.updateAccount();
-                      appStates.setLoading(false);
+                    onClick: () {
+                      _nextOnboardingStep();
                     }),
-              ))),
-    );
+              )),
+        ));
   }
 
   _getStepper(int onboardingStep, BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 200),
       color: mainColor,
+      height: 25,
       width: MediaQuery.of(context).size.width /
           onboardingSteps.length *
           (onboardingStep == null ? 0 : onboardingStep),
     );
+  }
+
+  _nextOnboardingStep() async {
+    appStates.setLoading(true);
+    accountStates.account.onboardingFlag.value =
+        accountStates.account.onboardingFlag.value + 1;
+    accountStates.updateAccount();
+    appStates.setLoading(false);
   }
 
   Future<bool> _previousOnboardingStep() async {

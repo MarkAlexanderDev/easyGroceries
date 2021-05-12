@@ -1,9 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodz/screens/onboarding/onboarding.dart';
 import 'package:foodz/states/account_states.dart';
-import 'package:foodz/states/app_states.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/widgets/people_selector.dart';
 import 'package:get/get.dart';
@@ -14,7 +12,8 @@ class OnboardingPeople extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      shrinkWrap: true,
       children: [
         Lottie.asset('assets/lotties/group.json', height: 200),
         Container(
@@ -25,7 +24,9 @@ class OnboardingPeople extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        Expanded(
+        SizedBox(height: 50),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Obx(() => PeopleSelector(
                 peopleNumber: accountStates.account.peopleNb.value,
                 onTap: (int index) {
@@ -33,56 +34,7 @@ class OnboardingPeople extends StatelessWidget {
                 },
               )),
         ),
-        Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Flexible(
-                flex: 1,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () async {
-                      await _skipOnboarding();
-                    },
-                    child: AutoSizeText(
-                      "Skip",
-                      style: textAssistantH1GreenHalfOpacity,
-                    ),
-                  ),
-                )),
-            Flexible(child: Container(), flex: 1),
-            Flexible(
-                flex: 1,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () async {
-                      await _nextOnboardingStep();
-                    },
-                    child: AutoSizeText(
-                      "Next",
-                      style: textAssistantH1Green,
-                    ),
-                  ),
-                )),
-          ],
-        ),
       ],
     );
-  }
-
-  _nextOnboardingStep() async {
-    appStates.setLoading(true);
-    accountStates.account.onboardingFlag.value =
-        accountStates.account.onboardingFlag.value + 1;
-    accountStates.updateAccount();
-    appStates.setLoading(false);
-  }
-
-  _skipOnboarding() async {
-    appStates.setLoading(true);
-    accountStates.setOnboardingFlag(ONBOARDING_STEP_ID_PROFILE);
-    accountStates.updateAccount();
-    appStates.setLoading(false);
   }
 }

@@ -163,6 +163,7 @@ class Profile extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Obx(() => ConfirmButton(
+              label: "confirm",
               enabled: !appStates.uploadingProfilePicture.value,
               onClick: () async {
                 accountStates.updateAccount();

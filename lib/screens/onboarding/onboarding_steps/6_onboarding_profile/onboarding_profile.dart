@@ -26,6 +26,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Spacer(),
         GestureDetector(
           onTap: () async {
             await _onEditPicture();
@@ -52,16 +53,19 @@ class _OnboardingProfile extends State<OnboardingProfile> {
             ),
           ),
         ),
-        TextFormField(
-          autocorrect: false,
-          keyboardType: TextInputType.visiblePassword,
-          textAlign: TextAlign.center,
-          style: textAssistantH1Black,
-          decoration: getStandardInputDecoration("", ""),
-          initialValue: accountStates.account.name.value,
-          onChanged: (value) {
-            accountStates.account.name.value = value;
-          },
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 2,
+          child: TextFormField(
+            autocorrect: false,
+            keyboardType: TextInputType.visiblePassword,
+            textAlign: TextAlign.center,
+            style: textAssistantH1Black,
+            decoration: getStandardInputDecoration("", ""),
+            initialValue: accountStates.account.name.value,
+            onChanged: (value) {
+              accountStates.account.name.value = value;
+            },
+          ),
         ),
         Container(
           width: MediaQuery.of(context).size.width,
@@ -101,6 +105,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
                 );
               }).toList(),
             )),
+        Spacer(),
       ],
     );
   }

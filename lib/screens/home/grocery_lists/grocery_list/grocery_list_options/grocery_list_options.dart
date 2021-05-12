@@ -123,6 +123,7 @@ class _GroceryListOption extends State<GroceryListOption> {
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
               floatingActionButton: ConfirmButton(
+                label: "confirm",
                 enabled: !appStates.uploadingProfilePicture.value,
                 onClick: () async {
                   groceryListStates.updateGroceryList();

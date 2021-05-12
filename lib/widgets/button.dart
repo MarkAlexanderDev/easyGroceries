@@ -7,8 +7,10 @@ import 'package:foodz/style/text_style.dart';
 class ConfirmButton extends StatelessWidget {
   final onClick;
   final bool enabled;
+  final String label;
 
-  ConfirmButton({@required this.onClick, @required this.enabled});
+  ConfirmButton(
+      {@required this.onClick, @required this.enabled, @required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class ConfirmButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0)),
           child: Center(
             child: AutoSizeText(
-              "CONFIRM",
+              label.toUpperCase(),
               style: textAssistantH1WhiteBold,
             ),
           ),

@@ -54,6 +54,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
                 centerTitle: true,
               ))),
       bottomNavigationBar: ConfirmButton(
+          label: "confirm",
           enabled: true,
           onClick: () async {
             appStates.setLoading(true);

@@ -26,7 +26,7 @@ class SelectableTags extends StatelessWidget {
           title: tags[index],
           active: activeTags.contains(tags[index]),
           textStyle: textAssistantH1BlackBold,
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          padding: EdgeInsets.symmetric(horizontal: 7, vertical: 3),
           textActiveColor: Colors.black,
           activeColor: mainColor,
           splashColor: mainColor,
