@@ -8,9 +8,8 @@ import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
-import 'package:foodz/utils/color.dart';
-import 'package:foodz/widgets/loading.dart';
-import 'package:foodz/widgets/profile_picture.dart';
+import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/widgets_default/loading.dart';
 import 'package:get/get.dart';
 
 class GroceryList extends StatelessWidget {
@@ -20,7 +19,7 @@ class GroceryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.toNamed(URL_HOME);
+        Get.offNamed(URL_HOME);
         return false;
       },
       child: Scaffold(
@@ -42,7 +41,7 @@ class GroceryList extends StatelessWidget {
                       child: Text("No connection"),
                     );
                   case ConnectionState.waiting:
-                    return Center(child: Loading());
+                    return Center(child: FoodzLoading());
                   case ConnectionState.active:
                     final List<EntityGroceryListIngredient>
                         groceryListIngredients =
@@ -171,7 +170,7 @@ class GroceryList extends StatelessWidget {
                       ),
                     ));
                   default:
-                    return Loading();
+                    return FoodzLoading();
                 }
               }
             }),
@@ -188,23 +187,26 @@ class GroceryList extends StatelessWidget {
 
   AppBar _getAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: hexToColor(groceryListStates.groceryList.color.value),
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
       title: AutoSizeText(
         groceryListStates.groceryList.name.value,
-        style: textAssistantH1WhiteBold,
+        style: textFredokaOneH2,
+      ),
+      centerTitle: true,
+      iconTheme: IconThemeData(
+        color: mainColor, //change your color here
       ),
       leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => {Get.toNamed(URL_HOME)}),
+          onPressed: () => Get.offNamed(URL_HOME)),
       actions: [
-        GestureDetector(onTap: () {}, child: Icon(Icons.add_shopping_cart)),
-        Container(width: 20),
         GestureDetector(
-            onTap: () => {Get.toNamed(URL_GROCERY_LIST_OPTION)},
+            onTap: () =>
+                {Get.toNamed(URL_GROCERY_LIST_CREATION, arguments: true)},
             child: Icon(Icons.create)),
         Container(width: 20),
       ],
-      centerTitle: true,
     );
   }
 }
@@ -227,7 +229,7 @@ class _GroceryListIngredientWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            ProfilePicture(
+            FoodzProfilePicture(
                 height: 50,
                 width: 50,
                 pictureUrl: groceryListIngredient.pictureUrl,

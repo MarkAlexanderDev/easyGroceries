@@ -5,6 +5,8 @@ import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:get/get.dart';
 
+import '../urls.dart';
+
 const HOME_SCREEN_ID = 0;
 const FAV_RECIPE_SCREEN_ID = 1;
 
@@ -23,16 +25,21 @@ class NavBar extends StatelessWidget {
           backgroundColor: Colors.white,
           type: BottomNavigationBarType.fixed,
           currentIndex: appStates.indexBar.value,
-          selectedLabelStyle: textAssistantH1Black,
-          unselectedLabelStyle: textAssistantH1Black,
+          selectedLabelStyle: textAssistantH3BlackBold,
+          unselectedLabelStyle: textAssistantH3BlackBold,
           selectedItemColor: mainColor,
-          onTap: (index) => {appStates.setIndexBar(index)},
+          unselectedItemColor: Colors.grey,
+          onTap: (index) {
+            appStates.setIndexBar(index);
+            Get.toNamed(URL_HOME);
+          },
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: "",
+              label: "Home",
             ),
-            BottomNavigationBarItem(icon: Icon(Icons.kitchen), label: ""),
+            BottomNavigationBarItem(icon: Icon(Icons.kitchen), label: "Fridge"),
+            BottomNavigationBarItem(icon: Icon(Icons.book), label: "Recipes"),
           ],
         ));
   }

@@ -5,8 +5,8 @@ import 'package:foodz/screens/consts.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/cuisines_states.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:foodz/widgets/loading.dart';
-import 'package:foodz/widgets/selectable_tags.dart';
+import 'package:foodz/widgets_common/selectable_tags.dart';
+import 'package:foodz/widgets_default/loading.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -60,7 +60,7 @@ class _OnboardingCuisine extends State<OnboardingCuisine> {
             ],
           );
         else
-          return Loading();
+          return FoodzLoading();
       },
     );
   }

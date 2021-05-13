@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:foodz/widgets/people_selector.dart';
+import 'package:foodz/widgets_common/people_selector.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -27,7 +27,7 @@ class OnboardingPeople extends StatelessWidget {
         SizedBox(height: 50),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Obx(() => PeopleSelector(
+          child: Obx(() => FoodzPeopleSelector(
                 peopleNumber: accountStates.account.peopleNb.value,
                 onTap: (int index) {
                   accountStates.account.peopleNb.value = index + 1;

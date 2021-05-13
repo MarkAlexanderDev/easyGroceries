@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/states/ingredient_states.dart';
-import 'package:foodz/utils/color.dart';
-import 'package:foodz/widgets/profile_picture.dart';
+import 'package:foodz/style/colors.dart';
+import 'package:foodz/widgets_common/profile_picture.dart';
 import 'package:get/get.dart';
 
 class GroceryListSearchIngredient extends StatefulWidget {
@@ -15,12 +15,13 @@ class GroceryListSearchIngredient extends StatefulWidget {
 class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
   final GroceryListStates groceryListStates = Get.find();
   final IngredientStates ingredientStates = Get.find();
+  final TextEditingController _controller = TextEditingController();
   SearchBar searchBar;
 
   AppBar buildAppBar(BuildContext appBarCtx) {
     FocusScope.of(appBarCtx).requestFocus(FocusNode());
     return AppBar(
-      backgroundColor: hexToColor(groceryListStates.groceryList.color.value),
+      backgroundColor: mainColor,
       leading: IconButton(
           icon: Icon(Icons.arrow_back), onPressed: () => {Get.back()}),
       actions: [searchBar.getSearchAction(appBarCtx)],
@@ -64,7 +65,7 @@ class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
                   height: 48,
                   padding: EdgeInsets.symmetric(vertical: 4.0),
                   alignment: Alignment.center,
-                  child: ProfilePicture(
+                  child: FoodzProfilePicture(
                     height: 50,
                     width: 50,
                     editMode: false,

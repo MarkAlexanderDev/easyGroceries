@@ -216,6 +216,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.5"
+  flutter_datetime_picker:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: eb9701172da23121d8632369e5a6c4382bcc5e45
+      url: "https://github.com/Realank/flutter_datetime_picker.git"
+    source: git
+    version: "1.5.1"
   flutter_flavorizr:
     dependency: "direct main"
     description:

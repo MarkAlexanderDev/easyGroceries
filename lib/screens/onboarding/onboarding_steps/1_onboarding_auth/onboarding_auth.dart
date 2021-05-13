@@ -19,6 +19,7 @@ class OnboardingAuth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 50),
         Image.asset(
           "assets/images/foodz_full_logo.png",
           fit: BoxFit.cover,
@@ -44,7 +45,7 @@ class OnboardingAuth extends StatelessWidget {
           },
           child: Container(
             height: 50,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width * 0.75,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -62,6 +63,7 @@ class OnboardingAuth extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(height: 50)
       ],
     );
   }

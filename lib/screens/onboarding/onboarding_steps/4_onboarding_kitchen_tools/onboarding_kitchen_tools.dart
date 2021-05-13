@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:foodz/widgets/kitchen_tools_selector.dart';
+import 'package:foodz/widgets_common/kitchen_tools_selector.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 

@@ -5,7 +5,7 @@ import 'package:foodz/services/local_storage/consts.dart';
 import 'package:foodz/services/local_storage/local_storage.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
-import 'package:foodz/widgets/bottom_navigation_bar.dart';
+import 'package:foodz/widgets_common/bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 
 class AppStates extends GetxController {

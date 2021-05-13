@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PeopleSelector extends StatelessWidget {
+class FoodzPeopleSelector extends StatelessWidget {
   final int peopleNumber;
   final onTap;
 
-  PeopleSelector({@required this.peopleNumber, @required this.onTap});
+  FoodzPeopleSelector({@required this.peopleNumber, @required this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -19,6 +19,14 @@ final TextStyle textFredokaOneH2underlined = TextStyle(
   decoration: TextDecoration.underline,
 );
 
+final TextStyle textFredokaOneH2 = TextStyle(
+  fontFamily: 'FredokaOne',
+  color: mainColor,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 20,
+);
+
 final TextStyle textAssistantH1White = TextStyle(
   fontFamily: 'Assistant',
   color: Colors.white,

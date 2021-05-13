@@ -8,7 +8,7 @@ class EntityGroceryList extends GetxController {
   RxString name = "".obs;
   RxString description = "".obs;
   RxString pictureUrl = "".obs;
-  RxString color = "".obs;
+  RxString cronReminder = "".obs;
   String createdAt;
   String updatedAt;
 
@@ -23,7 +23,7 @@ class EntityGroceryList extends GetxController {
       "name": this.name.value,
       "description": this.description.value,
       "pictureUrl": this.pictureUrl.value,
-      "color": this.color.value,
+      "cronReminder": this.cronReminder.value,
       "createdAt": this.createdAt,
       "updatedAt": this.updatedAt,
     };
@@ -39,7 +39,7 @@ class EntityGroceryList extends GetxController {
     this.name.value = data["name"];
     this.description.value = data["description"];
     this.pictureUrl.value = data["pictureUrl"];
-    this.color.value = data["color"];
+    this.cronReminder.value = data["cronReminder"];
     this.createdAt = data["createdAt"];
     this.updatedAt = data["updatedAt"];
     return true;

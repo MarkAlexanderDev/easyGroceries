@@ -6,7 +6,7 @@ import 'package:foodz/services/auth.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/style/colors.dart';
-import 'package:foodz/widgets/button.dart';
+import 'package:foodz/widgets_default/confirm_button.dart';
 import 'package:get/get.dart';
 
 import 'onboarding_steps/3_onboarding_people/onboarding_people.dart';

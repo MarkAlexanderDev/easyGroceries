@@ -36,7 +36,10 @@ dependencies:
   cloud_firestore: ^1.0.3
   flutter_search_bar: ^2.1.0
   flutter_flavorizr: ^2.0.0
-
+  flutter_datetime_picker:
+    git:
+      url: https://github.com/Realank/flutter_datetime_picker.git
+      ref: master
 flavorizr:
   app:
     android:

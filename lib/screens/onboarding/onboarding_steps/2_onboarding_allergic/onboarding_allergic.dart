@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/allergies_states.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:foodz/widgets/loading.dart';
-import 'package:foodz/widgets/selectable_tags.dart';
+import 'package:foodz/widgets_common/selectable_tags.dart';
+import 'package:foodz/widgets_default/loading.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -59,7 +59,7 @@ class _OnboardingAllergic extends State<OnboardingAllergic> {
               ],
             );
           } else
-            return Loading();
+            return FoodzLoading();
         });
   }
 }

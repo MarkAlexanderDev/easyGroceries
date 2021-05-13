@@ -1,12 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:foodz/states/account_states.dart';
-import 'package:foodz/style/inputs.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/utils/picture.dart';
-import 'package:foodz/widgets/profile_picture.dart';
+import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/widgets_default/text_input.dart';
 import 'package:get/get.dart';
 
 class OnboardingProfile extends StatefulWidget {
@@ -31,7 +30,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
           onTap: () async {
             await _onEditPicture();
           },
-          child: Obx(() => ProfilePicture(
+          child: Obx(() => FoodzProfilePicture(
                 pictureUrl: accountStates.account.pictureUrl.value,
                 editMode: true,
                 height: 100,
@@ -55,15 +54,13 @@ class _OnboardingProfile extends State<OnboardingProfile> {
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width / 2,
-          child: TextFormField(
-            autocorrect: false,
-            keyboardType: TextInputType.visiblePassword,
-            textAlign: TextAlign.center,
-            style: textAssistantH1Black,
-            decoration: getStandardInputDecoration("", ""),
+          child: FoodzTextInput(
             initialValue: accountStates.account.name.value,
             onChanged: (value) {
               accountStates.account.name.value = value;
+            },
+            onClear: () {
+              accountStates.account.name.value = "";
             },
           ),
         ),
