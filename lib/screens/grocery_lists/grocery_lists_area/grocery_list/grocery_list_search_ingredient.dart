@@ -15,7 +15,6 @@ class GroceryListSearchIngredient extends StatefulWidget {
 class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
   final GroceryListStates groceryListStates = Get.find();
   final IngredientStates ingredientStates = Get.find();
-  final TextEditingController _controller = TextEditingController();
   SearchBar searchBar;
 
   AppBar buildAppBar(BuildContext appBarCtx) {

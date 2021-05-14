@@ -52,8 +52,9 @@ class _OnboardingProfile extends State<OnboardingProfile> {
             ),
           ),
         ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.025),
         SizedBox(
-          width: MediaQuery.of(context).size.width / 2,
+          width: MediaQuery.of(context).size.width * 0.75,
           child: FoodzTextInput(
             initialValue: accountStates.account.name.value,
             onChanged: (value) {
@@ -76,7 +77,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
             ),
           ),
         ),
-        Container(height: MediaQuery.of(context).size.height * 0.025),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.025),
         Obx(() => DropdownButton<String>(
               value: accountStates.getCookingExperienceConverted(
                   accountStates.account.cookingExperience.value),
