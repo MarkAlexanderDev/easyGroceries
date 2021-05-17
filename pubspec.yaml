@@ -13,21 +13,21 @@ dependencies:
   cupertino_icons: ^1.0.0
   get: 4.1.1
   auto_size_text: ^2.1.0
-  lottie: ^0.7.0+1
+  lottie: ^1.0.1
   shared_preferences: 2.0.5
   flutter_spinkit: '^4.1.2'
-  flutter_launcher_icons: '^0.8.0'
+  flutter_launcher_icons: ^0.9.0
   flutter_swiper: ^1.1.6
   url_launcher: ^6.0.3
   intl: ^0.17.0
   image_picker: ^0.7.4
   path_provider: ^2.0.1
   path: ^1.7.0
-  flutter_svg: ^0.18.0
+  flutter_svg: ^0.22.0
   firebase_auth: ^1.0.1
   google_sign_in: ^4.5.6
   firebase_database: ^6.1.1
-  flutter_tags: '^0.4.9+1'
+  flutter_tags: ^0.4.9+1
   flutter_colorpicker: ^0.3.5
   share: ^0.6.5+4
   firebase_core: ^1.0.2
@@ -35,11 +35,47 @@ dependencies:
   firebase_dynamic_links: ^0.8.0
   cloud_firestore: ^1.0.3
   flutter_search_bar: ^2.1.0
+  flutter_flavorizr: ^2.0.0
+  flutter_datetime_picker:
+    git:
+      url: https://github.com/Realank/flutter_datetime_picker.git
+      ref: master
+flavorizr:
+  app:
+    android:
+      flavorDimensions: "flavor-type"
+    ios:
+
+  flavors:
+    dev:
+      app:
+        name: "Foodz dev"
+
+      android:
+        applicationId: "com.foodz.app.dev"
+        firebase:
+          config: "android/app/src/dev/google-services.json"
+
+      ios:
+        bundleId: "com.foodz.app.dev"
+
+    beta:
+      app:
+        name: "Foodz beta"
+
+      android:
+        applicationId: "com.foodz.app.beta"
+        firebase:
+          config: "android/app/src/beta/google-services.json"
+      ios:
+        bundleId: "com.foodz.app.beta"
+
 
 flutter_icons:
-  android: 'launcher_icon'
+  android: true
   ios: true
   image_path: 'assets/appIcon.png'
+  remove_alpha_ios: true
 
 dev_dependencies:
   flutter_test:
@@ -51,3 +87,11 @@ flutter:
     - assets/images/
     - assets/lotties/
     - assets/sounds/
+
+  fonts:
+    - family: Assistant
+      fonts:
+        - asset: assets/fonts/Assistant-VariableFont_wght.ttf
+    - family: FredokaOne
+      fonts:
+        - asset: assets/fonts/FredokaOne-Regular.ttf

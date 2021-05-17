@@ -6,7 +6,7 @@ import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
 
-import '../config.dart';
+import '../flavors.dart';
 import 'auth.dart';
 
 class DynamicLink {
@@ -48,12 +48,13 @@ class DynamicLink {
   }
 
   Future<String> createGroceryListInvitationLink(String groceryListUid) async {
+    print(F.appFlavor.toString());
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: URL_GROCERY_LIST_INVITATION,
       link: Uri.parse(
           "https://foodz-app.com/post?groceryListUid=" + groceryListUid),
       androidParameters: AndroidParameters(
-        packageName: "com.foodz.app." + EnvironmentConfig.FLAVOR,
+        packageName: "com.foodz.app." + F.appFlavor.toString(),
         minimumVersion: 0,
       ),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(

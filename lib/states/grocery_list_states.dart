@@ -37,10 +37,9 @@ class GroceryListStates extends GetxController {
         .create(EntityGroceryListAccount(uid: accountId), key: groceryList.uid);
   }
 
-  Future<bool> readAllGroceryListAccounts() async {
-    groceryListAcounts.assignAll(
-        await API.entries.groceryList.accounts.readAll(key: groceryList.uid));
-    return true;
+  Future<List<EntityGroceryListAccount>> readAllGroceryListAccounts(
+      String groceryListUid) async {
+    return await API.entries.groceryList.accounts.readAll(key: groceryListUid);
   }
 
   Future<bool> readAllAccountGroceryLists(List<String> groceryListIds) async {

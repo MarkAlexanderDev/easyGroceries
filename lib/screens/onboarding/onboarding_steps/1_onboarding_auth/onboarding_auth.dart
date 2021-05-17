@@ -8,20 +8,63 @@ import 'package:foodz/services/local_storage/consts.dart';
 import 'package:foodz/services/local_storage/local_storage.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
+import 'package:foodz/style/text_style.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class OnboardingAuth extends StatelessWidget {
   final AccountStates accountStates = Get.put(AccountStates());
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: OutlinedButton(
-        onPressed: () async {
-          await _signIn(await authService.googleSignIn());
-        },
-        child: AutoSizeText("Google Sign in"),
-      ),
+    return Column(
+      children: [
+        SizedBox(height: 50),
+        Image.asset(
+          "assets/images/foodz_full_logo.png",
+          fit: BoxFit.cover,
+          height: 75,
+        ),
+        Expanded(
+          child: Lottie.asset('assets/lotties/cooking.json',
+              height: 200, width: 200),
+        ),
+        AutoSizeText(
+          "Your best friend app for fast and healthy groceries and cooking",
+          style: textFredokaOneH1,
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: 50),
+        OutlinedButton(
+          style: ButtonStyle(
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+              backgroundColor: MaterialStateProperty.all(Colors.white)),
+          onPressed: () async {
+            await _signIn(await authService.googleSignIn());
+          },
+          child: Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: 25,
+                  child: Image.asset(
+                    "assets/images/google_logo.png",
+                  ),
+                ),
+                AutoSizeText(
+                  "Sign in with google",
+                  style: textAssistantH1Black,
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 50)
+      ],
     );
   }
 

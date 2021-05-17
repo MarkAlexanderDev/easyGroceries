@@ -12,3 +12,9 @@ String firstNameAndLastNameToFullName(String firstName, String lastName) {
   if (lastName == "") return firstName;
   return firstName + " " + lastName;
 }
+
+String replaceCharAt(String oldString, int index, String newChar) {
+  return oldString.substring(0, index) +
+      newChar +
+      oldString.substring(index + 1);
+}

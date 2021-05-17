@@ -6,15 +6,15 @@ import 'package:foodz/services/auth.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/style/colors.dart';
-import 'package:foodz/style/inputs.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/utils/picture.dart';
 import 'package:foodz/utils/urlLauncher.dart';
-import 'package:foodz/widgets/button.dart';
-import 'package:foodz/widgets/profile_picture.dart';
-import 'package:foodz/widgets/section_title.dart';
-import 'package:foodz/widgets/selectable_tags.dart';
+import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/widgets_common/selectable_tags.dart';
+import 'package:foodz/widgets_default/confirm_button.dart';
+import 'package:foodz/widgets_default/section_title.dart';
+import 'package:foodz/widgets_default/text_input.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
@@ -32,7 +32,7 @@ class Profile extends StatelessWidget {
                 Center(
                   child: AutoSizeText(
                     "MY PROFILE",
-                    style: textStyleH1,
+                    style: textAssistantH1Black,
                   ),
                 ),
                 Container(height: 20),
@@ -40,7 +40,7 @@ class Profile extends StatelessWidget {
                     onTap: () async {
                       await _onEditPicture(context);
                     },
-                    child: Obx(() => ProfilePicture(
+                    child: Obx(() => FoodzProfilePicture(
                           height: 100,
                           width: 100,
                           pictureUrl: accountStates.account.pictureUrl.value,
@@ -52,15 +52,13 @@ class Profile extends StatelessWidget {
                 Container(height: 20),
                 Container(
                   width: MediaQuery.of(context).size.width / 2,
-                  child: TextFormField(
-                    autocorrect: false,
-                    keyboardType: TextInputType.visiblePassword,
-                    style: textStyleH1,
-                    textAlign: TextAlign.center,
-                    decoration: getStandardInputDecoration("name", ""),
+                  child: FoodzTextInput(
                     initialValue: accountStates.account.name.value,
                     onChanged: (value) {
                       accountStates.account.name.value = value;
+                    },
+                    onClear: () {
+                      accountStates.account.name.value = "";
                     },
                   ),
                 ),
@@ -90,7 +88,8 @@ class Profile extends StatelessWidget {
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: AutoSizeText(value, style: textStyleH2),
+                          child:
+                              AutoSizeText(value, style: textAssistantH1Black),
                         );
                       }).toList(),
                     )),
@@ -162,6 +161,7 @@ class Profile extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Obx(() => ConfirmButton(
+              label: "confirm",
               enabled: !appStates.uploadingProfilePicture.value,
               onClick: () async {
                 accountStates.updateAccount();
@@ -209,7 +209,7 @@ class _ProfileButon extends StatelessWidget {
             children: [
               Icon(icon, color: mainColor),
               Container(width: 25),
-              AutoSizeText(text, style: textStyleH1Green),
+              AutoSizeText(text, style: textAssistantH1Black),
             ],
           ),
         ),
