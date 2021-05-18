@@ -47,9 +47,13 @@ class _GroceryListsArea extends State<GroceryListsArea> {
                     if (i < groceryListStates.groceryListOwned.length)
                       return GroceryListsItem(
                           groceryList: groceryListStates.groceryListOwned[i]);
-                    return _AddGroceryListButton(onClick: () {
-                      Get.toNamed(URL_GROCERY_LIST_CREATION, arguments: false);
-                    });
+                    return _AddGroceryListButton(
+                        userHasList:
+                            groceryListStates.groceryListOwned.length > 0,
+                        onClick: () {
+                          Get.toNamed(URL_GROCERY_LIST_CREATION,
+                              arguments: false);
+                        });
                   })),
             ],
           );
@@ -61,9 +65,10 @@ class _GroceryListsArea extends State<GroceryListsArea> {
 }
 
 class _AddGroceryListButton extends StatelessWidget {
+  final bool userHasList;
   final onClick;
 
-  _AddGroceryListButton({@required this.onClick});
+  _AddGroceryListButton({@required this.userHasList, @required this.onClick});
 
   @override
   Widget build(BuildContext context) {

@@ -4,26 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 
-class ConfirmButton extends StatelessWidget {
+class FoodzConfirmButton extends StatelessWidget {
   final onClick;
   final bool enabled;
   final String label;
 
-  ConfirmButton(
+  FoodzConfirmButton(
       {@required this.onClick, @required this.enabled, @required this.label});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width * 0.75,
       child: FloatingActionButton(
         elevation: 0.0,
         onPressed: enabled ? onClick : null,
         child: Container(
           decoration: BoxDecoration(
               color: enabled ? mainColor : grey,
-              borderRadius: BorderRadius.circular(10.0)),
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(color: Colors.white)),
           child: Center(
             child: AutoSizeText(
               label.toUpperCase(),

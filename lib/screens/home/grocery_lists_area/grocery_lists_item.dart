@@ -33,13 +33,14 @@ class _GroceryListsItem extends State<GroceryListsItem> {
   void initState() {
     futurePeopleNumber =
         groceryListStates.readAllGroceryListAccounts(groceryList.uid);
-    groceryList.cronReminder.value
-        .split(" ")
-        .last
-        .split(",")
-        .forEach((String element) {
-      if (element != "*") weekDays.add(int.parse(element));
-    });
+    if (groceryList.cronReminder.value.isNotEmpty)
+      groceryList.cronReminder.value
+          .split(" ")
+          .last
+          .split(",")
+          .forEach((String element) {
+        if (element != "*") weekDays.add(int.parse(element));
+      });
     super.initState();
   }
 
@@ -54,7 +55,7 @@ class _GroceryListsItem extends State<GroceryListsItem> {
               child: GestureDetector(
                 onTap: () {
                   groceryListStates.groceryList = groceryList;
-                  Get.offNamed(URL_GROCERY_LIST);
+                  Get.toNamed(URL_GROCERY_LIST);
                 },
                 child: Container(
                   clipBehavior: Clip.hardEdge,
@@ -70,10 +71,15 @@ class _GroceryListsItem extends State<GroceryListsItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             FoodzProfilePicture(
-                                height: 75,
-                                width: 75,
-                                pictureUrl: groceryList.pictureUrl.value,
-                                editMode: false),
+                              height: 75,
+                              width: 75,
+                              pictureUrl: groceryList.pictureUrl.value,
+                              editMode: false,
+                              defaultChild: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Image.asset("assets/images/appIcon.png"),
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(6.0),
                               child: Column(
@@ -108,10 +114,14 @@ class _GroceryListsItem extends State<GroceryListsItem> {
                                           maxLines: 3,
                                         ),
                                         SizedBox(width: 15),
-                                        Icon(
-                                          Icons.notifications_active,
-                                          color: Colors.grey,
-                                          size: 20,
+                                        Visibility(
+                                          visible: groceryList
+                                              .cronReminder.value.isNotEmpty,
+                                          child: Icon(
+                                            Icons.notifications_active,
+                                            color: Colors.grey,
+                                            size: 20,
+                                          ),
                                         ),
                                         Container(
                                           width: MediaQuery.of(context)

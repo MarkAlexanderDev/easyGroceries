@@ -9,7 +9,6 @@ import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/widgets_default/confirm_button.dart';
 import 'package:foodz/widgets_default/loading.dart';
-import 'package:foodz/widgets_default/section_title.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 
@@ -24,7 +23,8 @@ class _GroceryListOption extends State<GroceryListOption> {
 
   @override
   void initState() {
-    futureGroceryListAccounts = groceryListStates.readAllGroceryListAccounts(groceryListStates.groceryList.uid);
+    futureGroceryListAccounts = groceryListStates
+        .readAllGroceryListAccounts(groceryListStates.groceryList.uid);
     super.initState();
   }
 
@@ -48,7 +48,7 @@ class _GroceryListOption extends State<GroceryListOption> {
                   ))),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
-              floatingActionButton: ConfirmButton(
+              floatingActionButton: FoodzConfirmButton(
                 label: "confirm",
                 enabled: !appStates.uploadingProfilePicture.value,
                 onClick: () async {
@@ -76,9 +76,6 @@ class _Members extends StatelessWidget {
       children: [
         Row(
           children: [
-            SectionTitle(
-                icon: Icons.accessibility_outlined,
-                text: "WHO CAN ACCESS THIS LIST"),
             Expanded(child: Container()),
             GestureDetector(
               onTap: () async {

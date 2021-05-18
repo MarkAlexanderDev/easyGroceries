@@ -2,12 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/screens/fridge/fridge.dart';
-import 'package:foodz/screens/grocery_lists/grocery_lists.dart';
+import 'package:foodz/screens/home/home.dart';
 import 'package:foodz/screens/onboarding/onboarding.dart';
 import 'package:foodz/screens/recipes/recipes.dart';
 import 'package:foodz/services/database/entities/account/entity_account.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
+import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/widgets_common/bottom_navigation_bar.dart';
@@ -44,7 +45,7 @@ class _Redirections extends State<Redirections> {
   }
 
   _getPage(EntityAccount account, bool loading) {
-    List appScreens = [GroceryLists(), Fridge(), Recipes()];
+    final List appScreens = [Home(), Fridge(), Recipes()];
     if (loading)
       return Container(color: Colors.white, child: FoodzLoading());
     else if (account == null ||
@@ -52,12 +53,31 @@ class _Redirections extends State<Redirections> {
       return Onboarding();
     else
       return Scaffold(
-          appBar: _getFoodzAppBar(),
-          body: Obx(() => appScreens[appStates.indexBar.value]),
-          bottomNavigationBar: NavBar(sizeIcon: 25.0));
+        appBar: _getFoodzAppBar(),
+        body: Obx(() => appScreens[appStates.indexBar.value]),
+        bottomNavigationBar: NavBar(sizeIcon: 25.0),
+        floatingActionButton: Visibility(
+          visible: appStates.indexBar.value == FRIDGE_SCREEN_ID,
+          child: FloatingActionButton(
+            onPressed: () {},
+            child: AutoSizeText(
+              "Let's cook!",
+              style: textFredokaOneH3.copyWith(color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            backgroundColor: mainColor,
+          ),
+        ),
+      );
   }
 
-  _getFoodzAppBar() {
+  AppBar _getFoodzAppBar() {
+    final List titles = [
+      "Hey " + accountStates.account.name.value.split(" ").first + " ! 👋",
+      "My fridge 🥑",
+      "Recipes"
+    ];
+
     return AppBar(
         leading: Container(),
         backgroundColor: Colors.transparent,
@@ -67,13 +87,11 @@ class _Redirections extends State<Redirections> {
             child: Row(
               children: [
                 Container(width: 20),
-                AutoSizeText(
-                  "Hey " +
-                      accountStates.account.name.value.split(" ").first +
-                      " ! 👋",
-                  style: textFredokaOneH1,
-                  textAlign: TextAlign.center,
-                ),
+                Obx(() => AutoSizeText(
+                      titles[appStates.indexBar.value],
+                      style: textFredokaOneH1,
+                      textAlign: TextAlign.center,
+                    )),
                 Expanded(child: Container()),
                 GestureDetector(
                   onTap: () => Get.toNamed(URL_PROFILE),
@@ -82,6 +100,7 @@ class _Redirections extends State<Redirections> {
                     width: 50,
                     pictureUrl: accountStates.account.pictureUrl.value,
                     editMode: false,
+                    defaultChild: Icon(Icons.emoji_people_rounded),
                   ),
                 ),
                 Container(width: 20),

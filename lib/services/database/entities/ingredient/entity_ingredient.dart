@@ -18,7 +18,8 @@ class EntityIngredient {
     if (data == null) return false;
     this.title = key;
     this.pictureUrl = data["pictureUrl"];
-    this.seasons.addAll(List<int>.from(data["seasons"]));
+    if (data["seasons"] != null)
+      this.seasons.addAll(List<int>.from(data["seasons"]));
     this.metric = data["metric"];
     this.category = data["category"];
     this.allergies.addAll(List<String>.from(data["allergies"]));

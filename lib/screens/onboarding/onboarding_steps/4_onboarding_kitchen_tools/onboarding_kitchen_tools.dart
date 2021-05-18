@@ -29,7 +29,6 @@ class OnboardingKitchenTools extends StatelessWidget {
         KitchenToolsSelector(
           kitchenTools: accountStates.account.kitchenTools,
           onTap: (int index) {
-            print(index);
             if (accountStates.account.kitchenTools.contains(index))
               accountStates.account.kitchenTools.remove(index);
             else

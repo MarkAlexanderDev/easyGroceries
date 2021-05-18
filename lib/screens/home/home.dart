@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'contextual_area/contextual_area.dart';
+import 'contextual_area.dart';
 import 'grocery_lists_area/grocery_lists_area.dart';
 
-class GroceryLists extends StatelessWidget {
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(

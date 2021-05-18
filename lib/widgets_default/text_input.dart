@@ -8,22 +8,27 @@ class FoodzTextInput extends StatelessWidget {
   final onChanged;
   final onClear;
   final TextEditingController _controller = TextEditingController();
+  final bool textAlignCenter;
+  final bool autofocus;
 
   FoodzTextInput(
       {@required this.initialValue,
       @required this.onChanged,
       @required this.onClear,
-      this.height = 60});
+      this.height = 60,
+      this.textAlignCenter = true,
+      this.autofocus = false});
 
   @override
   Widget build(BuildContext context) {
     _controller.value = TextEditingValue(text: initialValue);
     return TextField(
+      autofocus: autofocus,
       controller: _controller,
       autocorrect: false,
       keyboardType: TextInputType.visiblePassword,
-      textAlign: TextAlign.center,
-      style: textAssistantH2BlackBold,
+      textAlign: textAlignCenter ? TextAlign.center : TextAlign.start,
+      style: textAssistantH1Black,
       decoration: InputDecoration(
         hintStyle: textAssistantH1Black,
         alignLabelWithHint: true,

@@ -4,16 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/screens/onboarding/onboarding.dart';
 import 'package:foodz/services/auth.dart';
+import 'package:foodz/services/database/entities/fridge/entity_fridge.dart';
 import 'package:foodz/services/local_storage/consts.dart';
 import 'package:foodz/services/local_storage/local_storage.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
+import 'package:foodz/states/fridge_states.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class OnboardingAuth extends StatelessWidget {
-  final AccountStates accountStates = Get.put(AccountStates());
+  final AccountStates accountStates = Get.find();
+  final FridgeStates fridgeStates = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +94,10 @@ class OnboardingAuth extends StatelessWidget {
             COOKING_EXPERIENCE_ID_BEGINNER;
         accountStates.account.createdAt = DateTime.now().toUtc().toString();
         accountStates.account.isPremium = false;
+        fridgeStates.fridge = EntityFridge();
+        await fridgeStates.createFridge();
+        await fridgeStates.createFridgeAccount(accountStates.account.uid);
+        accountStates.account.fridgeIds.add(fridgeStates.fridge.uid);
         await accountStates.createAccount();
       }
       localStorage.setStringData(
