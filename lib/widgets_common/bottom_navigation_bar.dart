@@ -8,7 +8,8 @@ import 'package:get/get.dart';
 import '../urls.dart';
 
 const HOME_SCREEN_ID = 0;
-const FAV_RECIPE_SCREEN_ID = 1;
+const FRIDGE_SCREEN_ID = 1;
+const RECIPE_SCREEN_ID = 2;
 
 class NavBar extends StatelessWidget {
   final int barHeight;
@@ -30,7 +31,7 @@ class NavBar extends StatelessWidget {
           selectedItemColor: mainColor,
           unselectedItemColor: Colors.grey,
           onTap: (index) {
-            appStates.setIndexBar(index);
+            appStates.indexBar.value = index;
             Get.toNamed(URL_HOME);
           },
           items: <BottomNavigationBarItem>[

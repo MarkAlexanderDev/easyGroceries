@@ -27,6 +27,39 @@ final TextStyle textFredokaOneH2 = TextStyle(
   fontSize: 20,
 );
 
+final TextStyle textFredokaOneH3 = TextStyle(
+  fontFamily: 'FredokaOne',
+  color: mainColor,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 15,
+);
+
+final TextStyle textFredokaOneH3Black = TextStyle(
+  fontFamily: 'FredokaOne',
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 15,
+);
+
+final TextStyle textFredokaOneH4 = TextStyle(
+  fontFamily: 'FredokaOne',
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 11,
+);
+
+final TextStyle textFredokaOneH3Underlined = TextStyle(
+  fontFamily: 'FredokaOne',
+  color: mainColor,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 15,
+  decoration: TextDecoration.underline,
+);
+
 final TextStyle textAssistantH1White = TextStyle(
   fontFamily: 'Assistant',
   color: Colors.white,
@@ -53,7 +86,7 @@ final TextStyle textAssistantH1Black = TextStyle(
 
 final TextStyle textAssistantH1BlackBold = TextStyle(
   fontFamily: 'Assistant',
-  color: Colors.black,
+  color: Colors.black.withOpacity(0.5),
   fontWeight: FontWeight.w600,
   fontStyle: FontStyle.normal,
   fontSize: 20,
@@ -110,6 +143,14 @@ final TextStyle textAssistantH2Black = TextStyle(
 final TextStyle textAssistantH3BlackBold = TextStyle(
   fontFamily: 'Assistant',
   color: Colors.black,
+  fontWeight: FontWeight.w600,
+  fontStyle: FontStyle.normal,
+  fontSize: 12,
+);
+
+final TextStyle textAssistantH3GreyBold = TextStyle(
+  fontFamily: 'Assistant',
+  color: Colors.grey,
   fontWeight: FontWeight.w600,
   fontStyle: FontStyle.normal,
   fontSize: 12,

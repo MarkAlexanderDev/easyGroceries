@@ -61,7 +61,7 @@ class Onboarding extends StatelessWidget {
               visible: accountStates.account.onboardingFlag.value >
                   ONBOARDING_STEP_ID_AUTH,
               child: Obx(
-                () => ConfirmButton(
+                () => FoodzConfirmButton(
                     label: accountStates.account.onboardingFlag.value !=
                             ONBOARDING_STEP_ID_PROFILE
                         ? "next"

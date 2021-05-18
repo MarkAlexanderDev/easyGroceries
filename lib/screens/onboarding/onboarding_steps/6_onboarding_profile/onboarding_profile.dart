@@ -5,6 +5,7 @@ import 'package:foodz/states/account_states.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/utils/picture.dart';
 import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/widgets_default/dropdown_button.dart';
 import 'package:foodz/widgets_default/text_input.dart';
 import 'package:get/get.dart';
 
@@ -32,6 +33,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
           },
           child: Obx(() => FoodzProfilePicture(
                 pictureUrl: accountStates.account.pictureUrl.value,
+                defaultChild: Icon(Icons.person),
                 editMode: true,
                 height: 100,
                 width: 100,
@@ -78,30 +80,14 @@ class _OnboardingProfile extends State<OnboardingProfile> {
           ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-        Obx(() => DropdownButton<String>(
-              value: accountStates.getCookingExperienceConverted(
+        Obx(() => FoodzDropdownButton(
+              items: COOKING_EXPERIENCE_IDS,
+              currentValue: accountStates.getCookingExperienceConverted(
                   accountStates.account.cookingExperience.value),
-              icon: Icon(Icons.keyboard_arrow_down_rounded),
-              iconSize: 24,
-              elevation: 16,
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              underline: Container(
-                height: 1,
-                color: Colors.black,
-              ),
-              onChanged: (String value) {
-                accountStates.account.cookingExperience.value =
-                    COOKING_EXPERIENCE_IDS.indexOf(value);
-              },
-              items: COOKING_EXPERIENCE_IDS
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: AutoSizeText(value, style: textAssistantH1Black),
-                );
-              }).toList(),
+              onChanged: (String value) => accountStates
+                  .account
+                  .cookingExperience
+                  .value = COOKING_EXPERIENCE_IDS.indexOf(value),
             )),
         Spacer(),
       ],

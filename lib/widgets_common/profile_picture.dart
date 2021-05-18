@@ -11,6 +11,7 @@ class FoodzProfilePicture extends StatelessWidget {
   final double width;
   final String pictureUrl;
   final bool editMode;
+  final Widget defaultChild;
   final onEdit;
 
   FoodzProfilePicture(
@@ -18,6 +19,7 @@ class FoodzProfilePicture extends StatelessWidget {
       @required this.width,
       @required this.pictureUrl,
       @required this.editMode,
+      @required this.defaultChild,
       this.onEdit});
 
   @override
@@ -40,17 +42,7 @@ class FoodzProfilePicture extends StatelessWidget {
                           shape: BoxShape.circle, color: Colors.white),
                     )
                   : pictureUrl == "" || pictureUrl == null
-                      ? Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/appIcon.png"),
-                                  fit: BoxFit.fill),
-                            ),
-                          ),
-                        )
+                      ? defaultChild
                       : Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,

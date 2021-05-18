@@ -75,6 +75,10 @@ class _GroceryListCreation extends State<GroceryListCreation> {
                       editMode: true,
                       height: 100,
                       width: 100,
+                      defaultChild: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Image.asset("assets/images/appIcon.png"),
+                      ),
                       onEdit: () async {
                         groceryListStates.groceryList.pictureUrl.value =
                             await getImage(
@@ -153,7 +157,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
           ]),
         ),
       ),
-      bottomNavigationBar: ConfirmButton(
+      bottomNavigationBar: FoodzConfirmButton(
           label: "confirm my list",
           enabled: true,
           onClick: () async {

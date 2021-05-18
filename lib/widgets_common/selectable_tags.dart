@@ -23,6 +23,7 @@ class SelectableTags extends StatelessWidget {
         return ItemTags(
           key: Key(index.toString()),
           index: index,
+          elevation: 0.0,
           title: tags[index],
           active: activeTags.contains(tags[index]),
           textStyle: textAssistantH1BlackBold,
@@ -30,6 +31,7 @@ class SelectableTags extends StatelessWidget {
           textActiveColor: Colors.black,
           activeColor: mainColor,
           splashColor: mainColor,
+          border: Border.all(color: Colors.grey.withOpacity(0.5)),
           onPressed: (tag) {
             onClickTag(tag.title);
           },
