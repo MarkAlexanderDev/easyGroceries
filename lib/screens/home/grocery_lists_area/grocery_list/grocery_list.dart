@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:foodz/services/database/config.dart';
 import 'package:foodz/services/database/entities/fridge/entity_fridge_ingredient.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
-import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/fridge_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
@@ -13,8 +12,10 @@ import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/widgets_common/add_ingredient_bar.dart';
 import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/widgets_common/search_ingredient.dart';
 import 'package:foodz/widgets_default/clear_button.dart';
 import 'package:foodz/widgets_default/loading.dart';
+import 'package:foodz/widgets_default/pop_up_coming_soon.dart';
 import 'package:get/get.dart';
 
 class GroceryList extends StatelessWidget {
@@ -52,7 +53,9 @@ class GroceryList extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AddIngredientBar(),
+                        AddIngredientBar(
+                          searchModId: SEARCH_INGREDIENT_FOR_GROCERY_LIST_ID,
+                        ),
                         Container(height: 20),
                         _UncheckedItemsList(
                             groceryListIngredients:
@@ -98,7 +101,7 @@ class GroceryList extends StatelessWidget {
           onPressed: () => Get.offNamed(URL_HOME)),
       actions: [
         GestureDetector(
-            onTap: () => appStates.launchComingSoonPopup(context),
+            onTap: () => showPopUpComingSoon(context),
             child: Icon(Icons.add_shopping_cart)),
         SizedBox(width: 10),
         GestureDetector(

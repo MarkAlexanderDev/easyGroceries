@@ -29,13 +29,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
 
   @override
   void initState() {
-    if (!isEditing) {
-      groceryListStates.groceryList = EntityGroceryList();
-      groceryListStates.groceryList.name.value = "Monday shopping";
-      groceryListStates.groceryList.description.value =
-          "All my needs for the week !";
-      groceryListStates.groceryList.pictureUrl.value = "";
-    }
+    if (!isEditing) groceryListStates.groceryList = EntityGroceryList();
     super.initState();
   }
 
@@ -99,14 +93,9 @@ class _GroceryListCreation extends State<GroceryListCreation> {
               onClear: () {
                 groceryListStates.groceryList.name.value = "";
               },
+              hint: "Monday shopping",
             ),
             SizedBox(height: 30),
-            AutoSizeText(
-              "A little description maybe ?",
-              style: textFredokaOneH2,
-              maxLines: 1,
-            ),
-            SizedBox(height: 20),
             FoodzTextInput(
               initialValue: groceryListStates.groceryList.description.value,
               onChanged: (value) {
@@ -115,6 +104,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
               onClear: () {
                 groceryListStates.groceryList.description.value = "";
               },
+              hint: "All my needs for the week",
             ),
             SizedBox(height: 30),
             Row(
@@ -157,9 +147,9 @@ class _GroceryListCreation extends State<GroceryListCreation> {
           ]),
         ),
       ),
-      bottomNavigationBar: FoodzConfirmButton(
+      bottomNavigationBar: Obx(() => FoodzConfirmButton(
           label: "confirm my list",
-          enabled: true,
+          enabled: groceryListStates.groceryList.name.value.isNotEmpty,
           onClick: () async {
             appStates.setLoading(true);
             if (isEditing)
@@ -174,7 +164,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
             }
             Get.offNamed(URL_GROCERY_LIST);
             appStates.setLoading(false);
-          }),
+          })),
     );
   }
 

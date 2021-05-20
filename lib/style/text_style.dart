@@ -84,6 +84,14 @@ final TextStyle textAssistantH1Black = TextStyle(
   fontSize: 20,
 );
 
+final TextStyle textAssistantH1Hint = TextStyle(
+  fontFamily: 'Assistant',
+  color: Colors.black.withOpacity(0.25),
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 20,
+);
+
 final TextStyle textAssistantH1BlackBold = TextStyle(
   fontFamily: 'Assistant',
   color: Colors.black.withOpacity(0.5),

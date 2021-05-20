@@ -8,10 +8,12 @@ import 'package:foodz/screens/recipes/recipes.dart';
 import 'package:foodz/services/database/entities/account/entity_account.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
-import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/widgets_common/bottom_navigation_bar.dart';
+import 'package:foodz/widgets_common/cooking_button.dart';
+import 'package:foodz/widgets_common/create_grocery_list_button.dart';
+import 'package:foodz/widgets_common/create_recipe_button.dart';
 import 'package:foodz/widgets_common/profile_picture.dart';
 import 'package:foodz/widgets_default/loading.dart';
 import 'package:get/get.dart';
@@ -45,7 +47,12 @@ class _Redirections extends State<Redirections> {
   }
 
   _getPage(EntityAccount account, bool loading) {
-    final List appScreens = [Home(), Fridge(), Recipes()];
+    final List<Widget> appScreens = [Home(), Fridge(), Recipes()];
+    final List<Widget> floatingButtons = [
+      CreateGroceryListButton(),
+      CookingButton(),
+      CreateRecipeButton()
+    ];
     if (loading)
       return Container(color: Colors.white, child: FoodzLoading());
     else if (account == null ||
@@ -56,17 +63,9 @@ class _Redirections extends State<Redirections> {
         appBar: _getFoodzAppBar(),
         body: Obx(() => appScreens[appStates.indexBar.value]),
         bottomNavigationBar: NavBar(sizeIcon: 25.0),
-        floatingActionButton: Visibility(
-          visible: appStates.indexBar.value == FRIDGE_SCREEN_ID,
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: AutoSizeText(
-              "Let's cook!",
-              style: textFredokaOneH3.copyWith(color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-            backgroundColor: mainColor,
-          ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Obx(() => floatingButtons[appStates.indexBar.value]),
         ),
       );
   }
@@ -75,7 +74,7 @@ class _Redirections extends State<Redirections> {
     final List titles = [
       "Hey " + accountStates.account.name.value.split(" ").first + " ! 👋",
       "My fridge 🥑",
-      "Recipes"
+      "Recipes 🍳"
     ];
 
     return AppBar(

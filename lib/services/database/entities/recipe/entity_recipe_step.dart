@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class EntityRecipeStep extends GetxController {
-  String stepID;
+  String uid;
 
   int number;
   String pictureUrl;
   String text;
 
-  EntityRecipeStep.fromJson(Map<String, dynamic> data,
-      {String key = ""}) {
+  EntityRecipeStep(
+      {@required this.number, @required this.text, this.pictureUrl});
+
+  EntityRecipeStep.fromJson(Map<String, dynamic> data, {String key = ""}) {
     fromJson(data, key: key);
   }
 
@@ -29,7 +32,7 @@ class EntityRecipeStep extends GetxController {
 
   bool fromJson(Map<String, dynamic> data, {String key = ""}) {
     if (data == null) return false;
-    this.stepID = key;
+    this.uid = key;
 
     this.number = data["number"];
     this.pictureUrl = data["pictureUrl"];

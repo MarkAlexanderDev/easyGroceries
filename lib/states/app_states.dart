@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +7,7 @@ import 'package:foodz/services/local_storage/local_storage.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/fridge_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
-import 'package:foodz/style/text_style.dart';
 import 'package:foodz/widgets_common/bottom_navigation_bar.dart';
-import 'package:foodz/widgets_default/confirm_button.dart';
 import 'package:get/get.dart';
 
 class AppStates extends GetxController {
@@ -50,23 +47,6 @@ class AppStates extends GetxController {
 
   void setLoading(bool value) {
     loading.value = value;
-  }
-
-  void launchComingSoonPopup(BuildContext context) async {
-    await Get.dialog(AlertDialog(
-      title: AutoSizeText(
-        "Oops, we are currently working on this feature. Please be patient 🙏",
-        style: textAssistantH1Black,
-        textAlign: TextAlign.center,
-      ),
-      content: FoodzConfirmButton(
-        enabled: true,
-        label: "okay",
-        onClick: () => Get.back(),
-      ),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(32.0))),
-    ));
   }
 
   RxInt indexBar = HOME_SCREEN_ID.obs;

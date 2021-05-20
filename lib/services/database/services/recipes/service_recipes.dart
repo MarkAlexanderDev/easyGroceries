@@ -9,22 +9,22 @@ import '../i_service.dart';
 
 class ServiceRecipes extends IService<EntityRecipe> {
   final CollectionReference _collectionReference =
-  FirebaseFirestore.instance.collection(endpointRecipe);
+      FirebaseFirestore.instance.collection(endpointRecipe);
 
   final ServiceRecipeComments comments = ServiceRecipeComments();
   final ServiceRecipeIngredients ingredients = ServiceRecipeIngredients();
   final ServiceRecipeSteps steps = ServiceRecipeSteps();
 
   @override
-  Future<DocumentReference> create(EntityRecipe entity, {String key = ""}) async {
-    return await _collectionReference.add(entity.toMap());
+  Future<String> create(EntityRecipe entity, {String key = ""}) async {
+    DocumentReference docRef = await _collectionReference.add(entity.toMap());
+    return docRef.id;
   }
 
   @override
   Future<EntityRecipe> read(String id, {String key = ""}) async {
     final DocumentSnapshot snap = await _collectionReference.doc(id).get();
-    if (snap != null)
-      return EntityRecipe.fromJson(snap.data(), key: snap.id);
+    if (snap != null) return EntityRecipe.fromJson(snap.data(), key: snap.id);
     return null;
   }
 
@@ -47,5 +47,4 @@ class ServiceRecipes extends IService<EntityRecipe> {
   Future<void> update(String id, EntityRecipe entity, {String key = ""}) async {
     await _collectionReference.doc(id).update(entity.toMap());
   }
-
 }

@@ -2,7 +2,6 @@ import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
-import 'package:foodz/services/database/entities/ingredient/entity_ingredient.dart';
 import 'package:get/get.dart';
 
 class GroceryListStates extends GetxController {
@@ -55,13 +54,8 @@ class GroceryListStates extends GetxController {
 
   // CRUD GroceryListIngredients
 
-  Future<void> createGroceryListIngredient(EntityIngredient ingredient) async {
-    final EntityGroceryListIngredient groceryListIngredient =
-        EntityGroceryListIngredient(
-            pictureUrl: ingredient.pictureUrl,
-            name: ingredient.title,
-            category: ingredient.category,
-            metric: ingredient.metric);
+  Future<void> createGroceryListIngredient(
+      EntityGroceryListIngredient groceryListIngredient) async {
     await API.entries.groceryList.ingredients
         .create(groceryListIngredient, key: groceryList.uid);
   }

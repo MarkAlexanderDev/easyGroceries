@@ -1,12 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/services/dynamic_link.dart';
 import 'package:foodz/states/grocery_list_states.dart';
-import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:foodz/urls.dart';
+import 'package:foodz/widgets_common/bubble.dart';
 import 'package:foodz/widgets_default/loading.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import 'grocery_lists_item.dart';
 
@@ -32,28 +33,26 @@ class _GroceryListsArea extends State<GroceryListsArea> {
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData)
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "My grocery lists".toUpperCase(),
-                style: textFredokaOneH2underlined,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "My grocery lists".toUpperCase(),
+                  style: textFredokaOneH2underlined,
+                ),
               ),
-              SizedBox(height: 10),
+              Visibility(
+                visible: groceryListStates.groceryListOwned.length == 0,
+                child: _EmptyGroceryListArea(),
+              ),
               Obx(() => ListView.builder(
                   shrinkWrap: true,
-                  itemCount: groceryListStates.groceryListOwned.length + 1,
+                  itemCount: groceryListStates.groceryListOwned.length,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int i) {
-                    if (i < groceryListStates.groceryListOwned.length)
-                      return GroceryListsItem(
-                          groceryList: groceryListStates.groceryListOwned[i]);
-                    return _AddGroceryListButton(
-                        userHasList:
-                            groceryListStates.groceryListOwned.length > 0,
-                        onClick: () {
-                          Get.toNamed(URL_GROCERY_LIST_CREATION,
-                              arguments: false);
-                        });
+                    return GroceryListsItem(
+                        groceryList: groceryListStates.groceryListOwned[i]);
                   })),
             ],
           );
@@ -64,26 +63,35 @@ class _GroceryListsArea extends State<GroceryListsArea> {
   }
 }
 
-class _AddGroceryListButton extends StatelessWidget {
-  final bool userHasList;
-  final onClick;
-
-  _AddGroceryListButton({@required this.userHasList, @required this.onClick});
-
+class _EmptyGroceryListArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 10),
-        GestureDetector(
-          onTap: () async {
-            await onClick();
-          },
-          child: Icon(
-            Icons.add_circle_outlined,
-            color: mainColor,
-            size: 50,
-          ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/images/happy_avocado.png",
+              fit: BoxFit.contain,
+              height: 150,
+            ),
+            Bubble(
+              content: Column(
+                children: [
+                  AutoSizeText(
+                    "Start by adding\na new grocery list",
+                    style: textAssistantH1WhiteBold,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 15),
+                  Lottie.asset("assets/lotties/arrow_down.json",
+                      height: 50, fit: BoxFit.fitHeight),
+                ],
+              ),
+            )
+          ],
         ),
       ],
     );

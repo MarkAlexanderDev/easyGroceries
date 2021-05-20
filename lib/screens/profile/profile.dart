@@ -75,12 +75,12 @@ class _Profile extends State<Profile> {
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.75,
                             child: FoodzTextInput(
-                              initialValue: accountStates.account.name.value,
-                              onChanged: (value) =>
-                                  accountStates.account.name.value = value,
-                              onClear: () =>
-                                  accountStates.account.name.value = "",
-                            ),
+                                initialValue: accountStates.account.name.value,
+                                onChanged: (value) =>
+                                    accountStates.account.name.value = value,
+                                onClear: () =>
+                                    accountStates.account.name.value = "",
+                                hint: "Name"),
                           ),
                         ),
                         FoodzSection(

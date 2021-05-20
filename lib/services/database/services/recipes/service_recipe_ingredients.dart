@@ -5,17 +5,17 @@ import 'package:foodz/services/database/services/i_service.dart';
 
 class ServiceRecipeIngredients extends IService<EntityRecipeIngredient> {
   final CollectionReference _collectionReference =
-  FirebaseFirestore.instance.collection(endpointRecipe);
+      FirebaseFirestore.instance.collection(endpointRecipe);
 
   final String _collection = "Ingredients/";
 
   @override
-  Future<DocumentReference> create(EntityRecipeIngredient entity,
-      {String key = ""}) async {
-    return await _collectionReference
+  Future<void> create(EntityRecipeIngredient entity, {String key = ""}) async {
+    await _collectionReference
         .doc(key)
         .collection(_collection)
-        .add(entity.toMap());
+        .doc(entity.name)
+        .set(entity.toMap());
   }
 
   @override
@@ -42,7 +42,7 @@ class ServiceRecipeIngredients extends IService<EntityRecipeIngredient> {
   @override
   Future<List<EntityRecipeIngredient>> readAll({String key = ""}) async {
     QuerySnapshot snap =
-    await _collectionReference.doc(key).collection(_collection).get();
+        await _collectionReference.doc(key).collection(_collection).get();
     return snap.docs
         .map((e) => EntityRecipeIngredient.fromJson(e.data(), key: e.id))
         .toList();

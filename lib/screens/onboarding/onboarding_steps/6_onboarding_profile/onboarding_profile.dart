@@ -58,6 +58,7 @@ class _OnboardingProfile extends State<OnboardingProfile> {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.75,
           child: FoodzTextInput(
+            hint: "Name",
             initialValue: accountStates.account.name.value,
             onChanged: (value) {
               accountStates.account.name.value = value;

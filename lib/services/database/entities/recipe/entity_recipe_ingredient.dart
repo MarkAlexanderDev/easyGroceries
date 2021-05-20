@@ -1,12 +1,19 @@
 import 'dart:convert';
 import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class EntityRecipeIngredient extends GetxController {
-  String ingredientName;
-
+  String name;
+  String pictureUrl;
   int number;
+
+  EntityRecipeIngredient({@required name, @required pictureUrl}) {
+    this.name = name;
+    this.pictureUrl = pictureUrl;
+    number = 1;
+  }
 
   EntityRecipeIngredient.fromJson(Map<String, dynamic> data,
       {String key = ""}) {
@@ -15,7 +22,8 @@ class EntityRecipeIngredient extends GetxController {
 
   Map<String, dynamic> toMap() {
     return {
-      "number": this.number
+      "number": this.number,
+      "pictureUrl": this.pictureUrl,
     };
   }
 
@@ -25,9 +33,10 @@ class EntityRecipeIngredient extends GetxController {
 
   bool fromJson(Map<String, dynamic> data, {String key = ""}) {
     if (data == null) return false;
-    this.ingredientName = key;
+    this.name = key;
 
     this.number = data["number"];
+    this.pictureUrl = data["pictureUrl"];
     return true;
   }
 }

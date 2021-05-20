@@ -1,22 +1,28 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodz/states/fridge_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/states/ingredient_states.dart';
+import 'package:foodz/states/recipe_states.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
+import 'package:foodz/utils/ingredient.dart';
 import 'package:foodz/widgets_common/profile_picture.dart';
 import 'package:foodz/widgets_default/text_input.dart';
 import 'package:get/get.dart';
 
-class GroceryListSearchIngredient extends StatefulWidget {
-  @override
-  _GroceryListSearchIngredient createState() => _GroceryListSearchIngredient();
-}
+const int SEARCH_INGREDIENT_FOR_GROCERY_LIST_ID = 0;
+const int SEARCH_INGREDIENT_FOR_FRIDGE_ID = 1;
+const int SEARCH_INGREDIENT_FOR_RECIPE_ID = 2;
 
-class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
+class SearchIngredient extends StatelessWidget {
   final GroceryListStates groceryListStates = Get.find();
+  final FridgeStates fridgeStates = Get.find();
+  final RecipeStates recipeStates = Get.find();
   final IngredientStates ingredientStates = Get.find();
+
+  final int searchModId = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +38,7 @@ class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
               autofocus: true,
               textAlignCenter: false,
               initialValue: "",
+              hint: "Ex: Banana, Apple, ect ...",
               onChanged: (String value) {
                 ingredientStates.search(value);
               },
@@ -67,8 +74,7 @@ class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
                 .isNotEmpty;
             return GestureDetector(
               onTap: () {
-                groceryListStates.createGroceryListIngredient(
-                    ingredientStates.ingredientFound[i]);
+                _addItem(i);
                 ingredientStates.ingredientFound.clear();
                 Get.back();
               },
@@ -102,5 +108,25 @@ class _GroceryListSearchIngredient extends State<GroceryListSearchIngredient> {
             );
           })),
     );
+  }
+
+  void _addItem(int i) {
+    switch (searchModId) {
+      case SEARCH_INGREDIENT_FOR_GROCERY_LIST_ID:
+        groceryListStates.createGroceryListIngredient(
+            ingredientToGroceryListIngredient(
+                ingredientStates.ingredientFound[i]));
+        break;
+      case SEARCH_INGREDIENT_FOR_FRIDGE_ID:
+        fridgeStates.createFridgeIngredient(
+            ingredientToFridgeIngredient(ingredientStates.ingredientFound[i]));
+        break;
+      case SEARCH_INGREDIENT_FOR_RECIPE_ID:
+        recipeStates.recipeIngredients.add(
+            ingredientToRecipeIngredient(ingredientStates.ingredientFound[i]));
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 
@@ -10,27 +11,33 @@ class FoodzTextInput extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
   final bool textAlignCenter;
   final bool autofocus;
+  final String hint;
+  final bool multiline;
 
   FoodzTextInput(
       {@required this.initialValue,
       @required this.onChanged,
       @required this.onClear,
+      @required this.hint,
       this.height = 60,
       this.textAlignCenter = true,
-      this.autofocus = false});
+      this.autofocus = false,
+      this.multiline = false});
 
   @override
   Widget build(BuildContext context) {
     _controller.value = TextEditingValue(text: initialValue);
     return TextField(
+      keyboardType: multiline ? TextInputType.multiline : TextInputType.name,
+      maxLines: multiline ? null : 1,
       autofocus: autofocus,
       controller: _controller,
       autocorrect: false,
-      keyboardType: TextInputType.visiblePassword,
       textAlign: textAlignCenter ? TextAlign.center : TextAlign.start,
       style: textAssistantH1Black,
       decoration: InputDecoration(
-        hintStyle: textAssistantH1Black,
+        hintStyle: textAssistantH1Hint,
+        hintText: hint,
         alignLabelWithHint: true,
         labelStyle: textAssistantH1Black,
         enabledBorder: OutlineInputBorder(

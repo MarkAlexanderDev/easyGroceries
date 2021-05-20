@@ -9,6 +9,7 @@ import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/widgets_common/add_ingredient_bar.dart';
 import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/widgets_common/search_ingredient.dart';
 import 'package:foodz/widgets_default/loading.dart';
 import 'package:get/get.dart';
 
@@ -29,6 +30,7 @@ class Fridge extends StatelessWidget {
           ),
           SizedBox(height: 25),
           AddIngredientBar(
+            searchModId: SEARCH_INGREDIENT_FOR_FRIDGE_ID,
             label: "Something's missing ? Click here to add a ingredient",
           ),
           StreamBuilder(

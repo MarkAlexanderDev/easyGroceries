@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/style/colors.dart';
@@ -7,35 +6,28 @@ import 'package:get/get.dart';
 
 import '../urls.dart';
 
-class AddIngredientBar extends StatelessWidget {
-  final String label;
-  final int searchModId;
-
-  AddIngredientBar(
-      {@required this.searchModId,
-      this.label = "Click here to add an ingredient"});
-
+class AddStepBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed(URL_SEARCH_INGREDIENT, arguments: searchModId),
+      onTap: () => Get.toNamed(URL_STEP_CREATION),
       child: Container(
         height: 50,
         decoration: BoxDecoration(
-            color: secondaryColor,
-            border: Border.all(color: Colors.green, width: 0.5),
+            color: accentColor,
+            border: Border.all(color: Colors.orange, width: 0.5),
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
             children: [
-              AutoSizeText(label,
+              Text("Click here to add an instruction",
                   style:
-                      textAssistantH3BlackBold.copyWith(color: Colors.green)),
+                      textAssistantH3BlackBold.copyWith(color: Colors.orange)),
               Expanded(child: Container()),
               Icon(
                 Icons.add,
-                color: Colors.green,
+                color: Colors.orange,
               )
             ],
           ),

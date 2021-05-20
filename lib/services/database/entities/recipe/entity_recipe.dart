@@ -4,15 +4,16 @@ import 'dart:core';
 import 'package:get/get.dart';
 
 class EntityRecipe extends GetxController {
-  String recipeID;
+  String uid;
 
   String createdBy;
   String name;
   String description;
-  String pictureUrl;
-  int difficulty;
-  String time;
-  int grade;
+  RxString pictureUrl = "".obs;
+  RxInt difficulty = 0.obs;
+  RxString time = "".obs;
+  RxInt grade = 0.obs;
+  RxInt peopleNumber = 0.obs;
   String createdAt;
   RxList<String> allergies = <String>[].obs;
   RxList<String> cuisines = <String>[].obs;
@@ -32,7 +33,8 @@ class EntityRecipe extends GetxController {
       "difficulty": this.difficulty,
       "time": this.time,
       "grade": this.grade,
-      "createdAt":  this.createdAt,
+      "peopleNumber": this.peopleNumber,
+      "createdAt": this.createdAt,
       "allergies": this.allergies.toList(),
       "cuisines": this.cuisines.toList()
     };
@@ -44,7 +46,7 @@ class EntityRecipe extends GetxController {
 
   bool fromJson(Map<String, dynamic> data, {String key = ""}) {
     if (data == null) return false;
-    this.recipeID = key;
+    this.uid = key;
 
     this.createdBy = data["createdBy"];
     this.name = data["name"];
@@ -53,6 +55,7 @@ class EntityRecipe extends GetxController {
     this.difficulty = data["difficulty"];
     this.time = data["time"];
     this.grade = data["grade"];
+    this.peopleNumber = data["peopleNumber"];
     this.createdAt = data["createdAt"];
     this.allergies.addAll(List<String>.from(data["allergies"]));
     this.cuisines.addAll(List<String>.from(data["cuisines"]));
