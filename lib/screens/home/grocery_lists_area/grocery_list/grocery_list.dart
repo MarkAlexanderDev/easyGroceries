@@ -11,12 +11,14 @@ import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/widgets_common/add_ingredient_bar.dart';
-import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/widgets_common/bubble.dart';
+import 'package:foodz/widgets_common/ingredient_item.dart';
 import 'package:foodz/widgets_common/search_ingredient.dart';
 import 'package:foodz/widgets_default/clear_button.dart';
 import 'package:foodz/widgets_default/loading.dart';
 import 'package:foodz/widgets_default/pop_up_coming_soon.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class GroceryList extends StatelessWidget {
   final GroceryListStates groceryListStates = Get.find();
@@ -57,6 +59,9 @@ class GroceryList extends StatelessWidget {
                           searchModId: SEARCH_INGREDIENT_FOR_GROCERY_LIST_ID,
                         ),
                         Container(height: 20),
+                        groceryListStates.groceryListIngredients.isEmpty
+                            ? _EmptyGroceryList()
+                            : Container(),
                         _UncheckedItemsList(
                             groceryListIngredients:
                                 groceryListStates.groceryListIngredients),
@@ -132,10 +137,22 @@ class _UncheckedItemsList extends StatelessWidget {
         shrinkWrap: true,
         itemCount: groceryListIngredientsUnchecked.length,
         itemBuilder: (BuildContext context, int i) {
-          return _GroceryListIngredientWidget(
-            groceryListIngredient: groceryListIngredientsUnchecked[i],
+          return IngredientItem(
+            name: groceryListIngredientsUnchecked[i].name,
+            pictureUrl: groceryListIngredientsUnchecked[i].pictureUrl,
+            number: groceryListIngredientsUnchecked[i].number.value,
+            metric: groceryListIngredientsUnchecked[i].metric,
+            checkable: true,
+            checked: false,
             onChecked: (bool value) {
               groceryListIngredientsUnchecked[i].checked.value = value;
+              groceryListStates.updateGroceryListIngredient(
+                  groceryListIngredientsUnchecked[i]);
+            },
+            onDelete: () => groceryListStates.deleteGroceryListIngredient(
+                groceryListIngredientsUnchecked[i].name),
+            onChangeQuantity: (double value) {
+              groceryListIngredientsUnchecked[i].number.value = value;
               groceryListStates.updateGroceryListIngredient(
                   groceryListIngredientsUnchecked[i]);
             },
@@ -175,7 +192,8 @@ class _CheckedItemsList extends StatelessWidget {
                             EntityFridgeIngredient(
                                 pictureUrl: element.pictureUrl,
                                 name: element.name,
-                                metric: element.metric.value,
+                                number: element.number.value,
+                                metric: element.metric,
                                 category: element.category));
                         groceryListStates
                             .deleteGroceryListIngredient(element.name);
@@ -193,10 +211,22 @@ class _CheckedItemsList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: groceryListIngredientsChecked.length,
             itemBuilder: (BuildContext context, int i) {
-              return _GroceryListIngredientWidget(
-                groceryListIngredient: groceryListIngredientsChecked[i],
+              return IngredientItem(
+                name: groceryListIngredientsChecked[i].name,
+                pictureUrl: groceryListIngredientsChecked[i].pictureUrl,
+                number: groceryListIngredientsChecked[i].number.value,
+                metric: groceryListIngredientsChecked[i].metric,
+                checkable: true,
+                checked: true,
                 onChecked: (bool value) {
                   groceryListIngredientsChecked[i].checked.value = value;
+                  groceryListStates.updateGroceryListIngredient(
+                      groceryListIngredientsChecked[i]);
+                },
+                onDelete: () => groceryListStates.deleteGroceryListIngredient(
+                    groceryListIngredientsChecked[i].name),
+                onChangeQuantity: (double value) {
+                  groceryListIngredientsChecked[i].number.value = value;
                   groceryListStates.updateGroceryListIngredient(
                       groceryListIngredientsChecked[i]);
                 },
@@ -207,56 +237,40 @@ class _CheckedItemsList extends StatelessWidget {
   }
 }
 
-class _GroceryListIngredientWidget extends StatelessWidget {
-  final EntityGroceryListIngredient groceryListIngredient;
-  final onChecked;
-
-  _GroceryListIngredientWidget(
-      {@required this.groceryListIngredient, @required this.onChecked});
-
+class _EmptyGroceryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 0.05),
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(20.0))),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Opacity(
-                opacity: groceryListIngredient.checked.value ? 0.3 : 1.0,
-                child: FoodzProfilePicture(
-                  height: 50,
-                  width: 50,
-                  pictureUrl: groceryListIngredient.pictureUrl,
-                  editMode: false,
-                  defaultChild: Icon(
-                    Icons.add_shopping_cart_outlined,
-                    color: mainColor,
+    return Column(
+      children: [
+        SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/images/happy_avocado.png",
+              fit: BoxFit.contain,
+              height: 75,
+            ),
+            Bubble(
+              content: Row(
+                children: [
+                  AutoSizeText(
+                    "Your list is empty,\nadd new ingredients.",
+                    style: textAssistantH1WhiteBold,
+                    textAlign: TextAlign.center,
                   ),
-                ),
+                  SizedBox(height: 15),
+                  RotatedBox(
+                    quarterTurns: 2,
+                    child: Lottie.asset("assets/lotties/arrow_down.json",
+                        height: 50, fit: BoxFit.fitHeight),
+                  ),
+                ],
               ),
-              Expanded(child: Container()),
-              AutoSizeText(groceryListIngredient.name,
-                  style: textAssistantH2BlackBold.copyWith(
-                      decoration: groceryListIngredient.checked.value
-                          ? TextDecoration.lineThrough
-                          : TextDecoration.none)),
-              Expanded(child: Container()),
-              Checkbox(
-                checkColor: Colors.white,
-                activeColor: mainColor,
-                value: groceryListIngredient.checked.value,
-                onChanged: onChecked,
-              ),
-            ],
-          ),
+            )
+          ],
         ),
-      ),
+      ],
     );
   }
 }

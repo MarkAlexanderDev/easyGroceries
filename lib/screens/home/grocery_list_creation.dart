@@ -93,7 +93,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
               onClear: () {
                 groceryListStates.groceryList.name.value = "";
               },
-              hint: "Monday shopping",
+              hint: "Name",
             ),
             SizedBox(height: 30),
             FoodzTextInput(
@@ -104,7 +104,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
               onClear: () {
                 groceryListStates.groceryList.description.value = "";
               },
-              hint: "All my needs for the week",
+              hint: "Description",
             ),
             SizedBox(height: 30),
             Row(

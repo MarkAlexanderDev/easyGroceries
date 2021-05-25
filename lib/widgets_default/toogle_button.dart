@@ -43,7 +43,7 @@ class FoodzToogleButton extends StatelessWidget {
   }
 
   _getFormatedList() {
-    final List<bool> list = [false, false, false];
+    final List<bool> list = [false, /*false,*/ false];
     list[selectedItem] = true;
     return list;
   }

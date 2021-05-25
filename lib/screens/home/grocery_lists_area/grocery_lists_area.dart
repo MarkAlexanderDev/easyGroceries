@@ -75,7 +75,7 @@ class _EmptyGroceryListArea extends StatelessWidget {
             Image.asset(
               "assets/images/happy_avocado.png",
               fit: BoxFit.contain,
-              height: 150,
+              height: 75,
             ),
             Bubble(
               content: Column(

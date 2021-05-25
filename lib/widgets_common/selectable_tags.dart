@@ -1,7 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tags/flutter_tags.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class SelectableTags extends StatelessWidget {
   final List<String> activeTags;
@@ -15,28 +16,36 @@ class SelectableTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tags(
-      itemCount: tags.length,
-      spacing: 12.0,
-      runSpacing: 16.0,
-      itemBuilder: (int index) {
-        return ItemTags(
-          key: Key(index.toString()),
-          index: index,
-          elevation: 0.0,
-          title: tags[index],
-          active: activeTags.contains(tags[index]),
-          textStyle: textAssistantH1BlackBold,
-          padding: EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-          textActiveColor: Colors.black,
-          activeColor: mainColor,
-          splashColor: mainColor,
-          border: Border.all(color: Colors.grey.withOpacity(0.5)),
-          onPressed: (tag) {
-            onClickTag(tag.title);
-          },
-        );
-      },
-    );
+    activeTags.sort();
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: (MediaQuery.of(context).size.height * 0.003)),
+        itemCount: tags.length,
+        itemBuilder: (BuildContext context, int i) {
+          return Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Obx(() => OutlinedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        activeTags.contains(tags[i])
+                            ? mainColor
+                            : Colors.transparent),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                    ),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(0.0))),
+                onPressed: () => onClickTag(tags[i]),
+                child: AutoSizeText(
+                  tags[i],
+                  style: textAssistantH2BlackBold,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                ))),
+          );
+        });
   }
 }

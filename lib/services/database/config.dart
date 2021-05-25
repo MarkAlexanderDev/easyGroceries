@@ -2,7 +2,7 @@
 
 const endpointAccounts = "Accounts/";
 const endpointGroceryLists = "GroceryLists/";
-const endpointRecipe = "Recipe/";
+const endpointRecipe = "Recipes/";
 const endpointFridges = "Fridges/";
 
 // Configuration

@@ -29,11 +29,11 @@ class EntityRecipe extends GetxController {
       "createdBy": this.createdBy,
       "name": this.name,
       "description": this.description,
-      "pictureUrl": this.pictureUrl,
-      "difficulty": this.difficulty,
-      "time": this.time,
-      "grade": this.grade,
-      "peopleNumber": this.peopleNumber,
+      "pictureUrl": this.pictureUrl.value,
+      "difficulty": this.difficulty.value,
+      "time": this.time.value,
+      "grade": this.grade.value,
+      "peopleNumber": this.peopleNumber.value,
       "createdAt": this.createdAt,
       "allergies": this.allergies.toList(),
       "cuisines": this.cuisines.toList()
@@ -51,11 +51,11 @@ class EntityRecipe extends GetxController {
     this.createdBy = data["createdBy"];
     this.name = data["name"];
     this.description = data["description"];
-    this.pictureUrl = data["pictureUrl"];
-    this.difficulty = data["difficulty"];
-    this.time = data["time"];
-    this.grade = data["grade"];
-    this.peopleNumber = data["peopleNumber"];
+    this.pictureUrl.value = data["pictureUrl"];
+    this.difficulty.value = data["difficulty"];
+    this.time.value = data["time"];
+    this.grade.value = data["grade"];
+    this.peopleNumber.value = data["peopleNumber"];
     this.createdAt = data["createdAt"];
     this.allergies.addAll(List<String>.from(data["allergies"]));
     this.cuisines.addAll(List<String>.from(data["cuisines"]));

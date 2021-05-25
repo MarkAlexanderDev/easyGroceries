@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/screens/recipes/discover.dart';
-import 'package:foodz/screens/recipes/favorites.dart';
 import 'package:foodz/screens/recipes/my_recipes.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/widgets_default/toogle_button.dart';
@@ -15,7 +14,7 @@ class Recipes extends StatefulWidget {
 class _Recipes extends State<Recipes> {
   final List<Widget> screens = [
     MyRecipes(),
-    Favorites(),
+    //Favorites(),
     Discover(),
   ];
 
@@ -32,7 +31,7 @@ class _Recipes extends State<Recipes> {
           children: [
             Center(
                 child: Obx(() => FoodzToogleButton(
-                    items: ["My recipes", "Favorites", "Discover"],
+                    items: ["My recipes", /*"Favorites",*/ "Discover"],
                     onPressed: (int index) {
                       appStates.recipeIndex.value = index;
                     },

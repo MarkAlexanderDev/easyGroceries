@@ -8,6 +8,7 @@ const URL_GROCERY_LIST_OPTION = "/groceryList/option";
 const URL_GROCERY_LIST_CREATION = "/groceryListCreation";
 const URL_RECIPE_CREATION = "/recipeCreation";
 const URL_STEP_CREATION = "/recipeCreation/createStep";
+const URL_RECIPE_VIEW = "/recipeView";
 
 // Dynamic links
 const URL_GROCERY_LIST_INVITATION = "https://foodz-app.com/invitation/";

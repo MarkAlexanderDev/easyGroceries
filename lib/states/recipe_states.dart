@@ -7,15 +7,32 @@ import 'package:get/get.dart';
 class RecipeStates extends GetxController {
   EntityRecipe recipe;
   RxList<EntityRecipe> recipeOwned = <EntityRecipe>[].obs;
-  List<EntityRecipeIngredient> recipeIngredients = [];
-  List<EntityRecipeStep> recipeSteps = [];
+  RxList<EntityRecipeIngredient> recipeIngredients =
+      <EntityRecipeIngredient>[].obs;
+  RxList<EntityRecipeStep> recipeSteps = <EntityRecipeStep>[].obs;
   EntityRecipeStep recipeStep;
+
+  //tmp
+  List<EntityRecipe> allRecipes = [];
+
+  //tmp
+  Future<bool> readAllRecipes() async {
+    if (allRecipes.isEmpty)
+      allRecipes.addAll(await API.entries.recipe.readAll());
+    return true;
+  }
+
+  Future<bool> readAllAccountRecipes(List<String> recipesIds) async {
+    await Future.forEach(recipesIds, (String recipesId) async {
+      recipeOwned.add(await API.entries.recipe.read(recipesId));
+    });
+    return true;
+  }
 
   // CRUD
 
   Future<void> createRecipe() async {
     recipe.uid = await API.entries.recipe.create(recipe);
-    recipeOwned.add(recipe);
   }
 
   Future<void> readRecipe(String recipeId) async {
@@ -23,7 +40,7 @@ class RecipeStates extends GetxController {
   }
 
   void updateRecipe() async {
-    API.entries.recipe.update("", recipe);
+    API.entries.recipe.update(recipe.uid, recipe);
   }
 
   void deleteRecipe(String uid) {
@@ -34,6 +51,13 @@ class RecipeStates extends GetxController {
 
   Future<void> createRecipeIngredient(EntityRecipeIngredient ingredient) async {
     await API.entries.recipe.ingredients.create(ingredient, key: recipe.uid);
+  }
+
+  Future<bool> readAllIngredientsRecipe() async {
+    recipeIngredients.clear();
+    recipeIngredients
+        .addAll(await API.entries.recipe.ingredients.readAll(key: recipe.uid));
+    return true;
   }
 
   void updateRecipeIngredient(EntityRecipeIngredient ingredient) async {
@@ -47,7 +71,13 @@ class RecipeStates extends GetxController {
   // CRUD RecipeSteps
 
   Future<void> createRecipeStep(EntityRecipeStep step) async {
-    await API.entries.recipe.steps.create(step, key: step.uid);
+    await API.entries.recipe.steps.create(step, key: recipe.uid);
+  }
+
+  Future<bool> readAllStepsRecipe() async {
+    recipeSteps.clear();
+    recipeSteps.addAll(await API.entries.recipe.steps.readAll(key: recipe.uid));
+    return true;
   }
 
   void updateRecipeStep(EntityRecipeStep step) async {

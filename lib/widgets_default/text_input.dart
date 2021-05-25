@@ -19,7 +19,7 @@ class FoodzTextInput extends StatelessWidget {
       @required this.onChanged,
       @required this.onClear,
       @required this.hint,
-      this.height = 60,
+      this.height = 40,
       this.textAlignCenter = true,
       this.autofocus = false,
       this.multiline = false});
@@ -28,7 +28,7 @@ class FoodzTextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     _controller.value = TextEditingValue(text: initialValue);
     return TextField(
-      keyboardType: multiline ? TextInputType.multiline : TextInputType.name,
+      keyboardType: multiline ? TextInputType.multiline : TextInputType.text,
       maxLines: multiline ? null : 1,
       autofocus: autofocus,
       controller: _controller,

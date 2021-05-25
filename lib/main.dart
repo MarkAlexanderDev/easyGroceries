@@ -8,6 +8,7 @@ import 'package:foodz/screens/home/grocery_lists_area/grocery_list/grocery_list_
 import 'package:foodz/screens/profile/profile.dart';
 import 'package:foodz/screens/recipes/recipe_creation/recipe_creation.dart';
 import 'package:foodz/screens/recipes/recipe_creation/step_creation.dart';
+import 'package:foodz/screens/recipes/recipe_view/recipe_view.dart';
 import 'package:foodz/states/states_binding.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/urls.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: URL_SEARCH_INGREDIENT, page: () => SearchIngredient()),
         GetPage(name: URL_RECIPE_CREATION, page: () => RecipeCreation()),
         GetPage(name: URL_STEP_CREATION, page: () => StepCreation()),
+        GetPage(name: URL_RECIPE_VIEW, page: () => RecipeView()),
       ],
     );
   }

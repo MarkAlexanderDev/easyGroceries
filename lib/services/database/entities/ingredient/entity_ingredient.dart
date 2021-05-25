@@ -22,7 +22,8 @@ class EntityIngredient {
       this.seasons.addAll(List<int>.from(data["seasons"]));
     this.metric = data["metric"];
     this.category = data["category"];
-    this.allergies.addAll(List<String>.from(data["allergies"]));
+    if (data["allergies"] != null)
+      this.allergies.addAll(List<String>.from(data["allergies"]));
     return true;
   }
 }

@@ -38,6 +38,7 @@ class _Redirections extends State<Redirections> {
     return FutureBuilder(
         future: futureLoader,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) print(snapshot.error);
           if (snapshot.hasData)
             return Obx(
                 () => _getPage(accountStates.account, appStates.loading.value));

@@ -7,16 +7,17 @@ import 'package:get/get.dart';
 class EntityFridgeIngredient extends GetxController {
   String name;
   String pictureUrl;
-  RxInt number = 1.obs;
-  RxString metric = "".obs;
+  RxDouble number = 1.0.obs;
+  String metric = "";
   String category;
 
   EntityFridgeIngredient(
       {@required this.pictureUrl,
       @required this.name,
-      @required metric,
+      @required this.metric,
+      @required number,
       @required this.category}) {
-    this.metric.value = metric;
+    this.number.value = number;
   }
 
   EntityFridgeIngredient.fromJson(Map<String, dynamic> data,
@@ -28,7 +29,7 @@ class EntityFridgeIngredient extends GetxController {
     return {
       "pictureUrl": this.pictureUrl,
       "number": this.number.value,
-      "metric": this.metric.value,
+      "metric": this.metric,
       "category": this.category,
     };
   }
@@ -42,7 +43,7 @@ class EntityFridgeIngredient extends GetxController {
     this.name = key;
     this.pictureUrl = data["pictureUrl"];
     this.number.value = data["number"];
-    this.metric.value = data["metric"];
+    this.metric = data["metric"];
     this.category = data["category"];
     return true;
   }

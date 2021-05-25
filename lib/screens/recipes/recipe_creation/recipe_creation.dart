@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/material.dart';
 import 'package:foodz/services/database/entities/recipe/entity_recipe.dart';
+import 'package:foodz/services/database/entities/recipe/entity_recipe_ingredient.dart';
+import 'package:foodz/services/database/entities/recipe/entity_recipe_step.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/recipe_states.dart';
@@ -44,6 +46,7 @@ class _RecipeCreation extends State<RecipeCreation> {
       recipeStates.recipe.name = "";
       recipeStates.recipe.description = "";
       recipeStates.recipeIngredients.clear();
+      recipeStates.recipeSteps.clear();
     }
     super.initState();
   }
@@ -84,7 +87,7 @@ class _RecipeCreation extends State<RecipeCreation> {
                       width: 100,
                       defaultChild: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Image.asset("assets/images/appIcon.png"),
+                        child: Image.asset("assets/images/meal.png"),
                       ),
                       onEdit: () async {
                         recipeStates.recipe.pictureUrl.value = await getImage(
@@ -160,41 +163,64 @@ class _RecipeCreation extends State<RecipeCreation> {
               searchModId: SEARCH_INGREDIENT_FOR_RECIPE_ID,
             ),
             SizedBox(height: 15),
-            ListView.builder(
+            Obx(() => ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: recipeStates.recipeIngredients.length,
                 itemBuilder: (BuildContext context, int i) {
-                  return IngredientItem(
+                  return Obx(() => IngredientItem(
                     name: recipeStates.recipeIngredients[i].name,
                     pictureUrl: recipeStates.recipeIngredients[i].pictureUrl,
-                  );
-                }),
+                    number: recipeStates.recipeIngredients[i].number.value,
+                    metric: recipeStates.recipeIngredients[i].metric,
+                    onDelete: () {
+                      recipeStates.recipeIngredients.removeAt(i);
+                    },
+                    onChangeQuantity: (double value) {
+                      recipeStates.recipeIngredients[i].number.value = value;
+                    },
+                  ));
+                })),
             SizedBox(height: 30),
             AddStepBar(),
             SizedBox(height: 15),
-            ListView.builder(
+            Obx(() => ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: recipeStates.recipeSteps.length,
                 itemBuilder: (BuildContext context, int i) {
                   return StepItem(
-                      number: recipeStates.recipeSteps[i].number,
-                      text: recipeStates.recipeSteps[i].text);
-                }),
+                    number: recipeStates.recipeSteps[i].number,
+                    text: recipeStates.recipeSteps[i].text,
+                    onDelete: () {
+                      recipeStates.recipeSteps.removeAt(i);
+                    },
+                  );
+                })),
             SizedBox(height: 10),
           ]),
         ),
       ),
       bottomNavigationBar: FoodzConfirmButton(
-          label: "confirm my list",
+          label: "confirm my recipe",
           enabled: true,
           onClick: () async {
             appStates.setLoading(true);
             if (isEditing)
               recipeStates.updateRecipe();
-            else
+            else {
               await recipeStates.createRecipe();
+              await Future.forEach(recipeStates.recipeIngredients,
+                  (EntityRecipeIngredient element) async {
+                await recipeStates.createRecipeIngredient(element);
+              });
+              await Future.forEach(recipeStates.recipeSteps,
+                  (EntityRecipeStep element) async {
+                await recipeStates.createRecipeStep(element);
+              });
+              accountStates.account.recipeIds.add(recipeStates.recipe.uid);
+              accountStates.updateAccount();
+            }
             Get.back();
             appStates.setLoading(false);
           }),

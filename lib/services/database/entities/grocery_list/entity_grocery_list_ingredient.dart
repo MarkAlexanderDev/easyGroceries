@@ -7,17 +7,18 @@ import 'package:get/get.dart';
 class EntityGroceryListIngredient extends GetxController {
   String name;
   String pictureUrl;
-  RxInt number = 1.obs;
+  RxDouble number = 1.0.obs;
   RxBool checked = false.obs;
-  RxString metric = "".obs;
+  String metric = "";
   String category;
 
   EntityGroceryListIngredient(
       {@required this.pictureUrl,
       @required this.name,
-      @required metric,
-      @required this.category}) {
-    this.metric.value = metric;
+      @required this.metric,
+      @required this.category,
+      @required number}) {
+    this.number.value = number;
   }
 
   EntityGroceryListIngredient.fromJson(Map<String, dynamic> data,
@@ -30,7 +31,7 @@ class EntityGroceryListIngredient extends GetxController {
       "pictureUrl": this.pictureUrl,
       "number": this.number.value,
       "checked": this.checked.value,
-      "metric": this.metric.value,
+      "metric": this.metric,
       "category": this.category,
     };
   }
@@ -45,7 +46,7 @@ class EntityGroceryListIngredient extends GetxController {
     this.pictureUrl = data["pictureUrl"];
     this.number.value = data["number"];
     this.checked.value = data["checked"];
-    this.metric.value = data["metric"];
+    this.metric = data["metric"];
     this.category = data["category"];
     return true;
   }

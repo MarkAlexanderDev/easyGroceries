@@ -32,8 +32,7 @@ class _StepCreation extends State<StepCreation> {
             elevation: 0.0,
             backgroundColor: Colors.transparent,
             title: AutoSizeText(
-              "Instruction #" +
-                  (recipeStates.recipeIngredients.length + 1).toString(),
+              "Instruction #" + recipeStates.recipeStep.number.toString(),
               style: textFredokaOneH1,
             ),
             centerTitle: true,
@@ -61,6 +60,7 @@ class _StepCreation extends State<StepCreation> {
           GestureDetector(
             onTap: () {
               recipeStates.recipeSteps.add(recipeStates.recipeStep);
+              FocusScope.of(context).unfocus();
               Get.back();
             },
             child: AutoSizeText(
