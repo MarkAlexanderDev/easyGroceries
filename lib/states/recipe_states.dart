@@ -33,6 +33,7 @@ class RecipeStates extends GetxController {
 
   Future<void> createRecipe() async {
     recipe.uid = await API.entries.recipe.create(recipe);
+    recipeOwned.add(recipe);
   }
 
   Future<void> readRecipe(String recipeId) async {

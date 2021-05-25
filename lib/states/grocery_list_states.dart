@@ -14,7 +14,6 @@ class GroceryListStates extends GetxController {
 
   Future<void> createGroceryList() async {
     groceryList.uid = await API.entries.groceryList.create(groceryList);
-    groceryListOwned.add(groceryList);
   }
 
   Future<void> readGroceryList(String groceryListId) async {
