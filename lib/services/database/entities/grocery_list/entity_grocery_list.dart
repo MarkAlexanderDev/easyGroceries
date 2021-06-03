@@ -5,14 +5,16 @@ import 'package:get/get.dart';
 
 class EntityGroceryList extends GetxController {
   String uid;
-  RxString name = "".obs;
-  RxString description = "".obs;
+  RxString name = "Monday shopping".obs;
+  String description;
   RxString pictureUrl = "".obs;
   RxString cronReminder = "".obs;
-  String createdAt;
-  String updatedAt;
+  int peopleNb;
 
-  EntityGroceryList();
+  EntityGroceryList() {
+    description = "All my needs for the week";
+    peopleNb = 1;
+  }
 
   EntityGroceryList.fromJson(Map<String, dynamic> data, {String key = ""}) {
     fromJson(data, key: key);
@@ -21,11 +23,10 @@ class EntityGroceryList extends GetxController {
   Map<String, dynamic> toMap() {
     return {
       "name": this.name.value,
-      "description": this.description.value,
+      "description": this.description,
       "pictureUrl": this.pictureUrl.value,
       "cronReminder": this.cronReminder.value,
-      "createdAt": this.createdAt,
-      "updatedAt": this.updatedAt,
+      "peopleNb": this.peopleNb,
     };
   }
 
@@ -37,11 +38,10 @@ class EntityGroceryList extends GetxController {
     if (data == null) return false;
     this.uid = key;
     this.name.value = data["name"];
-    this.description.value = data["description"];
+    this.description = data["description"];
     this.pictureUrl.value = data["pictureUrl"];
     this.cronReminder.value = data["cronReminder"];
-    this.createdAt = data["createdAt"];
-    this.updatedAt = data["updatedAt"];
+    this.peopleNb = data["peopleNb"];
     return true;
   }
 }

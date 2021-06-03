@@ -5,10 +5,9 @@ import 'package:foodz/states/fridge_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/states/ingredient_states.dart';
 import 'package:foodz/states/recipe_states.dart';
-import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:foodz/utils/ingredient.dart';
-import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/utils/ingredient/ingredient.dart';
+import 'package:foodz/widgets_common/ingredient_picture.dart';
 import 'package:foodz/widgets_default/text_input.dart';
 import 'package:get/get.dart';
 
@@ -66,12 +65,6 @@ class SearchIngredient extends StatelessWidget {
           shrinkWrap: true,
           itemCount: ingredientStates.ingredientFound.length,
           itemBuilder: (BuildContext context, int i) {
-            final bool isIngredientAdded = groceryListStates
-                .groceryListIngredients
-                .where((element) =>
-                    element.name == ingredientStates.ingredientFound[i].title)
-                .toList()
-                .isNotEmpty;
             return GestureDetector(
               onTap: () {
                 _addItem(i);
@@ -84,22 +77,10 @@ class SearchIngredient extends StatelessWidget {
                   height: 48,
                   padding: EdgeInsets.symmetric(vertical: 4.0),
                   alignment: Alignment.center,
-                  child: FoodzProfilePicture(
+                  child: FoodzIngredientPicture(
                     height: 50,
                     width: 50,
-                    editMode: false,
-                    defaultChild: isIngredientAdded
-                        ? Icon(
-                            Icons.check,
-                            color: mainColor,
-                          )
-                        : Icon(
-                            Icons.add_shopping_cart_outlined,
-                            color: mainColor,
-                          ),
-                    pictureUrl: isIngredientAdded
-                        ? ""
-                        : ingredientStates.ingredientFound[i].pictureUrl,
+                    image: ingredientStates.ingredientFound[i].image,
                   ),
                 ),
                 title: Text(ingredientStates.ingredientFound[i].title),

@@ -88,7 +88,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
             FoodzTextInput(
               initialValue: groceryListStates.groceryList.name.value,
               onChanged: (value) {
-                groceryListStates.groceryList.name.value = value;
+                groceryListStates.groceryList.name = value;
               },
               onClear: () {
                 groceryListStates.groceryList.name.value = "";
@@ -97,12 +97,12 @@ class _GroceryListCreation extends State<GroceryListCreation> {
             ),
             SizedBox(height: 30),
             FoodzTextInput(
-              initialValue: groceryListStates.groceryList.description.value,
+              initialValue: groceryListStates.groceryList.description,
               onChanged: (value) {
-                groceryListStates.groceryList.description.value = value;
+                groceryListStates.groceryList.description = value;
               },
               onClear: () {
-                groceryListStates.groceryList.description.value = "";
+                groceryListStates.groceryList.description = "";
               },
               hint: "Description",
             ),
@@ -149,7 +149,7 @@ class _GroceryListCreation extends State<GroceryListCreation> {
       ),
       bottomNavigationBar: Obx(() => FoodzConfirmButton(
           label: "confirm my list",
-          enabled: groceryListStates.groceryList.name.value.isNotEmpty,
+          enabled: groceryListStates.groceryList.name.isNotEmpty,
           onClick: () async {
             appStates.setLoading(true);
             if (isEditing)
@@ -160,6 +160,8 @@ class _GroceryListCreation extends State<GroceryListCreation> {
                   .createGroceryListAccount(accountStates.account.uid);
               accountStates.account.groceryListIds
                   .add(groceryListStates.groceryList.uid);
+              groceryListStates.groceryListOwned
+                  .add(groceryListStates.groceryList);
               accountStates.updateAccount();
             }
             Get.offNamed(URL_GROCERY_LIST);

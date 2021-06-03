@@ -6,15 +6,11 @@ import 'package:get/get.dart';
 
 class EntityRecipeIngredient extends GetxController {
   String name = "";
-  String pictureUrl = "";
   RxDouble number = 1.0.obs;
   String metric = "";
 
   EntityRecipeIngredient(
-      {@required this.name,
-      @required this.pictureUrl,
-      @required this.metric,
-      @required number}) {
+      {@required this.name, @required this.metric, @required number}) {
     this.number.value = number;
   }
 
@@ -27,7 +23,6 @@ class EntityRecipeIngredient extends GetxController {
     return {
       "number": this.number.value,
       "metric": this.metric,
-      "pictureUrl": this.pictureUrl,
     };
   }
 
@@ -40,7 +35,6 @@ class EntityRecipeIngredient extends GetxController {
     this.name = key;
 
     this.number.value = data["number"];
-    this.pictureUrl = data["pictureUrl"];
     this.metric = data["metric"];
     return true;
   }

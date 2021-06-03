@@ -36,7 +36,10 @@ dependencies:
   cloud_firestore: ^1.0.3
   flutter_search_bar: ^2.1.0
   flutter_flavorizr: ^2.0.0
-  flutter_datetime_picker: ^1.5.1
+  flutter_datetime_picker:
+    git:
+      url: https://github.com/AlexHartford/flutter_datetime_picker.git
+      ref: master
   flutter_spinbox: ^0.5.2
   flutter_picker: ^2.0.1
 
@@ -85,6 +88,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/ingredients/
     - assets/lotties/
     - assets/sounds/
 

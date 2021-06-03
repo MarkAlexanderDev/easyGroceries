@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodz/style/colors.dart';
 
 class Rater extends StatelessWidget {
   final int currentGrade;
@@ -10,7 +9,7 @@ class Rater extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();
-    return SizedBox(
+    /*return SizedBox(
       width: 125,
       height: 50,
       child: ListView.builder(
@@ -23,6 +22,6 @@ class Rater extends StatelessWidget {
           return Icon(Icons.star, color: mainColor);
         },
       ),
-    );
+    );*/
   }
 }

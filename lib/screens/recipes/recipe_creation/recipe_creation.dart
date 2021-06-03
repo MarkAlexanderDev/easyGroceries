@@ -169,17 +169,17 @@ class _RecipeCreation extends State<RecipeCreation> {
                 itemCount: recipeStates.recipeIngredients.length,
                 itemBuilder: (BuildContext context, int i) {
                   return Obx(() => IngredientItem(
-                    name: recipeStates.recipeIngredients[i].name,
-                    pictureUrl: recipeStates.recipeIngredients[i].pictureUrl,
-                    number: recipeStates.recipeIngredients[i].number.value,
-                    metric: recipeStates.recipeIngredients[i].metric,
-                    onDelete: () {
-                      recipeStates.recipeIngredients.removeAt(i);
-                    },
-                    onChangeQuantity: (double value) {
-                      recipeStates.recipeIngredients[i].number.value = value;
-                    },
-                  ));
+                        name: recipeStates.recipeIngredients[i].name,
+                        number: recipeStates.recipeIngredients[i].number.value,
+                        metric: recipeStates.recipeIngredients[i].metric,
+                        onDelete: () {
+                          recipeStates.recipeIngredients.removeAt(i);
+                        },
+                        onChangeQuantity: (double value) {
+                          recipeStates.recipeIngredients[i].number.value =
+                              value;
+                        },
+                      ));
                 })),
             SizedBox(height: 30),
             AddStepBar(),

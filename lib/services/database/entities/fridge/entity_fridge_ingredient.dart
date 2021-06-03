@@ -6,14 +6,13 @@ import 'package:get/get.dart';
 
 class EntityFridgeIngredient extends GetxController {
   String name;
-  String pictureUrl;
+  Image image;
   RxDouble number = 1.0.obs;
   String metric = "";
   String category;
 
   EntityFridgeIngredient(
-      {@required this.pictureUrl,
-      @required this.name,
+      {@required this.name,
       @required this.metric,
       @required number,
       @required this.category}) {
@@ -27,7 +26,6 @@ class EntityFridgeIngredient extends GetxController {
 
   Map<String, dynamic> toMap() {
     return {
-      "pictureUrl": this.pictureUrl,
       "number": this.number.value,
       "metric": this.metric,
       "category": this.category,
@@ -41,7 +39,6 @@ class EntityFridgeIngredient extends GetxController {
   bool fromJson(Map<String, dynamic> data, {String key = ""}) {
     if (data == null) return false;
     this.name = key;
-    this.pictureUrl = data["pictureUrl"];
     this.number.value = data["number"];
     this.metric = data["metric"];
     this.category = data["category"];

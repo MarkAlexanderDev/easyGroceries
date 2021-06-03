@@ -21,7 +21,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.1"
   auto_size_text:
     dependency: "direct main"
     description:
@@ -219,10 +219,12 @@ packages:
   flutter_datetime_picker:
     dependency: "direct main"
     description:
-      name: flutter_datetime_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.5.1"
+      path: "."
+      ref: master
+      resolved-ref: "654aca41d5840fe31e55ddd0631f6fd3f1f0f710"
+      url: "https://github.com/AlexHartford/flutter_datetime_picker.git"
+    source: git
+    version: "1.4.0"
   flutter_flavorizr:
     dependency: "direct main"
     description:
@@ -601,7 +603,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   stack_trace:
     dependency: transitive
     description:
@@ -636,7 +638,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   transformer_page_view:
     dependency: transitive
     description:
