@@ -13,12 +13,13 @@ class EntityGroceryListIngredient extends GetxController {
   String category;
 
   EntityGroceryListIngredient(
-      {@required this.pictureUrl,
-      @required this.name,
+      {@required this.name,
       @required this.metric,
-      @required this.category,
-      @required number}) {
+      @required number,
+      this.category,
+      checked}) {
     this.number.value = number;
+    this.checked.value = checked;
   }
 
   EntityGroceryListIngredient.fromJson(Map<String, dynamic> data,

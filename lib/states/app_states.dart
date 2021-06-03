@@ -35,18 +35,18 @@ class AppStates extends GetxController {
       );
       final String accountId =
           localStorage.getStringData(SHARED_PREF_KEY_ACCOUNT_ID);
-      if (accountId.isNotEmpty) {
-        await _accountStates.readAccount(accountId);
-        await _groceryListStates
-            .readAllAccountGroceryLists(_accountStates.account.groceryListIds);
-        await _fridgeStates
-            .readAllAccountFridges(_accountStates.account.fridgeIds);
-        await _recipeStates
-            .readAllAccountRecipes(_accountStates.account.recipeIds);
-        loaded = true;
-      }
+      if (accountId.isNotEmpty) await loadUserData(accountId);
+      loaded = true;
     }
     return true;
+  }
+
+  Future<void> loadUserData(String accountId) async {
+    await _accountStates.readAccount(accountId);
+    await _groceryListStates
+        .readAllAccountGroceryLists(_accountStates.account.groceryListIds);
+    await _fridgeStates.readAllAccountFridges(_accountStates.account.fridgeIds);
+    await _recipeStates.readAllAccountRecipes(_accountStates.account.recipeIds);
   }
 
   void setLoading(bool value) {

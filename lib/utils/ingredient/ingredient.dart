@@ -1,7 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:foodz/services/database/entities/fridge/entity_fridge_ingredient.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
 import 'package:foodz/services/database/entities/ingredient/entity_ingredient.dart';
 import 'package:foodz/services/database/entities/recipe/entity_recipe_ingredient.dart';
+import 'package:foodz/utils/ingredient/data.dart';
+
+Image getIngredientImageFromName(String name) {
+  final List<EntityIngredient> ingredient =
+      ingredientList.where((element) => element.title == name).toList();
+  if (ingredient.isNotEmpty) return ingredient.first.image;
+  return Image.asset("assets/images/ingredients/unknown.png");
+}
 
 double getStepNumberFromMetric(String metric) {
   switch (metric) {
@@ -21,26 +30,23 @@ EntityFridgeIngredient ingredientToFridgeIngredient(
     category: ingredient.category,
     number: getStepNumberFromMetric(ingredient.metric),
     metric: ingredient.metric,
-    pictureUrl: ingredient.pictureUrl,
   );
 }
 
 EntityGroceryListIngredient ingredientToGroceryListIngredient(
     EntityIngredient ingredient) {
   return EntityGroceryListIngredient(
-    name: ingredient.title,
-    category: ingredient.category,
-    metric: ingredient.metric,
-    pictureUrl: ingredient.pictureUrl,
-    number: getStepNumberFromMetric(ingredient.metric),
-  );
+      name: ingredient.title,
+      category: ingredient.category,
+      metric: ingredient.metric == null ? "" : ingredient.metric,
+      number: getStepNumberFromMetric(ingredient.metric),
+      checked: false);
 }
 
 EntityRecipeIngredient ingredientToRecipeIngredient(
     EntityIngredient ingredient) {
   return EntityRecipeIngredient(
     name: ingredient.title,
-    pictureUrl: ingredient.pictureUrl,
     number: getStepNumberFromMetric(ingredient.metric),
     metric: ingredient.metric == null ? "" : ingredient.metric,
   );
@@ -49,7 +55,6 @@ EntityRecipeIngredient ingredientToRecipeIngredient(
 EntityFridgeIngredient groceryListIngredientToFridgeIngredient(
     EntityGroceryListIngredient groceryListIngredient) {
   return EntityFridgeIngredient(
-      pictureUrl: groceryListIngredient.pictureUrl,
       name: groceryListIngredient.name,
       metric: groceryListIngredient.metric,
       number: groceryListIngredient.number,

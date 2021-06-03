@@ -155,8 +155,6 @@ class _RecipeView extends State<RecipeView> {
                       itemBuilder: (BuildContext context, int i) {
                         return IngredientItem(
                           name: recipeStates.recipeIngredients[i].name,
-                          pictureUrl:
-                              recipeStates.recipeIngredients[i].pictureUrl,
                           number:
                               recipeStates.recipeIngredients[i].number.value,
                           metric: recipeStates.recipeIngredients[i].metric,

@@ -1,14 +1,23 @@
 import 'dart:core';
 
+import 'package:flutter/cupertino.dart';
+
 class EntityIngredient {
   String title;
-  String pictureUrl;
+  Image image;
   List<int> seasons = [];
   String metric;
   String category;
   List<String> allergies = [];
 
-  EntityIngredient({this.title});
+  EntityIngredient({
+    @required this.title,
+    @required this.image,
+    @required this.seasons,
+    @required this.metric,
+    @required this.category,
+    @required this.allergies,
+  });
 
   EntityIngredient.fromJson(Map<String, dynamic> data, {String key = ""}) {
     fromJson(data, key: key);
@@ -17,7 +26,6 @@ class EntityIngredient {
   bool fromJson(Map<String, dynamic> data, {String key = ""}) {
     if (data == null) return false;
     this.title = key;
-    this.pictureUrl = data["pictureUrl"];
     if (data["seasons"] != null)
       this.seasons.addAll(List<int>.from(data["seasons"]));
     this.metric = data["metric"];

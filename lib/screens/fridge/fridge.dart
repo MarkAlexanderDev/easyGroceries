@@ -62,8 +62,6 @@ class Fridge extends StatelessWidget {
                               itemBuilder: (BuildContext context, int i) {
                                 return IngredientItem(
                                   name: fridgeStates.fridgeIngredients[i].name,
-                                  pictureUrl: fridgeStates
-                                      .fridgeIngredients[i].pictureUrl,
                                   number: fridgeStates
                                       .fridgeIngredients[i].number.value,
                                   metric:

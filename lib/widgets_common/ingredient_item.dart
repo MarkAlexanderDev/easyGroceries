@@ -2,15 +2,18 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/flutter_spinbox.dart';
+import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
+import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
-import 'package:foodz/utils/ingredient.dart';
-import 'package:foodz/widgets_common/profile_picture.dart';
+import 'package:foodz/utils/ingredient/ingredient.dart';
 import 'package:foodz/widgets_default/text_input.dart';
+import 'package:get/get.dart';
+
+import 'ingredient_picture.dart';
 
 class IngredientItem extends StatelessWidget {
   final String name;
-  final String pictureUrl;
   final double number;
   final String metric;
   final bool checkable;
@@ -19,14 +22,15 @@ class IngredientItem extends StatelessWidget {
   final Function onDelete;
   final Function onChangeQuantity;
 
+  final GroceryListStates groceryListStates = Get.find();
+
   IngredientItem(
       {@required this.name,
-      @required this.pictureUrl,
       @required this.number,
       @required this.metric,
       this.onDelete,
       this.checkable = false,
-      this.checked,
+      this.checked = false,
       this.onChecked,
       this.onChangeQuantity});
 
@@ -36,6 +40,7 @@ class IngredientItem extends StatelessWidget {
       padding: const EdgeInsets.all(2.0),
       child: GestureDetector(
         onTap: () => _modalBottomSheetMenu(context),
+        onLongPress: () => _modalBottomSheetMenu(context),
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(color: Colors.black, width: 0.05),
@@ -47,30 +52,50 @@ class IngredientItem extends StatelessWidget {
               children: [
                 Opacity(
                   opacity: checkable && checked ? 0.3 : 1.0,
-                  child: FoodzProfilePicture(
-                    height: 50,
-                    width: 50,
-                    pictureUrl: pictureUrl,
-                    editMode: false,
-                    defaultChild: Icon(
-                      Icons.add_shopping_cart_outlined,
-                      color: mainColor,
-                    ),
-                  ),
+                  child: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: mainColor, width: 1)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: getIngredientImageFromName(name).image,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )),
                 ),
                 Expanded(child: Container()),
-                AutoSizeText(
-                    name +
-                        " (" +
-                        number
-                            .toString()
-                            .substring(0, number.toString().indexOf(".")) +
-                        metric +
-                        ")",
-                    style: textAssistantH2BlackBold.copyWith(
-                        decoration: checkable && checked
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none)),
+                Stack(alignment: Alignment.center, children: [
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 400),
+                    height: 3,
+                    decoration: BoxDecoration(
+                        color: mainColor,
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    width: checked ? name.length.toDouble() * 12 : 0,
+                    onEnd: () async {
+                      groceryListStates.updateGroceryListIngredient(
+                          EntityGroceryListIngredient(
+                              name: name,
+                              metric: metric,
+                              number: number,
+                              checked: checked));
+                    },
+                  ),
+                  AutoSizeText(
+                      name +
+                          " (" +
+                          number
+                              .toString()
+                              .substring(0, number.toString().indexOf(".")) +
+                          metric +
+                          ")",
+                      style: textAssistantH2BlackBold)
+                ]),
                 Expanded(child: Container()),
                 checkable
                     ? Checkbox(
@@ -117,15 +142,10 @@ class IngredientItem extends StatelessWidget {
                         child: Column(
                           children: [
                             SizedBox(height: 20),
-                            FoodzProfilePicture(
+                            FoodzIngredientPicture(
                               height: 100,
                               width: 100,
-                              pictureUrl: pictureUrl,
-                              editMode: false,
-                              defaultChild: Icon(
-                                Icons.add_shopping_cart_outlined,
-                                color: mainColor,
-                              ),
+                              image: getIngredientImageFromName(name),
                             ),
                             Text(
                               name,
@@ -140,11 +160,6 @@ class IngredientItem extends StatelessWidget {
                               onChanged: onChangeQuantity,
                             ),
                             SizedBox(height: 20),
-                            FoodzTextInput(
-                                initialValue: "",
-                                onChanged: (String value) {},
-                                onClear: () {},
-                                hint: "Comments"),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(

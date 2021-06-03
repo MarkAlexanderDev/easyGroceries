@@ -15,6 +15,7 @@ import 'package:foodz/widgets_common/bubble.dart';
 import 'package:foodz/widgets_common/ingredient_item.dart';
 import 'package:foodz/widgets_common/search_ingredient.dart';
 import 'package:foodz/widgets_default/clear_button.dart';
+import 'package:foodz/widgets_default/floating_action_button.dart';
 import 'package:foodz/widgets_default/loading.dart';
 import 'package:foodz/widgets_default/pop_up_coming_soon.dart';
 import 'package:get/get.dart';
@@ -31,54 +32,56 @@ class GroceryList extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        appBar: _getAppBar(context),
-        body: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection(endpointGroceryLists)
-                .doc(groceryListStates.groceryList.uid)
-                .collection("Ingredients/")
-                .snapshots(),
-            builder: (BuildContext streamContext, AsyncSnapshot snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  return Center(
-                    child: Text("No connection"),
-                  );
-                case ConnectionState.waiting:
-                  return Center(child: FoodzLoading());
-                case ConnectionState.active:
-                  groceryListStates.groceryListIngredients =
-                      _streamToGroceryListIngredients(snapshot.data);
-                  return SingleChildScrollView(
-                      child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AddIngredientBar(
-                          searchModId: SEARCH_INGREDIENT_FOR_GROCERY_LIST_ID,
-                        ),
-                        Container(height: 20),
-                        groceryListStates.groceryListIngredients.isEmpty
-                            ? _EmptyGroceryList()
-                            : Container(),
-                        _UncheckedItemsList(
-                            groceryListIngredients:
-                                groceryListStates.groceryListIngredients),
-                        Container(
-                          height: 25,
-                        ),
-                        _CheckedItemsList(
-                            groceryListIngredients:
-                                groceryListStates.groceryListIngredients),
-                      ],
-                    ),
-                  ));
-                default:
-                  return FoodzLoading();
-              }
-            }),
-      ),
+          appBar: _getAppBar(context),
+          body: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection(endpointGroceryLists)
+                  .doc(groceryListStates.groceryList.uid)
+                  .collection("Ingredients/")
+                  .snapshots(),
+              builder: (BuildContext streamContext, AsyncSnapshot snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    return Center(
+                      child: Text("No connection"),
+                    );
+                  case ConnectionState.waiting:
+                    return Center(child: FoodzLoading());
+                  case ConnectionState.active:
+                    groceryListStates.groceryListIngredients =
+                        _streamToGroceryListIngredients(snapshot.data);
+                    return SingleChildScrollView(
+                        child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AddIngredientBar(
+                            searchModId: SEARCH_INGREDIENT_FOR_GROCERY_LIST_ID,
+                          ),
+                          Container(height: 20),
+                          groceryListStates.groceryListIngredients.isEmpty
+                              ? _EmptyGroceryList()
+                              : Container(),
+                          _UncheckedItemsList(),
+                          Container(
+                            height: 25,
+                          ),
+                          _CheckedItemsList(
+                              groceryListIngredients:
+                                  groceryListStates.groceryListIngredients),
+                        ],
+                      ),
+                    ));
+                  default:
+                    return FoodzLoading();
+                }
+              }),
+          floatingActionButton: FoodzFloatingActionButton(
+            label: "Order groceries",
+            icon: Icons.add_shopping_cart,
+            onPressed: () => showPopUpComingSoon(context),
+          )),
     );
   }
 
@@ -106,10 +109,6 @@ class GroceryList extends StatelessWidget {
           onPressed: () => Get.offNamed(URL_HOME)),
       actions: [
         GestureDetector(
-            onTap: () => showPopUpComingSoon(context),
-            child: Icon(Icons.add_shopping_cart)),
-        SizedBox(width: 10),
-        GestureDetector(
             onTap: () =>
                 {Get.toNamed(URL_GROCERY_LIST_CREATION, arguments: true)},
             child: Icon(Icons.create)),
@@ -119,16 +118,30 @@ class GroceryList extends StatelessWidget {
   }
 }
 
-class _UncheckedItemsList extends StatelessWidget {
-  final GroceryListStates groceryListStates = Get.find();
-  final List<EntityGroceryListIngredient> groceryListIngredients;
+class _UncheckedItemsList extends StatefulWidget {
+  @override
+  __UncheckedItemsList createState() => __UncheckedItemsList();
+}
 
-  _UncheckedItemsList({@required this.groceryListIngredients});
+class __UncheckedItemsList extends State<_UncheckedItemsList>
+    with SingleTickerProviderStateMixin {
+  final GroceryListStates groceryListStates = Get.find();
+  AnimationController _controller;
+  Animation<Offset> offsetAnimation;
+
+  @override
+  void initState() {
+    _controller =
+        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+    offsetAnimation = Tween<Offset>(begin: Offset.zero, end: Offset(1.5, 0.0))
+        .animate(_controller);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final List<EntityGroceryListIngredient> groceryListIngredientsUnchecked =
-        groceryListIngredients
+        groceryListStates.groceryListIngredients
             .where(
                 (EntityGroceryListIngredient element) => !element.checked.value)
             .toList();
@@ -137,26 +150,23 @@ class _UncheckedItemsList extends StatelessWidget {
         shrinkWrap: true,
         itemCount: groceryListIngredientsUnchecked.length,
         itemBuilder: (BuildContext context, int i) {
-          return IngredientItem(
-            name: groceryListIngredientsUnchecked[i].name,
-            pictureUrl: groceryListIngredientsUnchecked[i].pictureUrl,
-            number: groceryListIngredientsUnchecked[i].number.value,
-            metric: groceryListIngredientsUnchecked[i].metric,
-            checkable: true,
-            checked: false,
-            onChecked: (bool value) {
-              groceryListIngredientsUnchecked[i].checked.value = value;
-              groceryListStates.updateGroceryListIngredient(
-                  groceryListIngredientsUnchecked[i]);
-            },
-            onDelete: () => groceryListStates.deleteGroceryListIngredient(
-                groceryListIngredientsUnchecked[i].name),
-            onChangeQuantity: (double value) {
-              groceryListIngredientsUnchecked[i].number.value = value;
-              groceryListStates.updateGroceryListIngredient(
-                  groceryListIngredientsUnchecked[i]);
-            },
-          );
+          return Obx(() => IngredientItem(
+                name: groceryListIngredientsUnchecked[i].name,
+                number: groceryListIngredientsUnchecked[i].number.value,
+                metric: groceryListIngredientsUnchecked[i].metric,
+                checkable: true,
+                checked: groceryListIngredientsUnchecked[i].checked.value,
+                onChecked: (bool value) {
+                  groceryListIngredientsUnchecked[i].checked.value = value;
+                },
+                onDelete: () => groceryListStates.deleteGroceryListIngredient(
+                    groceryListIngredientsUnchecked[i].name),
+                onChangeQuantity: (double value) {
+                  groceryListIngredientsUnchecked[i].number.value = value;
+                  groceryListStates.updateGroceryListIngredient(
+                      groceryListIngredientsUnchecked[i]);
+                },
+              ));
         });
   }
 }
@@ -190,7 +200,6 @@ class _CheckedItemsList extends StatelessWidget {
                       (EntityGroceryListIngredient element) {
                         fridgeStates.createFridgeIngredient(
                             EntityFridgeIngredient(
-                                pictureUrl: element.pictureUrl,
                                 name: element.name,
                                 number: element.number.value,
                                 metric: element.metric,
@@ -211,26 +220,23 @@ class _CheckedItemsList extends StatelessWidget {
             shrinkWrap: true,
             itemCount: groceryListIngredientsChecked.length,
             itemBuilder: (BuildContext context, int i) {
-              return IngredientItem(
-                name: groceryListIngredientsChecked[i].name,
-                pictureUrl: groceryListIngredientsChecked[i].pictureUrl,
-                number: groceryListIngredientsChecked[i].number.value,
-                metric: groceryListIngredientsChecked[i].metric,
-                checkable: true,
-                checked: true,
-                onChecked: (bool value) {
-                  groceryListIngredientsChecked[i].checked.value = value;
-                  groceryListStates.updateGroceryListIngredient(
-                      groceryListIngredientsChecked[i]);
-                },
-                onDelete: () => groceryListStates.deleteGroceryListIngredient(
-                    groceryListIngredientsChecked[i].name),
-                onChangeQuantity: (double value) {
-                  groceryListIngredientsChecked[i].number.value = value;
-                  groceryListStates.updateGroceryListIngredient(
-                      groceryListIngredientsChecked[i]);
-                },
-              );
+              return Obx(() => IngredientItem(
+                    name: groceryListIngredientsChecked[i].name,
+                    number: groceryListIngredientsChecked[i].number.value,
+                    metric: groceryListIngredientsChecked[i].metric,
+                    checkable: true,
+                    checked: groceryListIngredientsChecked[i].checked.value,
+                    onChecked: (bool value) =>
+                        groceryListIngredientsChecked[i].checked.value = value,
+                    onDelete: () =>
+                        groceryListStates.deleteGroceryListIngredient(
+                            groceryListIngredientsChecked[i].name),
+                    onChangeQuantity: (double value) {
+                      groceryListIngredientsChecked[i].number.value = value;
+                      groceryListStates.updateGroceryListIngredient(
+                          groceryListIngredientsChecked[i]);
+                    },
+                  ));
             }),
       ],
     );
