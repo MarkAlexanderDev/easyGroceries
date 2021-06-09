@@ -7,7 +7,6 @@ import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/style/colors.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/utils/ingredient/ingredient.dart';
-import 'package:foodz/widgets_default/text_input.dart';
 import 'package:get/get.dart';
 
 import 'ingredient_picture.dart';
