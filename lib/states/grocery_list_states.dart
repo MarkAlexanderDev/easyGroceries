@@ -1,4 +1,5 @@
 import 'package:foodz/services/database/api.dart';
+import 'package:foodz/services/database/entities/account/entity_account.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
 import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_ingredient.dart';
@@ -7,8 +8,9 @@ import 'package:get/get.dart';
 class GroceryListStates extends GetxController {
   EntityGroceryList groceryList;
   RxList<EntityGroceryList> groceryListOwned = <EntityGroceryList>[].obs;
-  List<EntityGroceryListAccount> groceryListAcounts = [];
   List<EntityGroceryListIngredient> groceryListIngredients = [];
+  List<EntityGroceryListAccount> groceryListAccounts = [];
+  List<EntityAccount> accounts = [];
 
   // CRUD
 
@@ -20,24 +22,31 @@ class GroceryListStates extends GetxController {
     groceryList = await API.entries.groceryList.read(groceryListId);
   }
 
-  void updateGroceryList() async {
-    API.entries.groceryList.update("", groceryList);
+  Future<void> updateGroceryList() async {
+    await API.entries.groceryList.update("", groceryList);
   }
 
-  void deleteGroceryList(String uid) {
-    API.entries.groceryList.delete(uid);
+  Future<void> deleteGroceryList(String uid) async {
+    await API.entries.groceryList.delete(uid);
   }
 
   // CRUD GroceryListAccounts
 
-  Future<void> createGroceryListAccount(String accountId) async {
-    await API.entries.groceryList.accounts
-        .create(EntityGroceryListAccount(uid: accountId), key: groceryList.uid);
+  Future<void> createGroceryListAccount(String accountId, bool isOwner) async {
+    await API.entries.groceryList.accounts.create(
+        EntityGroceryListAccount(uid: accountId, owner: isOwner),
+        key: groceryList.uid);
   }
 
-  Future<List<EntityGroceryListAccount>> readAllGroceryListAccounts(
-      String groceryListUid) async {
-    return await API.entries.groceryList.accounts.readAll(key: groceryListUid);
+  Future<bool> readAllGroceryListAccounts(String groceryListUid) async {
+    accounts.clear();
+    groceryListAccounts.clear();
+    groceryListAccounts =
+        await API.entries.groceryList.accounts.readAll(key: groceryListUid);
+    await Future.forEach(groceryListAccounts, (groceryListAccount) async {
+      accounts.add(await API.entries.accounts.read(groceryListAccount.uid));
+    });
+    return true;
   }
 
   Future<bool> readAllAccountGroceryLists(List<String> groceryListIds) async {
@@ -47,8 +56,9 @@ class GroceryListStates extends GetxController {
     return true;
   }
 
-  void deleteGroceryListAccount(String accountId) {
-    API.entries.groceryList.accounts.delete(accountId, key: groceryList.uid);
+  Future<void> deleteGroceryListAccount(String accountId) async {
+    await API.entries.groceryList.accounts
+        .delete(accountId, key: groceryList.uid);
   }
 
   // CRUD GroceryListIngredients

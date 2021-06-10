@@ -1,68 +1,78 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:foodz/services/database/api.dart';
-import 'package:foodz/services/database/entities/grocery_list/entity_grocery_list_account.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
-import 'package:foodz/urls.dart';
 import 'package:get/get.dart';
 
 import '../flavors.dart';
-import 'auth.dart';
 
 class DynamicLink {
-  final AccountStates accountStates = Get.find();
-  final GroceryListStates groceryStates = Get.find();
+  bool groceryListInvitationLinkTriggered = false;
 
   Future<bool> handleDynamicLinks() async {
-    final PendingDynamicLinkData data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
-    await _handleDeepLink(data);
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData dynamicLinkData) async {
-      await _handleDeepLink(dynamicLinkData);
-    }, onError: (OnLinkErrorException e) async {
-      print("Dynamic Link Failed: " + e.message);
-    });
+    if (!groceryListInvitationLinkTriggered) {
+      final PendingDynamicLinkData data =
+          await FirebaseDynamicLinks.instance.getInitialLink();
+      await handleLinkData(data);
+      FirebaseDynamicLinks.instance.onLink(
+          onSuccess: (PendingDynamicLinkData dynamicLink) async {
+        await handleLinkData(dynamicLink);
+      });
+      groceryListInvitationLinkTriggered = true;
+    }
     return true;
   }
 
-  Future<void> _handleDeepLink(PendingDynamicLinkData data) async {
+  Future<void> handleLinkData(PendingDynamicLinkData data) async {
     final Uri deepLink = data?.link;
-    if (deepLink != null &&
-        await API.entries.groceryList.accounts.read(
-                authService.auth.currentUser.uid,
-                key: deepLink.queryParameters["groceryListUid"]) ==
-            null) {
-      EntityGroceryListAccount groceryListAccount = EntityGroceryListAccount();
-      groceryListAccount.uid = accountStates.account.uid;
-      groceryListAccount.owner = false;
-      groceryListAccount.createdAt = DateTime.now().toString();
-      await API.entries.groceryList.accounts.create(groceryListAccount,
-          key: deepLink.queryParameters["groceryListUid"]);
-      accountStates.account.groceryListIds
-          .add(deepLink.queryParameters["groceryListUid"]);
-      groceryStates.groceryListOwned.add(await API.entries.groceryList
-          .read(deepLink.queryParameters["groceryListUid"]));
-      await accountStates.updateAccount();
+    if (deepLink != null) {
+      final GroceryListStates groceryListStates = Get.find();
+      await groceryListStates
+          .readGroceryList(deepLink.queryParameters["groceryListUid"]);
+      await groceryListStates.readAllGroceryListAccounts(
+          deepLink.queryParameters["groceryListUid"]);
+      if (groceryListStates.groceryListAccounts
+              .where((element) =>
+                  element.uid == FirebaseAuth.instance.currentUser.uid)
+              .length ==
+          0) {
+        final AccountStates accountStates = Get.find();
+        groceryListStates.groceryListOwned.add(groceryListStates.groceryList);
+        groceryListStates.createGroceryListAccount(
+            FirebaseAuth.instance.currentUser.uid, false);
+        groceryListStates.groceryList.peopleNb =
+            groceryListStates.groceryList.peopleNb + 1;
+        groceryListStates.updateGroceryList();
+        accountStates.account.groceryListIds
+            .add(groceryListStates.groceryList.uid);
+        accountStates.updateAccount(FirebaseAuth.instance.currentUser.uid);
+        Get.snackbar("Wouhou!",
+            "You have joined " + groceryListStates.groceryList.name.value);
+      }
     }
   }
 
-  Future<String> createGroceryListInvitationLink(String groceryListUid) async {
-    print(F.appFlavor.toString());
+  Future<String> createInvitationLinkGroceryList(String groceryListUid) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: URL_GROCERY_LIST_INVITATION,
+      uriPrefix: "https://foodz" + F.title + ".page.link",
       link: Uri.parse(
-          "https://foodz-app.com/post?groceryListUid=" + groceryListUid),
+          "https://foodzdev.page.link/post?groceryListUid=$groceryListUid"),
       androidParameters: AndroidParameters(
-        packageName: "com.foodz.app." + F.appFlavor.toString(),
+        packageName: "com.foodz.app." + F.title,
         minimumVersion: 0,
       ),
       dynamicLinkParametersOptions: DynamicLinkParametersOptions(
         shortDynamicLinkPathLength: ShortDynamicLinkPathLength.short,
       ),
     );
-    final Uri dynamicUrl = await parameters.buildUrl();
-    return dynamicUrl.toString();
+    final link = await parameters.buildUrl();
+    final ShortDynamicLink shortenedLink =
+        await DynamicLinkParameters.shortenUrl(
+      link,
+      DynamicLinkParametersOptions(
+          shortDynamicLinkPathLength: ShortDynamicLinkPathLength.unguessable),
+    );
+    return shortenedLink.shortUrl.toString();
   }
 }
 

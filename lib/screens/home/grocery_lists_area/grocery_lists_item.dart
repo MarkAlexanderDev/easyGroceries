@@ -8,24 +8,24 @@ import 'package:foodz/style/text_style.dart';
 import 'package:foodz/widgets_common/profile_picture.dart';
 import 'package:get/get.dart';
 
-import '../../../urls.dart';
-
 class GroceryListsItem extends StatefulWidget {
   final EntityGroceryList groceryList;
+  final Function onTap;
 
-  GroceryListsItem({@required this.groceryList});
+  GroceryListsItem({@required this.groceryList, @required this.onTap});
 
   @override
   State<StatefulWidget> createState() =>
-      _GroceryListsItem(groceryList: groceryList);
+      _GroceryListsItem(groceryList: groceryList, onTap: onTap);
 }
 
 class _GroceryListsItem extends State<GroceryListsItem> {
   final EntityGroceryList groceryList;
   final GroceryListStates groceryListStates = Get.find();
   final List<int> weekDays = <int>[];
+  final Function onTap;
 
-  _GroceryListsItem({@required this.groceryList});
+  _GroceryListsItem({@required this.groceryList, this.onTap});
 
   @override
   void initState() {
@@ -45,10 +45,7 @@ class _GroceryListsItem extends State<GroceryListsItem> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: () {
-          groceryListStates.groceryList = groceryList;
-          Get.toNamed(URL_GROCERY_LIST);
-        },
+        onTap: () => onTap(),
         child: Container(
           clipBehavior: Clip.hardEdge,
           height: 100,

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/screens/onboarding/onboarding_steps/1_onboarding_auth/onboarding_auth.dart';
@@ -89,7 +90,7 @@ class Onboarding extends StatelessWidget {
     appStates.setLoading(true);
     accountStates.account.onboardingFlag.value =
         accountStates.account.onboardingFlag.value + 1;
-    accountStates.updateAccount();
+    accountStates.updateAccount(FirebaseAuth.instance.currentUser.uid);
     appStates.setLoading(false);
   }
 
@@ -98,7 +99,7 @@ class Onboarding extends StatelessWidget {
       appStates.setLoading(true);
       accountStates.account.onboardingFlag.value =
           accountStates.account.onboardingFlag.value - 1;
-      accountStates.updateAccount();
+      accountStates.updateAccount(FirebaseAuth.instance.currentUser.uid);
       if (accountStates.account.onboardingFlag.value == ONBOARDING_STEP_ID_AUTH)
         await authService.signOut();
       appStates.setLoading(false);

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/screens/onboarding/onboarding.dart';
@@ -196,7 +197,8 @@ class _Profile extends State<Profile> {
               label: "confirm",
               enabled: !appStates.uploadingProfilePicture.value,
               onClick: () async {
-                accountStates.updateAccount();
+                accountStates
+                    .updateAccount(FirebaseAuth.instance.currentUser.uid);
                 Get.toNamed(URL_HOME);
               },
             )));

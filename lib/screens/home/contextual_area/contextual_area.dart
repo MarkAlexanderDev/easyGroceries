@@ -9,25 +9,48 @@ import 'package:foodz/style/text_style.dart';
 import 'package:foodz/utils/urlLauncher.dart';
 import 'package:get/get.dart';
 
+import '../../../urls.dart';
+
+class _Slide {
+  _Slide(
+      {@required this.title,
+      @required this.desc,
+      @required this.image,
+      @required this.clickHint,
+      @required this.onClick});
+
+  String title;
+  String desc;
+  String image;
+  String clickHint;
+  Function onClick;
+}
+
 class ContextualArea extends StatelessWidget {
   final GroceryListStates groceryListStates = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> slides = [
-      {
-        "title": "foodz MAP",
-        "desc": "Find all the closest grocery stores from you !",
-        "image":
-            "https://searchengineland.com/figz/wp-content/seloads/2014/08/map-local-search-ss-1920.jpg",
-        "clickHint": "Let's go !",
-        "onClick": () async {
-          String googleUrl =
-              'https://www.google.com/maps/search/grocery+store/';
-          await launchUrl(googleUrl);
-        }
-      },
+    final List<_Slide> slides = [
+      _Slide(
+          title: "Foodz map",
+          desc: "Find all the closest grocery stores from you!",
+          image: "assets/images/nearest_grocery_store.png",
+          clickHint: "Let's go!",
+          onClick: () async {
+            String googleUrl =
+                'https://www.google.com/maps/search/grocery+store/';
+            await launchUrl(googleUrl);
+          }),
+      _Slide(
+        title: "Fruits & veggies of the month",
+        desc: "Discover seasonial product for your next recipe!",
+        image: "assets/images/seasonial.png",
+        clickHint: "Let's see",
+        onClick: () => Get.toNamed(URL_SEASONIAL_INGREDIENTS),
+      )
     ];
+
     return Container(
       height: 200,
       child: Swiper(
@@ -49,7 +72,7 @@ class ContextualArea extends StatelessWidget {
 }
 
 class CAcard extends StatelessWidget {
-  final Map<String, dynamic> slide;
+  final _Slide slide;
 
   CAcard({@required this.slide});
 
@@ -58,14 +81,14 @@ class CAcard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
-        onTap: slide["onClick"],
+        onTap: () => slide.onClick(),
         child: Container(
-          decoration: slide["image"].isEmpty
+          decoration: slide.image.isEmpty
               ? BoxDecoration()
               : BoxDecoration(
                   color: Colors.black,
                   image: DecorationImage(
-                      image: NetworkImage(slide["image"]),
+                      image: Image.asset(slide.image).image,
                       fit: BoxFit.cover,
                       colorFilter: ColorFilter.mode(
                           Colors.black.withOpacity(0.4), BlendMode.dstATop)),
@@ -79,12 +102,12 @@ class CAcard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      slide["title"].toString().toUpperCase(),
+                      slide.title.toUpperCase(),
                       style: textAssistantH1Accent,
                       maxLines: 1,
                     ),
                     AutoSizeText(
-                      slide["desc"],
+                      slide.desc,
                       style: textAssistantH1WhiteBold,
                       maxLines: 1,
                     ),
@@ -107,7 +130,7 @@ class CAcard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       AutoSizeText(
-                        slide["clickHint"],
+                        slide.clickHint,
                         style: textAssistantH2Accent,
                         textAlign: TextAlign.center,
                       ),

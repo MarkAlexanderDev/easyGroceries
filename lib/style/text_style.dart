@@ -35,6 +35,14 @@ final TextStyle textFredokaOneH3 = TextStyle(
   fontSize: 15,
 );
 
+final TextStyle textFredokaOneH3White = TextStyle(
+  fontFamily: 'FredokaOne',
+  color: Colors.white,
+  fontWeight: FontWeight.w400,
+  fontStyle: FontStyle.normal,
+  fontSize: 15,
+);
+
 final TextStyle textFredokaOneH3Black = TextStyle(
   fontFamily: 'FredokaOne',
   color: Colors.black,

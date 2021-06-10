@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinbox/material.dart';
@@ -219,7 +220,8 @@ class _RecipeCreation extends State<RecipeCreation> {
                 await recipeStates.createRecipeStep(element);
               });
               accountStates.account.recipeIds.add(recipeStates.recipe.uid);
-              accountStates.updateAccount();
+              accountStates
+                  .updateAccount(FirebaseAuth.instance.currentUser.uid);
             }
             Get.back();
             appStates.setLoading(false);

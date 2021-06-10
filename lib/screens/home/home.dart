@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'contextual_area.dart';
+import 'contextual_area/contextual_area.dart';
 import 'grocery_lists_area/grocery_lists_area.dart';
 
 class Home extends StatelessWidget {

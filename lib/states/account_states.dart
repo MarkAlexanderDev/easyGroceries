@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodz/services/auth.dart';
 import 'package:foodz/services/database/api.dart';
 import 'package:foodz/services/database/entities/account/entity_account.dart';
 import 'package:foodz/services/local_storage/consts.dart';
@@ -30,11 +29,12 @@ class AccountStates extends GetxController {
 
   Future<void> readAccount(String accountId) async {
     account = await API.entries.accounts.read(accountId);
+    if (account.onboardingFlag.value == 0) account.onboardingFlag.value = 1;
+    updateAccount(FirebaseAuth.instance.currentUser.uid);
   }
 
-  Future<void> updateAccount() async {
-    await API.entries.accounts
-        .update(authService.auth.currentUser.uid, account);
+  Future<void> updateAccount(String uid) async {
+    await API.entries.accounts.update(uid, account);
   }
 
   void deleteAccount() {

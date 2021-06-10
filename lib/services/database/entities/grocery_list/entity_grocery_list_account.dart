@@ -8,7 +8,7 @@ class EntityGroceryListAccount extends GetxController {
   bool owner = false;
   String createdAt;
 
-  EntityGroceryListAccount({this.uid});
+  EntityGroceryListAccount({this.uid, this.owner});
 
   EntityGroceryListAccount.fromJson(Map<String, dynamic> data,
       {String key = ""}) {
@@ -17,7 +17,7 @@ class EntityGroceryListAccount extends GetxController {
 
   Map<String, dynamic> toMap() {
     return {
-      "ownerUid": this.owner,
+      "owner": this.owner,
       "createdAt": this.createdAt,
     };
   }
