@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodz/states/app_states.dart';
 import 'package:foodz/states/fridge_states.dart';
 import 'package:foodz/states/grocery_list_states.dart';
 import 'package:foodz/states/ingredient_states.dart';

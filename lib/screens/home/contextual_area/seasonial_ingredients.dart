@@ -130,31 +130,34 @@ class SeasonialIngredients extends StatelessWidget {
                             style: textAssistantH1Black,
                           ),
                           SizedBox(height: 20),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount:
-                                groceryListStates.groceryListOwned.length,
-                            itemBuilder: (BuildContext context, int i) {
-                              return GroceryListsItem(
-                                  onTap: () {
-                                    groceryListStates.groceryList =
-                                        groceryListStates.groceryListOwned[i];
-                                    groceryListStates
-                                        .createGroceryListIngredient(
-                                            ingredientToGroceryListIngredient(
-                                                ingredient));
-                                    Navigator.pop(context);
-                                    Get.snackbar(
-                                        "Wouhou!",
-                                        ingredient.title +
-                                            " has been added to " +
-                                            groceryListStates
-                                                .groceryList.name.value);
+                          groceryListStates.groceryListOwned.isEmpty
+                              ? _NoGroceryList()
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      groceryListStates.groceryListOwned.length,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    return GroceryListsItem(
+                                        onTap: () {
+                                          groceryListStates.groceryList =
+                                              groceryListStates
+                                                  .groceryListOwned[i];
+                                          groceryListStates
+                                              .createGroceryListIngredient(
+                                                  ingredientToGroceryListIngredient(
+                                                      ingredient));
+                                          Navigator.pop(context);
+                                          Get.snackbar(
+                                              "Wouhou!",
+                                              ingredient.title +
+                                                  " has been added to " +
+                                                  groceryListStates
+                                                      .groceryList.name.value);
+                                        },
+                                        groceryList: groceryListStates
+                                            .groceryListOwned[i]);
                                   },
-                                  groceryList:
-                                      groceryListStates.groceryListOwned[i]);
-                            },
-                          )
+                                )
                         ],
                       ),
                     ),
@@ -185,5 +188,20 @@ class SeasonialIngredients extends StatelessWidget {
       if (i != seasons.length - 1) formatedString += "/";
     }
     return formatedString;
+  }
+}
+
+class _NoGroceryList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("You don't have any grocery list", style: textFredokaOneH3),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Image.asset("assets/images/sad_avocado.png", height: 100),
+        )
+      ],
+    );
   }
 }

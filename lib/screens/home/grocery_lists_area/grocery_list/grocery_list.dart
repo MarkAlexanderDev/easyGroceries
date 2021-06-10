@@ -126,15 +126,9 @@ class _UncheckedItemsList extends StatefulWidget {
 class __UncheckedItemsList extends State<_UncheckedItemsList>
     with SingleTickerProviderStateMixin {
   final GroceryListStates groceryListStates = Get.find();
-  AnimationController _controller;
-  Animation<Offset> offsetAnimation;
 
   @override
   void initState() {
-    _controller =
-        AnimationController(duration: Duration(milliseconds: 500), vsync: this);
-    offsetAnimation = Tween<Offset>(begin: Offset.zero, end: Offset(1.5, 0.0))
-        .animate(_controller);
     super.initState();
   }
 
@@ -193,22 +187,18 @@ class _CheckedItemsList extends StatelessWidget {
             children: [
               AutoSizeText("Checked items", style: textAssistantH2BlackBold),
               Spacer(),
-              FoodzClearButton(
-                  label: "Clear and add to my fridge",
-                  onClick: () {
-                    groceryListIngredientsChecked.forEach(
-                      (EntityGroceryListIngredient element) {
-                        fridgeStates.createFridgeIngredient(
-                            EntityFridgeIngredient(
-                                name: element.name,
-                                number: element.number.value,
-                                metric: element.metric,
-                                category: element.category));
-                        groceryListStates
-                            .deleteGroceryListIngredient(element.name);
-                      },
-                    );
-                  })
+              FoodzClearButton(onClick: () {
+                groceryListIngredientsChecked.forEach(
+                  (EntityGroceryListIngredient element) {
+                    fridgeStates.createFridgeIngredient(EntityFridgeIngredient(
+                        name: element.name,
+                        number: element.number.value,
+                        metric: element.metric,
+                        category: element.category));
+                    groceryListStates.deleteGroceryListIngredient(element.name);
+                  },
+                );
+              })
             ],
           ),
         ),

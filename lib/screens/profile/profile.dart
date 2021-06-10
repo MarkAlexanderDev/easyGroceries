@@ -13,10 +13,7 @@ import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
 import 'package:foodz/utils/picture.dart';
 import 'package:foodz/utils/urlLauncher.dart';
-import 'package:foodz/widgets_common/kitchen_tools_selector.dart';
-import 'package:foodz/widgets_common/people_selector.dart';
 import 'package:foodz/widgets_common/profile_picture.dart';
-import 'package:foodz/widgets_common/selectable_tags.dart';
 import 'package:foodz/widgets_default/confirm_button.dart';
 import 'package:foodz/widgets_default/dropdown_button.dart';
 import 'package:foodz/widgets_default/loading.dart';
@@ -97,7 +94,7 @@ class _Profile extends State<Profile> {
                                     COOKING_EXPERIENCE_IDS.indexOf(value),
                               )),
                         ),
-                        FoodzSection(
+                        /*FoodzSection(
                           icon: Icons.clear,
                           text: "MY FORBIDDEN FOOD",
                           placeholder: SelectableTags(
@@ -148,7 +145,7 @@ class _Profile extends State<Profile> {
                                 accountStates.account.cuisines.add(tag);
                             },
                           ),
-                        ),
+                        ),*/
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: _ProfileButon(

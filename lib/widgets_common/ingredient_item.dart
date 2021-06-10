@@ -70,10 +70,10 @@ class IngredientItem extends StatelessWidget {
                 Expanded(child: Container()),
                 Stack(alignment: Alignment.center, children: [
                   AnimatedContainer(
-                    duration: Duration(milliseconds: 400),
+                    duration: Duration(milliseconds: 100),
                     height: 3,
                     decoration: BoxDecoration(
-                        color: mainColor,
+                        color: red,
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     width: checked ? name.length.toDouble() * 12 : 0,
                     onEnd: () async {

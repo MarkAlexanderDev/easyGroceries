@@ -10,7 +10,6 @@ import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
 import 'package:foodz/style/text_style.dart';
 import 'package:foodz/urls.dart';
-import 'package:foodz/widgets_common/bottom_navigation_bar.dart';
 import 'package:foodz/widgets_common/cooking_button.dart';
 import 'package:foodz/widgets_common/create_grocery_list_button.dart';
 import 'package:foodz/widgets_common/create_recipe_button.dart';
@@ -63,7 +62,7 @@ class _Redirections extends State<Redirections> {
       return Scaffold(
         appBar: _getFoodzAppBar(),
         body: Obx(() => appScreens[appStates.indexBar.value]),
-        bottomNavigationBar: NavBar(sizeIcon: 25.0),
+        //bottomNavigationBar: NavBar(sizeIcon: 25.0),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
           child: Obx(() => floatingButtons[appStates.indexBar.value]),

@@ -83,7 +83,7 @@ class OnboardingAuth extends StatelessWidget {
         accountStates.account.name.value = firebaseUser.displayName;
         accountStates.account.pictureUrl.value = firebaseUser.photoURL;
         accountStates.account.onboardingFlag.value =
-            ONBOARDING_STEP_ID_ALLERGIC;
+            ONBOARDING_STEP_ID_AUTH + 1;
         accountStates.account.cookingExperience.value =
             COOKING_EXPERIENCE_ID_BEGINNER;
         accountStates.account.createdAt = DateTime.now().toUtc().toString();

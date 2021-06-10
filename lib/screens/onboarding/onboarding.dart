@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodz/screens/onboarding/onboarding_steps/1_onboarding_auth/onboarding_auth.dart';
-import 'package:foodz/screens/onboarding/onboarding_steps/2_onboarding_allergic/onboarding_allergic.dart';
 import 'package:foodz/services/auth.dart';
 import 'package:foodz/states/account_states.dart';
 import 'package:foodz/states/app_states.dart';
@@ -10,26 +9,23 @@ import 'package:foodz/style/colors.dart';
 import 'package:foodz/widgets_default/confirm_button.dart';
 import 'package:get/get.dart';
 
-import 'onboarding_steps/3_onboarding_people/onboarding_people.dart';
-import 'onboarding_steps/4_onboarding_kitchen_tools/onboarding_kitchen_tools.dart';
-import 'onboarding_steps/5_onboarding_cuisine/onboarding_cuisine.dart';
 import 'onboarding_steps/6_onboarding_profile/onboarding_profile.dart';
 
 const ONBOARDING_STEP_ID_AUTH = 0;
-const ONBOARDING_STEP_ID_ALLERGIC = 1;
+/*const ONBOARDING_STEP_ID_ALLERGIC = 1;
 const ONBOARDING_STEP_ID_PEOPLE = 2;
 const ONBOARDING_STEP_ID_KITCHEN_TOOLS = 3;
-const ONBOARDING_STEP_ID_FAVORITE_CUISINE = 4;
-const ONBOARDING_STEP_ID_PROFILE = 5;
+const ONBOARDING_STEP_ID_FAVORITE_CUISINE = 4;*/
+const ONBOARDING_STEP_ID_PROFILE = 1; //5;
 
 class Onboarding extends StatelessWidget {
   final AccountStates accountStates = Get.put(AccountStates());
   final onboardingSteps = [
     OnboardingAuth(),
-    OnboardingAllergic(),
+    /*OnboardingAllergic(),
     OnboardingPeople(),
     OnboardingKitchenTools(),
-    OnboardingCuisine(),
+    OnboardingCuisine(),*/
     OnboardingProfile()
   ];
 
@@ -40,10 +36,12 @@ class Onboarding extends StatelessWidget {
           return (await _previousOnboardingStep());
         },
         child: Scaffold(
-          backgroundColor: accountStates.account.onboardingFlag.value ==
+          backgroundColor:
+              /*accountStates.account.onboardingFlag.value ==
                   ONBOARDING_STEP_ID_KITCHEN_TOOLS
               ? lightGrey
-              : Colors.white,
+              : */
+              Colors.white,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
